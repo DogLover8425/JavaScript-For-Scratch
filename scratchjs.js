@@ -48,9 +48,10 @@ try {
 
       let modal = document.createElement("div");
       modal.innerHTML = `<span style="text-align: center; font-size: 2rem; color: red;">Warning!</span>
-      <p>This extension has access to advanced features. 
+      <p style="text-align: center; color: black;">This extension has access to advanced features. 
       <br>Projects using this extension can potentially do dangerous things. 
-      <br>Please make sure you trust the creator of this project.</p><button onclick="this.parentElement.parentElement.remove()">OK</button>`;
+      <br>Please make sure you trust the creator of this project.</p><button onclick="document.getElementById('scratchjs-warning-modal').remove()">OK</button>`;
+      modal.id = "scratchjs-warning-modal";
       modal.style.position = "fixed";
       modal.style.top = "0";
       modal.style.left = "0";
@@ -60,7 +61,7 @@ try {
       modal.style.flexDirection = "column";
       modal.style.alignItems = "center";
       modal.style.justifyContent = "center";
-      modal.style.backgroundColor = "rgba(0, 0, 0, 1)";
+      modal.style.backgroundColor = "rgba(4, 122, 233, 1)";
       modal.style.zIndex = "9999";
       document.body.appendChild(modal);
 
