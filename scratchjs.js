@@ -56,7 +56,11 @@ try {
       modal.style.left = "0";
       modal.style.width = "100%";
       modal.style.height = "100%";
-      modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+      modal.style.display = "flex";
+      modal.style.flexDirection = "column";
+      modal.style.alignItems = "center";
+      modal.style.justifyContent = "center";
+      modal.style.backgroundColor = "rgba(0, 0, 0, 1)";
       modal.style.zIndex = "9999";
       document.body.appendChild(modal);
 
