@@ -96,11 +96,57 @@ try {
         hideFromPalette: false,
       });
 
+      const Argument = (type, defaultValue) => ({
+        type,
+        defaultValue,
+      });
+
+      const ArgumentWithMenu = (type, defaultValue, menu, acceptReporters = true) => ({
+        type,
+        defaultValue,
+        menu,
+        acceptReporters,
+      });
+
+      const Menu = (items, defaultValue) => ({
+        items,
+        defaultValue,
+      });
+
+      const MenuItem = (label, value) => ({
+        label,
+        value,
+      });
+
+      const Spacer = "---";
+
       const BlockType = {
         REPORTER: "reporter",
         COMMAND: "command",
         HAT: "hat",
-        BOOL: "Boolean",
+        BOOLEAN: "Boolean", // Yes, this is supposed to be capitalized, I looked
+        BUTTON: "button",
+        CONDITIONAL: "conditional",
+        EVENT: "event",
+        LOOP: "loop",
+      };
+      const ArgumentType = {
+        STRING: "string",
+        NUMBER: "number",
+        BOOLEAN: "Boolean", // again, this is supposed to be capitalized
+        COLOR: "color",
+        MATRIX: "matrix",
+        ANGLE: "angle",
+        NOTE: "note",
+        IMAGE: "image",
+      };
+      const ReporterScope = {
+        GLOBAL: "global",
+        TARGET: "target",
+      };
+      const TargetType = {
+        SPRITE: "sprite",
+        STAGE: "stage",
       };
       class ScratchJS {
         constructor(runtime) {
@@ -253,26 +299,23 @@ try {
 
         getInfo() {
           return {
-            id: "math" /*ID Math because it's one of the only valid IDs that work*/,
+            id: "math" /* ID Math because it's one of the only valid IDs that work */,
             name: "ScratchJS",
+            color1: "#e9d206ff",
+            color2: "#a09500ff",
             blocks: [
-              Block(
-                BlockType.REPORTER,
-                "powerBlock",
-                "[base] ^ [exponent]",
-                {
-                  base: { type: "number", defaultValue: 2 },
-                  exponent: { type: "number", defaultValue: 3 },
-                },
-              ),
+              Block(BlockType.REPORTER, "powerBlock", "[base] ^ [exponent]", {
+                base: { type: "number", defaultValue: 2 },
+                exponent: { type: "number", defaultValue: 3 },
+              }),
               Block(
                 BlockType.REPORTER,
                 "clampBlock",
                 "Clamp [value] between [min] and [max]",
                 {
-                  value: { type: "number", defaultValue: 15 },
-                  min: { type: "number", defaultValue: 0 },
-                  max: { type: "number", defaultValue: 10 },
+                  value: Argument("number", 15),
+                  min: Argument("number", 0),
+                  max: Argument("number", 10),
                 },
               ),
               Block(
@@ -280,8 +323,8 @@ try {
                 "roundNumber",
                 "Round [number] to [decimals] decimal places",
                 {
-                  number: { type: "number", defaultValue: 3.14159 },
-                  decimals: { type: "number", defaultValue: 2 },
+                  number: Argument("number", 3.14159),
+                  decimals: Argument("number", 2),
                 },
               ),
               Block(
@@ -289,19 +332,19 @@ try {
                 "percentageBlock",
                 "[part]% of [whole]",
                 {
-                  part: { type: "number", defaultValue: 25 },
-                  whole: { type: "number", defaultValue: 100 },
+                  part: Argument("number", 25),
+                  whole: Argument("number", 100),
                 },
               ),
-              "---",
+              Spacer,
               Block(
                 BlockType.REPORTER,
                 "strReplaceBlock",
                 "Replace all [string] in [text] with [replace]",
                 {
-                  text: { type: "string", defaultValue: "Hello World" },
-                  string: { type: "string", defaultValue: "World" },
-                  replace: { type: "string", defaultValue: "Scratch" },
+                  text: Argument("string", "Hello World"),
+                  string: Argument("string", "World"),
+                  replace: Argument("string", "Scratch"),
                 },
               ),
               Block(
@@ -309,9 +352,9 @@ try {
                 "substringBlock",
                 "Get substring of [text] from [start] to [end]",
                 {
-                  text: { type: "string", defaultValue: "Hello World" },
-                  start: { type: "number", defaultValue: 1 },
-                  end: { type: "number", defaultValue: 5 },
+                  text: Argument("string", "Hello World"),
+                  start: Argument("number", 1),
+                  end: Argument("number", 5),
                 },
               ),
               Block(
@@ -319,7 +362,7 @@ try {
                 "reverseStringBlock",
                 "Reverse string [text]",
                 {
-                  text: { type: "string", defaultValue: "Hello World" },
+                  text: Argument("string", "Hello World"),
                 },
               ),
               Block(
@@ -327,38 +370,34 @@ try {
                 "changeCase",
                 "Convert [text] to case [caseType]",
                 {
-                  text: { type: "string", defaultValue: "Hello World" },
-                  caseType: {
-                    type: "string",
-                    menu: "caseTypeMenu",
-                    defaultValue: "uppercase",
-                  },
+                  text: Argument("string", "Hello World"),
+                  caseType: ArgumentWithMenu("string", "uppercase", "caseTypeMenu"),
                 },
               ),
-              "---",
+              Spacer,
               Block(
                 BlockType.REPORTER,
                 "getCurrentDateTime",
                 "current [format]",
                 {
-                  format: {
-                    type: "string",
-                    menu: "dateFormatMenu",
-                    defaultValue: "datetime",
-                  },
+                  format: ArgumentWithMenu("string", "datetime", "dateFormatMenu"),
                 },
               ),
-              Block(BlockType.REPORTER, "currentProjectID", "Current project ID"),
-              "---",
+              Block(
+                BlockType.REPORTER,
+                "currentProjectID",
+                "Current project ID",
+              ),
+              Spacer,
               Block(BlockType.COMMAND, "RunJS", "JS| Run JS code [code]", {
-                code: { type: "string", defaultValue: "alert('Hello World!')" },
+                code: Argument("string", "alert('Hello World!')"),
               }),
               Block(
                 BlockType.REPORTER,
                 "getReturnValOfJS",
                 "JS| Get return value of [code]",
                 {
-                  code: { type: "string", defaultValue: "6473 / 84" },
+                  code: Argument("string", "6473 / 84"),
                 },
               ),
               Block(
@@ -366,26 +405,26 @@ try {
                 "getUserInfo",
                 "Get info on the [what]",
                 {
-                  what: {
-                    type: "string",
-                    menu: "userInfoMenu",
-                    defaultValue: "OS",
-                  },
+                  what: ArgumentWithMenu("string", "OS", "userInfoMenu"),
                 },
               ),
-              "---",
+              Spacer,
               Block(BlockType.COMMAND, "OpenSite", "JS| Open site [url]", {
-                url: { type: "string", defaultValue: "https://example.com" },
+                url: Argument("string", "https://example.com"),
               }),
-              Block(BlockType.COMMAND, "OpenInTurbowarp", "JS| Open this project in Turbowarp"),
+              Block(
+                BlockType.COMMAND,
+                "OpenInTurbowarp",
+                "JS| Open this project in Turbowarp",
+              ),
               Block(BlockType.COMMAND, "ReloadPage", "JS| Reload page"),
               Block(
                 BlockType.COMMAND,
                 "SaveFile",
                 "JS| Save file [name] with contents [contents]",
                 {
-                  name: { type: "string", defaultValue: "example.txt" },
-                  contents: { type: "string", defaultValue: "Hello World!" },
+                  name: Argument("string", "example.txt"),
+                  contents: Argument("string", "Hello World!"),
                 },
               ),
               Block(
@@ -393,11 +432,11 @@ try {
                 "setVar",
                 "JS| Set variable [name] to [val]",
                 {
-                  name: { type: "string", defaultValue: "window.example" },
-                  val: { type: "string", defaultValue: "Hello World!" },
+                  name: Argument("string", "window.example"),
+                  val: Argument("string", "Hello World!"),
                 },
               ),
-              "---",
+              Spacer,
               Block(BlockType.HAT, "whenCondition", "when [condit] is true", {
                 condit: {
                   type: "Boolean",
@@ -405,16 +444,16 @@ try {
                 },
               }),
               Block(BlockType.REPORTER, "stringReport", "[arg1]", {
-                arg1: { type: "string", defaultValue: "Hello" },
+                arg1: Argument("string", "Hello"),
               }),
               Block(
                 BlockType.REPORTER,
                 "ifBoolStringElseString",
                 "if [arg1] then [arg2] else [arg3]",
                 {
-                  arg1: { type: "Boolean" },
-                  arg2: { type: "string", defaultValue: "Hello" },
-                  arg3: { type: "string", defaultValue: "World" },
+                  arg1: Argument("Boolean"),
+                  arg2: Argument("string", "Hello"),
+                  arg3: Argument("string", "World"),
                 },
               ),
               Block(
@@ -435,37 +474,46 @@ try {
                 "Mouse down? (works out of bounds)",
                 {},
               ),
-              "---",
+              Spacer,
               Block(BlockType.BOOL, "textToBool", "[bool]", {
-                bool: { type: "string", defaultValue: "true" },
+                bool: Argument("string", "true"),
               }),
               Block(BlockType.REPORTER, "boolToText", "[bool]", {
-                bool: { type: "Boolean" },
+                bool: Argument("Boolean"),
               }),
             ],
             menus: {
               varMenu: "getVarMenu",
-              dateFormatMenu: [
-                { text: "date and time", value: "datetime" },
-                { text: "date only", value: "date" },
-                { text: "time only", value: "time" },
-                { text: "timestamp", value: "timestamp" },
-              ],
-              caseTypeMenu: [
-                { text: "UPPERCASE", value: "uppercase" },
-                { text: "lowercase", value: "lowercase" },
-              ],
-              userInfoMenu: [
-                { text: "operating system", value: "OS" },
-                { text: "browser", value: "browser" },
-                { text: "language", value: "language" },
-                { text: "time zone", value: "timezone" },
-                { text: "screen width", value: "screenWidth" },
-                { text: "screen height", value: "screenHeight" },
-                { text: "window width", value: "windowWidth" },
-                { text: "window height", value: "windowHeight" },
-                { text: "device pixel ratio", value: "devicePixelRatio" },
-              ],
+              dateFormatMenu: Menu(
+                [
+                  MenuItem("date and time", "datetime"),
+                  MenuItem("date only", "date"),
+                  MenuItem("time only", "time"),
+                  MenuItem("timestamp", "timestamp"),
+                ],
+                "datetime",
+              ),
+              caseTypeMenu: Menu(
+                [
+                  MenuItem("UPPERCASE", "uppercase"),
+                  MenuItem("lowercase", "lowercase"),
+                ],
+                "uppercase",
+              ),
+              userInfoMenu: Menu(
+                [
+                  MenuItem("operating system", "OS"),
+                  MenuItem("browser", "browser"),
+                  MenuItem("language", "language"),
+                  MenuItem("time zone", "timezone"),
+                  MenuItem("screen width", "screenWidth"),
+                  MenuItem("screen height", "screenHeight"),
+                  MenuItem("window width", "windowWidth"),
+                  MenuItem("window height", "windowHeight"),
+                  MenuItem("device pixel ratio", "devicePixelRatio"),
+                ],
+                "OS",
+              ),
             },
           };
         }
@@ -476,35 +524,15 @@ try {
           return vars.length == 0 ? [" "] : vars;
         }
       }
-      vm = ((node) => {
-        node = document.querySelector(
-          "div[class*=stage-header_stage-header-wrapper]",
-        );
-        node =
-          node[
-            Object.keys(node).find(
-              (key) => (
-                (key = String(key)),
-                key.startsWith("__reactInternal") ||
-                  key.startsWith("__reactFiber")
-              ),
-            )
-          ].return.return.return;
-        node =
-          node.stateNode?.props?.vm ||
-          node.return?.updateQueue?.stores?.[0]?.value?.vm;
-        if (!node) throw new Error("Could not find VM :(");
-        return node;
-      })();
-      (function () {
-        var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
+      (function (vm) {
+        var extensionInstance = new Your_Extension(vm.extensionManager.runtime);
         var serviceName =
           vm.extensionManager._registerInternalExtension(extensionInstance);
         vm.extensionManager._loadedExtensions.set(
           extensionInstance.getInfo().id,
           serviceName,
         );
-      })();
+      })(vm);
     });
   })();
 } catch (e) {
