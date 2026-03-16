@@ -160,10 +160,6 @@ try {
           }
         }
 
-        randomInRange({ min, max }) {
-          return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
         changeCase({ text, caseType }) {
           if (caseType === "uppercase") return text.toUpperCase();
           if (caseType === "lowercase") return text.toLowerCase();
@@ -212,8 +208,47 @@ try {
           return text.split("").reverse().join("");
         }
 
+        percentageBlock({ part, whole }) {
+          return (part / whole) * 100;
+        }
+
         reloadPage() {
           location.reload();
+        }
+
+        currentProjectID() {
+          // url format: https://scratch.mit.edu/projects/{projectID}/ or https://scratch.mit.edu/projects/{projectID}/editor
+          return window.location.pathname.split("/")[2];
+        }
+
+        openInTurbowarp() {
+          const projectID = this.currentProjectID();
+          window.open(`https://turbowarp.org/${projectID}`, "_blank");
+        }
+
+        getUserInfo({ what }) {
+          switch (what) {
+            case "OS":
+              return navigator.platform;
+            case "browser":
+              return navigator.userAgent;
+            case "language":
+              return navigator.language;
+            case "timezone":
+              return Intl.DateTimeFormat().resolvedOptions().timeZone;
+            case "screenWidth":
+              return window.screen.width;
+            case "screenHeight":
+              return window.screen.height;
+            case "windowWidth":
+              return window.innerWidth;
+            case "windowHeight":
+              return window.innerHeight;
+            case "devicePixelRatio":
+              return window.devicePixelRatio;
+            default:
+              return "";
+          }
         }
 
         getInfo() {
@@ -242,27 +277,27 @@ try {
               ),
               Block(
                 BlockType.REPORTER,
-                "randomInRange",
-                "random number between [min] and [max]",
+                "roundNumber",
+                "Round [number] to [decimals] decimal places",
                 {
-                  min: { type: "number", defaultValue: 1 },
-                  max: { type: "number", defaultValue: 10 },
+                  number: { type: "number", defaultValue: 3.14159 },
+                  decimals: { type: "number", defaultValue: 2 },
                 },
               ),
               Block(
                 BlockType.REPORTER,
-                "roundNumber",
-                "round [number] to [decimals] decimal places",
+                "percentageBlock",
+                "[part]% of [whole]",
                 {
-                  number: { type: "number", defaultValue: 3.14159 },
-                  decimals: { type: "number", defaultValue: 2 },
+                  part: { type: "number", defaultValue: 25 },
+                  whole: { type: "number", defaultValue: 100 },
                 },
               ),
               "---",
               Block(
                 BlockType.REPORTER,
                 "strReplaceBlock",
-                "Replace [text] with [string] with [replace]",
+                "Replace all [string] in [text] with [replace]",
                 {
                   text: { type: "string", defaultValue: "Hello World" },
                   string: { type: "string", defaultValue: "World" },
@@ -272,7 +307,7 @@ try {
               Block(
                 BlockType.REPORTER,
                 "substringBlock",
-                "substring [text] from [start] to [end]",
+                "Get substring of [text] from [start] to [end]",
                 {
                   text: { type: "string", defaultValue: "Hello World" },
                   start: { type: "number", defaultValue: 1 },
@@ -282,7 +317,7 @@ try {
               Block(
                 BlockType.REPORTER,
                 "reverseStringBlock",
-                "reverse [text]",
+                "Reverse string [text]",
                 {
                   text: { type: "string", defaultValue: "Hello World" },
                 },
@@ -290,7 +325,7 @@ try {
               Block(
                 BlockType.REPORTER,
                 "changeCase",
-                "convert [text] to [caseType]",
+                "Convert [text] to case [caseType]",
                 {
                   text: { type: "string", defaultValue: "Hello World" },
                   caseType: {
@@ -313,6 +348,7 @@ try {
                   },
                 },
               ),
+              Block(BlockType.REPORTER, "currentProjectID", "Current project ID"),
               "---",
               Block(BlockType.COMMAND, "RunJS", "JS| Run JS code [code]", {
                 code: { type: "string", defaultValue: "alert('Hello World!')" },
@@ -325,10 +361,23 @@ try {
                   code: { type: "string", defaultValue: "6473 / 84" },
                 },
               ),
+              Block(
+                BlockType.REPORTER,
+                "getUserInfo",
+                "Get info on the [what]",
+                {
+                  what: {
+                    type: "string",
+                    menu: "userInfoMenu",
+                    defaultValue: "OS",
+                  },
+                },
+              ),
               "---",
               Block(BlockType.COMMAND, "OpenSite", "JS| Open site [url]", {
                 url: { type: "string", defaultValue: "https://example.com" },
               }),
+              Block(BlockType.COMMAND, "OpenInTurbowarp", "JS| Open this project in Turbowarp"),
               Block(BlockType.COMMAND, "ReloadPage", "JS| Reload page"),
               Block(
                 BlockType.COMMAND,
@@ -405,6 +454,17 @@ try {
               caseTypeMenu: [
                 { text: "UPPERCASE", value: "uppercase" },
                 { text: "lowercase", value: "lowercase" },
+              ],
+              userInfoMenu: [
+                { text: "operating system", value: "OS" },
+                { text: "browser", value: "browser" },
+                { text: "language", value: "language" },
+                { text: "time zone", value: "timezone" },
+                { text: "screen width", value: "screenWidth" },
+                { text: "screen height", value: "screenHeight" },
+                { text: "window width", value: "windowWidth" },
+                { text: "window height", value: "windowHeight" },
+                { text: "device pixel ratio", value: "devicePixelRatio" },
               ],
             },
           };
