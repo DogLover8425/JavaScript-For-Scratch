@@ -91,4 +91,28 @@ These are the argument types:
 - NOTE: A note argument. You can put any reporter block inside.
 - IMAGE: An image displayed on the block. This does not function as an argument.
 
-Both ReporterScope and TargetType are quite advanced, and we don't know much about them yet.
+Both ReporterScope and TargetType are quite advanced, and we don't know much about them yet.  
+  
+Lastly, let's make a bookmarklet for the extension. This will load your extension. It should look something like this:
+
+```javascript
+javascript: (async () => {
+  try {
+    const r = await fetch(
+      "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/refs/heads/main/scratchjs.js",
+      { cache: "no-cache" }
+    );
+    if (!r.ok) throw new Error("Fetch failed: " + r.status);
+    const scriptText = await r.text();
+    const s = document.createElement("script");
+    s.textContent = scriptText;
+    document.body.appendChild(s);
+    console.log("Loaded");
+  } catch (e) {
+    console.error("Failed to load script:", e);
+  }
+})();
+```
+
+You should change the URL to the URL of your raw extension file.  
+You can find this by going to your repository on GitHub, clicking on the file, and then clicking on the "Raw" button.

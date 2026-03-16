@@ -301,8 +301,8 @@ try {
           return {
             id: "math" /* ID Math because it's one of the only valid IDs that work */,
             name: "ScratchJS",
-            color1: "#e9d206ff",
-            color2: "#a09500ff",
+            color1: "#e9d206",
+            color2: "#a09500",
             blocks: [
               Block(BlockType.REPORTER, "powerBlock", "[base] ^ [exponent]", {
                 base: { type: "number", defaultValue: 2 },
