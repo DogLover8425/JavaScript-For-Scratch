@@ -525,7 +525,7 @@ try {
         }
       }
       (function (vm) {
-        var extensionInstance = new Your_Extension(vm.extensionManager.runtime);
+        var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
         var serviceName =
           vm.extensionManager._registerInternalExtension(extensionInstance);
         vm.extensionManager._loadedExtensions.set(
