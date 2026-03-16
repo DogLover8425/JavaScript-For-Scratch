@@ -192,6 +192,30 @@ try {
           return bool.toString();
         }
 
+        powerBlock({ base, exponent }) {
+          return Math.pow(base, exponent);
+        }
+
+        clampBlock({ value, min, max }) {
+          return Math.min(Math.max(value, min), max);
+        }
+
+        strReplaceBlock({ text, string, replace }) {
+          return text.replace(string, replace);
+        }
+
+        substringBlock({ text, start, end }) {
+          return text.substring(start - 1, end - 1); // to 0 based
+        }
+
+        reverseStringBlock({ text }) {
+          return text.split("").reverse().join("");
+        }
+
+        reloadPage() {
+          location.reload();
+        }
+
         getInfo() {
           return {
             id: "math" /*ID Math because it's one of the only valid IDs that work*/,
@@ -199,14 +223,21 @@ try {
             blocks: [
               Block(
                 BlockType.REPORTER,
-                "getCurrentDateTime",
-                "current [format]",
+                "powerBlock",
+                "[base] ^ [exponent]",
                 {
-                  format: {
-                    type: "string",
-                    menu: "dateFormatMenu",
-                    defaultValue: "datetime",
-                  },
+                  base: { type: "number", defaultValue: 2 },
+                  exponent: { type: "number", defaultValue: 3 },
+                },
+              ),
+              Block(
+                BlockType.REPORTER,
+                "clampBlock",
+                "Clamp [value] between [min] and [max]",
+                {
+                  value: { type: "number", defaultValue: 15 },
+                  min: { type: "number", defaultValue: 0 },
+                  max: { type: "number", defaultValue: 10 },
                 },
               ),
               Block(
@@ -216,6 +247,44 @@ try {
                 {
                   min: { type: "number", defaultValue: 1 },
                   max: { type: "number", defaultValue: 10 },
+                },
+              ),
+              Block(
+                BlockType.REPORTER,
+                "roundNumber",
+                "round [number] to [decimals] decimal places",
+                {
+                  number: { type: "number", defaultValue: 3.14159 },
+                  decimals: { type: "number", defaultValue: 2 },
+                },
+              ),
+              "---",
+              Block(
+                BlockType.REPORTER,
+                "strReplaceBlock",
+                "Replace [text] with [string] with [replace]",
+                {
+                  text: { type: "string", defaultValue: "Hello World" },
+                  string: { type: "string", defaultValue: "World" },
+                  replace: { type: "string", defaultValue: "Scratch" },
+                },
+              ),
+              Block(
+                BlockType.REPORTER,
+                "substringBlock",
+                "substring [text] from [start] to [end]",
+                {
+                  text: { type: "string", defaultValue: "Hello World" },
+                  start: { type: "number", defaultValue: 1 },
+                  end: { type: "number", defaultValue: 5 },
+                },
+              ),
+              Block(
+                BlockType.REPORTER,
+                "reverseStringBlock",
+                "reverse [text]",
+                {
+                  text: { type: "string", defaultValue: "Hello World" },
                 },
               ),
               Block(
@@ -231,20 +300,23 @@ try {
                   },
                 },
               ),
+              "---",
               Block(
                 BlockType.REPORTER,
-                "roundNumber",
-                "round [number] to [decimals] decimal places",
+                "getCurrentDateTime",
+                "current [format]",
                 {
-                  number: { type: "number", defaultValue: 3.14159 },
-                  decimals: { type: "number", defaultValue: 2 },
+                  format: {
+                    type: "string",
+                    menu: "dateFormatMenu",
+                    defaultValue: "datetime",
+                  },
                 },
               ),
               "---",
               Block(BlockType.COMMAND, "RunJS", "JS| Run JS code [code]", {
                 code: { type: "string", defaultValue: "alert('Hello World!')" },
               }),
-              "---",
               Block(
                 BlockType.REPORTER,
                 "getReturnValOfJS",
@@ -253,9 +325,11 @@ try {
                   code: { type: "string", defaultValue: "6473 / 84" },
                 },
               ),
+              "---",
               Block(BlockType.COMMAND, "OpenSite", "JS| Open site [url]", {
                 url: { type: "string", defaultValue: "https://example.com" },
               }),
+              Block(BlockType.COMMAND, "ReloadPage", "JS| Reload page"),
               Block(
                 BlockType.COMMAND,
                 "SaveFile",
