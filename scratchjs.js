@@ -212,7 +212,7 @@ try {
           return (part / whole) * 100;
         }
 
-        reloadPage() {
+        ReloadPage() {
           location.reload();
         }
 
@@ -221,7 +221,7 @@ try {
           return window.location.pathname.split("/")[2];
         }
 
-        openInTurbowarp() {
+        OpenInTurbowarp() {
           const projectID = this.currentProjectID();
           window.open(`https://turbowarp.org/${projectID}`, "_blank");
         }
