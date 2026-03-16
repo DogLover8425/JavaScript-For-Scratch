@@ -50,7 +50,7 @@ try {
       modal.innerHTML = `<span style="text-align: center; font-size: 2rem; color: red;">Warning!</span>
       <p style="text-align: center; color: black;">This extension has access to advanced features. 
       <br>Projects using this extension can potentially do dangerous things. 
-      <br>Please make sure you trust the creator of this project.</p><button onclick="document.getElementById('scratchjs-warning-modal').remove()">OK</button>`;
+      <br>Please make sure you trust the creator of this project.</p><button onclick="document.getElementById('scratchjs-warning-modal').remove()" style="margin-top: 1rem; padding:5px; background-color: #10a7ff; border-radius: 5px; color: white; border: 1px solid #ddd; cursor: pointer;">OK</button>`;
       modal.id = "scratchjs-warning-modal";
       modal.style.position = "fixed";
       modal.style.top = "0";
@@ -65,7 +65,9 @@ try {
       modal.style.zIndex = "9999";
       document.body.appendChild(modal);
 
-      let cursor_x = -1, cursor_y = -1, cursor_down = false;
+      let cursor_x = -1,
+        cursor_y = -1,
+        cursor_down = false;
       document.onmousemove = function (event) {
         cursor_x = event.pageX;
         cursor_y = event.pageY;
@@ -95,10 +97,10 @@ try {
       });
 
       const BlockType = {
-        reporter: "reporter",
-        command: "command",
-        hat: "hat",
-        bool: "Boolean",
+        REPORTER: "reporter",
+        COMMAND: "command",
+        HAT: "hat",
+        BOOL: "Boolean",
       };
       class ScratchJS {
         constructor(runtime) {
@@ -192,27 +194,32 @@ try {
 
         getInfo() {
           return {
-            id: "math", /*ID Math because it's one of the only valid IDs that work*/
+            id: "math" /*ID Math because it's one of the only valid IDs that work*/,
             name: "ScratchJS",
             blocks: [
-              Block("reporter", "getCurrentDateTime", "current [format]", {
-                format: {
-                  type: "string",
-                  menu: "dateFormatMenu",
-                  defaultValue: "datetime",
+              Block(
+                BlockType.REPORTER,
+                "getCurrentDateTime",
+                "current [format]",
+                {
+                  format: {
+                    type: "string",
+                    menu: "dateFormatMenu",
+                    defaultValue: "datetime",
+                  },
                 },
-              }),
-              {
-                blockType: "reporter",
-                opcode: "randomInRange",
-                text: "random number between [min] and [max]",
-                arguments: {
+              ),
+              Block(
+                BlockType.REPORTER,
+                "randomInRange",
+                "random number between [min] and [max]",
+                {
                   min: { type: "number", defaultValue: 1 },
                   max: { type: "number", defaultValue: 10 },
                 },
-              },
+              ),
               Block(
-                "reporter",
+                BlockType.REPORTER,
                 "changeCase",
                 "convert [text] to [caseType]",
                 {
@@ -225,7 +232,7 @@ try {
                 },
               ),
               Block(
-                "reporter",
+                BlockType.REPORTER,
                 "roundNumber",
                 "round [number] to [decimals] decimal places",
                 {
@@ -234,24 +241,23 @@ try {
                 },
               ),
               "---",
-
-              Block("command", "RunJS", "JS| Run JS code [code]", {
+              Block(BlockType.COMMAND, "RunJS", "JS| Run JS code [code]", {
                 code: { type: "string", defaultValue: "alert('Hello World!')" },
               }),
               "---",
               Block(
-                "reporter",
+                BlockType.REPORTER,
                 "getReturnValOfJS",
                 "JS| Get return value of [code]",
                 {
                   code: { type: "string", defaultValue: "6473 / 84" },
                 },
               ),
-              Block("command", "OpenSite", "JS| Open site [url]", {
+              Block(BlockType.COMMAND, "OpenSite", "JS| Open site [url]", {
                 url: { type: "string", defaultValue: "https://example.com" },
               }),
               Block(
-                "command",
+                BlockType.COMMAND,
                 "SaveFile",
                 "JS| Save file [name] with contents [contents]",
                 {
@@ -260,7 +266,7 @@ try {
                 },
               ),
               Block(
-                "command",
+                BlockType.COMMAND,
                 "setVar",
                 "JS| Set variable [name] to [val]",
                 {
@@ -269,17 +275,17 @@ try {
                 },
               ),
               "---",
-              Block("hat", "whenCondition", "when [condit] is true", {
+              Block(BlockType.HAT, "whenCondition", "when [condit] is true", {
                 condit: {
                   type: "Boolean",
                   defaultValue: "Put any boolean block here",
                 },
               }),
-              Block("reporter", "stringReport", "[arg1]", {
+              Block(BlockType.REPORTER, "stringReport", "[arg1]", {
                 arg1: { type: "string", defaultValue: "Hello" },
               }),
               Block(
-                "reporter",
+                BlockType.REPORTER,
                 "ifBoolStringElseString",
                 "if [arg1] then [arg2] else [arg3]",
                 {
@@ -289,28 +295,28 @@ try {
                 },
               ),
               Block(
-                "reporter",
+                BlockType.REPORTER,
                 "outOfBoundsMouseX",
                 "Mouse X (works out of bounds)",
                 {},
               ),
               Block(
-                "reporter",
+                BlockType.REPORTER,
                 "outOfBoundsMouseY",
                 "Mouse Y (works out of bounds)",
                 {},
               ),
               Block(
-                "bool",
+                BlockType.BOOL,
                 "outOfBoundsMouseDown",
                 "Mouse down? (works out of bounds)",
                 {},
               ),
               "---",
-              Block("bool", "textToBool", "[bool]", {
+              Block(BlockType.BOOL, "textToBool", "[bool]", {
                 bool: { type: "string", defaultValue: "true" },
               }),
-              Block("reporter", "boolToText", "[bool]", {
+              Block(BlockType.REPORTER, "boolToText", "[bool]", {
                 bool: { type: "Boolean" },
               }),
             ],
