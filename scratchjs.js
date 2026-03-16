@@ -2,7 +2,6 @@ try {
 (function () {
   "use strict";
   function waitForVM(callback) {
-    const check = setInterval(() => {
       const el = document.querySelector(
         'div[class*="stage-header_stage-header-wrapper"]'
       );
@@ -17,10 +16,9 @@ try {
 
       let fiber = el[reactKey];
       while (fiber && !fiber.stateNode) fiber = fiber.return;
-      const vm = fiber?.stateNode?.props?.vm;
+      const vm = fiber?.stateNode?.props?.vm || fiber?.return?.return?.return?.return?.updateQueue?.stores?.[0]?.value?.vm;
 
       if (vm) {
-        clearInterval(check);
         console.log(
           "%c[Scratch Injector]%c VM found!",
           "color: lime;",
@@ -28,7 +26,8 @@ try {
         );
         callback(vm);
       }
-    }, 1000);
+    
+    
   }
 
   waitForVM((vm) => {
@@ -148,14 +147,8 @@ try {
       })(blockType),
       opcode,
       text,
-      arguments: Object.fromEntries(
-        new Array(text.split("[").length - 1)
-          .fill()
-          .map((_, i) => [
-            letter(i),
-            { type: (args && args[i]) || "string", defaultValue: " " },
-          ])
-      ),
+      arguments: args,
+      args,
       hideFromPalette: false,
     });
     const mat_reporter_f = (f) => (o) =>
@@ -243,9 +236,17 @@ try {
       return Math.round(number * factor) / factor;
     }
 
+      textToBool({ bool }) {
+        return (bool === "true" || bool === "1" || bool === "True" || (bool !== "0" && bool !=="false" && bool !=="False"))
+      }
+
+      boolToText({ bool }) {
+        return bool.toString()
+      }
+
     getInfo() {
         return {
-          id: "scratchjs",
+          id: "math",
           name: "ScratchJS",
           blocks: [
             makeblock("reporter", "getCurrentDateTime", "current [format]", {
@@ -316,7 +317,10 @@ try {
             }),
             makeblock("reporter", "outOfBoundsMouseX", "Mouse X (works out of bounds)", {}),
             makeblock("reporter", "outOfBoundsMouseY", "Mouse Y (works out of bounds)", {}),
-            makeblock("Boolean", "outOfBoundsMouseDown", "Mouse down? (works out of bounds)", {})
+            makeblock("bool", "outOfBoundsMouseDown", "Mouse down? (works out of bounds)", {}),
+            "---",
+            makeblock("bool", "textToBool", "[bool]", {bool: {type: "string", defaultValue: "true"}}),
+            makeblock("reporter", "boolToText", "[bool]", {bool: {type: "Boolean"}})
           ],
           menus: { 
             varMenu: "getVarMenu",
@@ -363,6 +367,7 @@ try {
         component_wise2D((a, b) => Math.sqrt(a))(a, [[1]])
       );
     }
+    vm = (node => { node = document.querySelector('div[class*=stage-header_stage-header-wrapper]'); node = node[Object.keys(node).find(key => (key=String(key), key.startsWith('__reactInternal') || key.startsWith('__reactFiber')))].return.return.return; node = node.stateNode?.props?.vm || node.return?.updateQueue?.stores?.[0]?.value?.vm; if (!node) throw new Error('Could not find VM :('); return node; })();
     (function () {
       var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
       var serviceName =
@@ -376,4 +381,11 @@ try {
 })();
 } catch (e) {
   console.error(e);
+
 }
+
+
+
+
+
+
