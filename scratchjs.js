@@ -1,7 +1,6 @@
 try {
 (function () {
   "use strict";
-  console.log("SCRATCHJS STARTED");
   function waitForVM(callback) {
     const check = setInterval(() => {
       const el = document.querySelector(
@@ -9,7 +8,6 @@ try {
       );
       if (!el) return;
 
-      // Try to get the React fiber key safely
       const reactKey = Object.keys(el).find(
         (k) =>
           k.startsWith("__reactFiber$") ||
@@ -35,7 +33,7 @@ try {
 
   waitForVM((vm) => {
     // this is the main part of the extension; do not modify unless you know what you're doing.
-    console.log("SCRATCHJS INJECTED");
+    console.log("using scratchjs");
     const from_s = (s) =>
       ("" + s)
         .split(" ")
@@ -125,6 +123,14 @@ try {
       hideFromPalette: !0,
     });
 
+    /**
+     * Block factory function. Creates a block object with the given parameters.
+     * @param {string} blockType - The type of the block (e.g., "reporter", "command", "hat", "bool").
+     * @param {string} opcode - The opcode for the block.
+     * @param {string} text - The text to display for the block.
+     * @param {Array<string>} args - An array of argument types for the block.
+     * @returns {Object} - The block object.
+     */
     const makeblock = (blockType, opcode, text, args) => ({
       blockType: (blockType => {
         switch (blockType) {
@@ -273,31 +279,7 @@ try {
               }
             ),
             "---",
-            auto_block("reporter", "Vec", "vector [a] [b] [c]"),
-            auto_block("reporter", "Arr", "list [a] [b]"),
-            auto_block("reporter", "Get", "item [a] of [b]"),
-            auto_block("reporter", "Set", "with item [a] of [b] = [c]"),
-            auto_block("reporter", "Rot", "rotate [a] around [b]", ["angle"]),
-            {
-              blockType: "command",
-              opcode: "Out",
-              text: "output [a] to [b]",
-              arguments: {
-                a: { type: "number", defaultValue: " " },
-                b: { type: "string", defaultValue: " ", menu: "varMenu" },
-              },
-              hideFromPalette: !0,
-            },
-            auto_block("reporter", "Add", "[a] + [b]"),
-            auto_block("reporter", "Sub", "[a] - [b]"),
-            auto_block("reporter", "Mul", "[a] * [b]"),
-            auto_block("reporter", "Div", "[a] / [b]"),
-            auto_block("reporter", "Dot", "[a] dot [b]"),
-            auto_block("reporter", "Cross", "[a] cross [b]"),
-            auto_block("reporter", "Len", "length of [a]"),
-            auto_block("reporter", "Norm", "normalize [a]"),
-            auto_block("reporter", "Size", "size of [a]"),
-            auto_block("reporter", "Sqrt", "sqrt of [a]"),
+
             makeblock("command", "RunJS", "JS| Run JS code [code]", {
               code: { type: "string", defaultValue: "alert('Hello World!')" },
             }),
