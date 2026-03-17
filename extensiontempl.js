@@ -69,7 +69,7 @@ waitForVM((vm) => {
   });
 
   const MenuItem = (label, value) => ({
-    label,
+    text: label,
     value,
   });
 

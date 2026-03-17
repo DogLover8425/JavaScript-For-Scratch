@@ -114,7 +114,7 @@ try {
       });
 
       const MenuItem = (label, value) => ({
-        label,
+        text: label,
         value,
       });
 
