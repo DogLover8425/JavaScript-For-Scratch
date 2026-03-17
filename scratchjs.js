@@ -108,9 +108,10 @@ try {
         acceptReporters,
       });
 
-      const Menu = (items, defaultValue) => ({
+      const Menu = (items, defaultValue, alt) => ({
         items,
         defaultValue,
+        alt,
       });
 
       const MenuItem = (label, value) => ({
@@ -303,6 +304,7 @@ try {
             name: "ScratchJS",
             color1: "#e9d206",
             color2: "#a09500",
+            alt: "#e9d206",
             blocks: [
               Block(BlockType.REPORTER, "powerBlock", "[base] ^ [exponent]", {
                 base: { type: "number", defaultValue: 2 },
@@ -492,6 +494,7 @@ try {
                   MenuItem("timestamp", "timestamp"),
                 ],
                 "datetime",
+                "testing",
               ),
               caseTypeMenu: Menu(
                 [
@@ -499,6 +502,7 @@ try {
                   MenuItem("lowercase", "lowercase"),
                 ],
                 "uppercase",
+                "testing",
               ),
               userInfoMenu: Menu(
                 [
@@ -513,6 +517,7 @@ try {
                   MenuItem("device pixel ratio", "devicePixelRatio"),
                 ],
                 "OS",
+                "testing",
               ),
             },
           };
