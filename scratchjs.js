@@ -231,7 +231,7 @@ try {
         }
 
         boolToText({ bool }) {
-          return bool.toString();
+          return new Boolean(bool).toString();
         }
 
         powerBlock({ base, exponent }) {
