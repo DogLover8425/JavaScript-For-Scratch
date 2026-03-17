@@ -108,10 +108,9 @@ try {
         acceptReporters,
       });
 
-      const Menu = (items, defaultValue, alt) => ({
+      const Menu = (items, defaultValue) => ({
         items,
         defaultValue,
-        alt,
       });
 
       const MenuItem = (label, value) => ({
@@ -302,9 +301,6 @@ try {
           return {
             id: "math" /* ID Math because it's one of the only valid IDs that work */,
             name: "ScratchJS",
-            color1: "#e9d206",
-            color2: "#a09500",
-            alt: "#e9d206",
             blocks: [
               Block(BlockType.REPORTER, "powerBlock", "[base] ^ [exponent]", {
                 base: { type: "number", defaultValue: 2 },
@@ -493,16 +489,14 @@ try {
                   MenuItem("time only", "time"),
                   MenuItem("timestamp", "timestamp"),
                 ],
-                "datetime",
-                "testing",
+                "datetime"
               ),
               caseTypeMenu: Menu(
                 [
                   MenuItem("UPPERCASE", "uppercase"),
                   MenuItem("lowercase", "lowercase"),
                 ],
-                "uppercase",
-                "testing",
+                "uppercase"
               ),
               userInfoMenu: Menu(
                 [
@@ -516,8 +510,7 @@ try {
                   MenuItem("window height", "windowHeight"),
                   MenuItem("device pixel ratio", "devicePixelRatio"),
                 ],
-                "OS",
-                "testing",
+                "OS"
               ),
             },
           };
