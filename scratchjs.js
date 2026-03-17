@@ -470,13 +470,13 @@ try {
                 {},
               ),
               Block(
-                BlockType.BOOL,
+                BlockType.BOOLEAN,
                 "outOfBoundsMouseDown",
                 "Mouse down? (works out of bounds)",
                 {},
               ),
               Spacer,
-              Block(BlockType.BOOL, "textToBool", "[bool]", {
+              Block(BlockType.BOOLEAN, "textToBool", "[bool]", {
                 bool: Argument("string", "true"),
               }),
               Block(BlockType.REPORTER, "boolToText", "[bool]", {
