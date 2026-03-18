@@ -304,7 +304,7 @@ try {
 
         forInLoop({ value }) {
           i++;
-          return i <= value;
+          return (i <= value) ? 1 : 0;
         }
 
         iReporter() {
