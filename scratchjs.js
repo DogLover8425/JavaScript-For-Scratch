@@ -482,6 +482,7 @@ try {
             color3: "#6a5f01",
             blocks: [
               Block(BlockType.COMMAND, "OpenDocs", "Open Documentation"),
+              Spacer,
               Block(BlockType.REPORTER, "powerBlock", "[base] ^ [exponent]", {
                 base: { type: "number", defaultValue: 2 },
                 exponent: { type: "number", defaultValue: 3 },
@@ -520,10 +521,12 @@ try {
               Block(BlockType.REPORTER, "decrement", "[value]--", {
                 value: Argument("number", 5),
               }),
+              Spacer,
               Block(BlockType.BOOLEAN, "trueBlock", "True"),
               Block(BlockType.BOOLEAN, "falseBlock", "False"),
               Block(BlockType.REPORTER, "newlineBlock", "Newline"),
               Block(BlockType.REPORTER, "tabBlock", "Tab"),
+              Spacer,
               Block(BlockType.BOOLEAN, "moreOrEqualsBlock", "[value1] >= [value2]", {
                 value1: Argument("number", 5),
                 value2: Argument("number", 5),
@@ -554,7 +557,7 @@ try {
                 {
                   text: Argument("string", "Hello World"),
                   start: Argument("number", 1),
-                  end: Argument("number", 6), // you did NOT have to do that, ai >:|
+                  end: Argument("number", 6),
                 },
               ),
               Block(
