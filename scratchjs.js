@@ -302,9 +302,11 @@ try {
           }
         }
 
-        forInLoop({ value }) {
+        forInLoop({ value }, util) {
           i++;
-          return (i <= value) ? 1 : 0;
+          if (i <= value) {
+            util.startBranch(1, true);
+          }
         }
 
         iReporter() {
