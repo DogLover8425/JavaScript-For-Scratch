@@ -29,7 +29,7 @@ try {
         fiber?.stateNode?.props?.vm ||
         fiber?.return?.return?.return?.return?.updateQueue?.stores?.[0]?.value
           ?.vm;
-          
+
       if (vm) {
         console.log(
           "%c[Scratch Injector]%c VM found!",
@@ -119,6 +119,7 @@ try {
 
       let i = 0;
       let inLoop = false;
+      let lsnamespace = "";
 
       /**
        * Block factory function. Creates a block object with the given parameters.
@@ -520,6 +521,54 @@ try {
           return JSON.stringify(obj);
         }
 
+        fetchSite({ url }) {
+          return fetch(url).then((res) => res.text());
+        }
+
+        logBlock({ message }) {
+          console.log(message);
+        }
+
+        warningBlock({ message }) {
+          console.warn(message);
+        }
+
+        errorBlock({ message }) {
+          console.error(message);
+        }
+
+        setLocalstorageNamespace({ namespace }) {
+          lsnamespace = namespace;
+        }
+
+        setLocalstorageKey({ key, value }) {
+          localStorage.setItem(lsnamespace + key, value);
+        }
+
+        getLocalstorageKey({ key }) {
+          return localStorage.getItem(lsnamespace + key);
+        }
+
+        deleteLocalstorageKey({ key }) {
+          localStorage.removeItem(lsnamespace + key);
+        }
+
+        promptBlock({ message }) {
+          return prompt(message);
+        }
+
+        alertBlock({ message }) {
+          alert(message);
+        }
+
+        confirmBlock({ message }) {
+          return confirm(message);
+        }
+
+        clearConsole() {
+          console.clear();
+        }
+
         getInfo() {
           return {
             id: "math" /* ID Math because it's one of the only valid IDs that work */,
@@ -639,13 +688,13 @@ try {
                 "Current project ID",
               ),
               Spacer,
-              Block(BlockType.COMMAND, "RunJS", "JS| Run JS code [code]", {
+              Block(BlockType.COMMAND, "RunJS", "Run JS code [code]", {
                 code: Argument("string", "alert('Hello World!')"),
               }),
               Block(
                 BlockType.REPORTER,
                 "getReturnValOfJS",
-                "JS| Get return value of [code]",
+                "Get return value of [code]",
                 {
                   code: Argument("string", "6473 / 84"),
                 },
@@ -659,19 +708,22 @@ try {
                 },
               ),
               Spacer,
-              Block(BlockType.COMMAND, "OpenSite", "JS| Open site [url]", {
+              Block(BlockType.COMMAND, "OpenSite", "Open site [url]", {
                 url: Argument("string", "https://example.com"),
               }),
               Block(
                 BlockType.COMMAND,
                 "OpenInTurbowarp",
-                "JS| Open this project in Turbowarp",
+                "Open this project in Turbowarp",
               ),
-              Block(BlockType.COMMAND, "ReloadPage", "JS| Reload page"),
+              Block(BlockType.REPORTER, "fetchSite", "Fetch site [url]", {
+                url: Argument("string", "https://example.com"),
+              }),
+              Block(BlockType.COMMAND, "ReloadPage", "Reload page"),
               Block(
                 BlockType.COMMAND,
                 "SaveFile",
-                "JS| Save file [name] with contents [contents]",
+                "Save file [name] with contents [contents]",
                 {
                   name: Argument("string", "example.txt"),
                   contents: Argument("string", "Hello World!"),
@@ -680,12 +732,32 @@ try {
               Block(
                 BlockType.COMMAND,
                 "setVar",
-                "JS| Set variable [name] to [val]",
+                "Set variable [name] to [val]",
                 {
                   name: Argument("string", "window.example"),
                   val: Argument("string", "Hello World!"),
                 },
               ),
+              Spacer,
+              Block(BlockType.COMMAND, "logBlock", "Log to console [value]", {
+                value: Argument("string", "Something worked!"),
+              }),
+              Block(BlockType.COMMAND, "warningBlock", "Log warning to console [value]", {
+                value: Argument("string", "Something could go wrong!"),
+              }),
+              Block(BlockType.COMMAND, "errorBlock", "Log error to console [value]", {
+                value: Argument("string", "Something went wrong!"),
+              }),
+              Block(BlockType.COMMAND, "clearConsole", "Clear console"),
+              Block(BlockType.COMMAND, "alertBlock", "Show alert [value]", {
+                value: Argument("string", "Hello World!"),
+              }),
+              Block(BlockType.BOOLEAN, "confirmBlock", "Confirm [value]", {
+                value: Argument("string", "Are you sure?"),
+              }),
+              Block(BlockType.REPORTER, "promptBlock", "Prompt [value]", {
+                value: Argument("string", "What is your name?"),
+              }),
               Spacer,
               Block(BlockType.HAT, "whenCondition", "when [condit] is true", {
                 condit: {
