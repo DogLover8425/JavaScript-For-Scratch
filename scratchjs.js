@@ -646,7 +646,7 @@ try {
                   defaultValue: "Put any boolean block here",
                 },
               }),
-              Block(BlockType.CONDITIONAL, "forInLoop", "For i in [value]", {
+              Block(BlockType.LOOP, "forInLoop", "For i in [value]", {
                 value: Argument("string", "10"),
               }),
               Block(BlockType.REPORTER, "iReporter", "i"),
