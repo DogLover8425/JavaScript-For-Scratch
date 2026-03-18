@@ -5,6 +5,10 @@ const YourExtensionName = "Replace This!";
  * @param {Function} callback - The function to call with the VM.
  */
 function waitForVM(callback) {
+  if (window.vm) {
+    callback(window.vm);
+    return;
+  }
   const el = document.querySelector(
     'div[class*="stage-header_stage-header-wrapper"]',
   );
@@ -28,6 +32,7 @@ function waitForVM(callback) {
       "color: lime;",
       "color: none;",
     );
+    window.vm = vm;
     callback(vm);
   }
 }

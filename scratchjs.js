@@ -7,6 +7,10 @@ try {
      * @param {Function} callback - The function to call with the VM.
      */
     function waitForVM(callback) {
+      if (window.vm) {
+        callback(window.vm);
+        return;
+      }
       const el = document.querySelector(
         'div[class*="stage-header_stage-header-wrapper"]',
       );
@@ -25,15 +29,68 @@ try {
         fiber?.stateNode?.props?.vm ||
         fiber?.return?.return?.return?.return?.updateQueue?.stores?.[0]?.value
           ?.vm;
-
+          
       if (vm) {
         console.log(
           "%c[Scratch Injector]%c VM found!",
           "color: lime;",
           "color: none;",
         );
+        window.vm = vm;
         callback(vm);
       }
+    }
+
+    function warningModal() {
+      let modal = document.createElement("div");
+      modal.innerHTML = `<span style="text-align: center; font-size: 2rem; color: red;">Warning!</span>
+      <p style="text-align: center; color: black;">This extension has access to advanced features. 
+      <br>Projects using this extension can potentially do dangerous things.
+      <br>A project using this extension can do the following:
+      <ul>
+      <li> Modify the website
+      <li> Open pages and links
+      <li> Send data to other websites
+      <li> Access stored data
+      </ul>
+      <br>Please make sure you trust the creator of this project.\
+      <br>If you don't trust this project, click "Cancel".
+      </p>
+      <button onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">OK</button>
+      <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button>`;
+      modal.id = "scratchjs-warning-modal";
+      document.head.innerHTML += `
+      <style>
+        #scratchjs-warning-modal button {
+          margin-top: 1rem;
+          padding: 5px;
+          background-color: #10a7ff;
+          border-radius: 5px;
+          color: white;
+          border: 1px solid #ddd;
+          cursor: pointer;
+        }
+
+        #scratchjs-warning-modal p {
+          margin: 0;
+        }
+
+        #scratchjs-warning-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background-color: rgba(4, 122, 233, 1);
+          z-index: 9999;
+        }
+      </style>
+      `;
+      document.body.appendChild(modal);
     }
 
     waitForVM((vm) => {
@@ -44,26 +101,7 @@ try {
         "color: none;",
       );
 
-      // Warning modal
-
-      let modal = document.createElement("div");
-      modal.innerHTML = `<span style="text-align: center; font-size: 2rem; color: red;">Warning!</span>
-      <p style="text-align: center; color: black;">This extension has access to advanced features. 
-      <br>Projects using this extension can potentially do dangerous things. 
-      <br>Please make sure you trust the creator of this project.</p><button onclick="document.getElementById('scratchjs-warning-modal').remove()" style="margin-top: 1rem; padding:5px; background-color: #10a7ff; border-radius: 5px; color: white; border: 1px solid #ddd; cursor: pointer;">OK</button>`;
-      modal.id = "scratchjs-warning-modal";
-      modal.style.position = "fixed";
-      modal.style.top = "0";
-      modal.style.left = "0";
-      modal.style.width = "100%";
-      modal.style.height = "100%";
-      modal.style.display = "flex";
-      modal.style.flexDirection = "column";
-      modal.style.alignItems = "center";
-      modal.style.justifyContent = "center";
-      modal.style.backgroundColor = "rgba(4, 122, 233, 1)";
-      modal.style.zIndex = "9999";
-      document.body.appendChild(modal);
+      warningModal();
 
       let cursor_x = -1,
         cursor_y = -1,
@@ -830,7 +868,8 @@ try {
           return vars.length == 0 ? [" "] : vars;
         }
       }
-      (function (vm) {
+      window.sjs_userConsent = function () {
+        window.sjs_hasUserConsent = true;
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
         var serviceName =
           vm.extensionManager._registerInternalExtension(extensionInstance);
@@ -838,7 +877,7 @@ try {
           extensionInstance.getInfo().id,
           serviceName,
         );
-      })(vm);
+    };
     });
   })();
 } catch (e) {
