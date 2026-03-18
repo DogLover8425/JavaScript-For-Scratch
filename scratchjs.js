@@ -43,8 +43,8 @@ try {
 
     function warningModal() {
       let modal = document.createElement("div");
-      modal.innerHTML = `<span style="text-align: center; font-size: 2rem; color: red;">Warning!</span>
-      <p style="text-align: center; color: black;">This extension has access to advanced features. 
+      modal.innerHTML = `<span>Warning!</span>
+      <p>This extension has access to advanced features. 
       <br>Projects using this extension can potentially do dangerous things.
       <br>A project using this extension can do the following:
       <ul>
@@ -69,10 +69,25 @@ try {
           color: white;
           border: 1px solid #ddd;
           cursor: pointer;
+          display: inline-block;
         }
 
         #scratchjs-warning-modal p {
           margin: 0;
+          color: black;
+          text-align: center;
+        }
+
+        #scratchjs-warning-modal span {
+          text-align: center;
+          font-size: 2rem;
+          color: red;
+        }
+
+        #scratchjs-warning-modal ul {
+          margin: 0;
+          padding-left: 1rem;
+          color: black;
         }
 
         #scratchjs-warning-modal {
