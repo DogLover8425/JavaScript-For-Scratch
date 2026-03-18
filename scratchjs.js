@@ -154,6 +154,9 @@ try {
         constructor(runtime) {
           this.runtime = runtime;
         }
+        OpenDocs() {
+          window.open("https://github.com/Ironbill25/JavaScript-For-Scratch/blob/main/README.md");
+        }
         RunJS({ code }) {
           eval(code);
         }
@@ -478,6 +481,7 @@ try {
             color2: "#6a5f01",
             color3: "#6a5f01",
             blocks: [
+              Block(BlockType.COMMAND, "OpenDocs", "Open Documentation"),
               Block(BlockType.REPORTER, "powerBlock", "[base] ^ [exponent]", {
                 base: { type: "number", defaultValue: 2 },
                 exponent: { type: "number", defaultValue: 3 },
