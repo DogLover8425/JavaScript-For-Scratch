@@ -79,6 +79,8 @@ try {
         cursor_down = false;
       };
 
+      let i = 0;
+
       /**
        * Block factory function. Creates a block object with the given parameters.
        * @param {string} blockType - The type of the block (e.g., "reporter", "command", "hat", "bool").
@@ -297,6 +299,177 @@ try {
           }
         }
 
+        forInLoop({ value }) {
+          i++;
+          return i <= value;
+        }
+
+        iReporter() {
+          return i;
+        }
+
+        setI({ value }) {
+          i = value;
+        }
+
+        increment({ value }) {
+          return Number(value) + 1;
+        }
+
+        decrement({ value }) {
+          return Number(value) - 1;
+        }
+
+        trueBlock() {
+          return true;
+        }
+
+        falseBlock() {
+          return false;
+        }
+
+        newlineBlock() {
+          return "\n";
+        }
+
+        tabBlock() {
+          return "\t";
+        }
+
+        moreOrEqualsBlock({ value1, value2 }) {
+          return value1 >= value2;
+        }
+
+        lessOrEqualsBlock({ value1, value2 }) {
+          return value1 <= value2;
+        }
+
+        inequalityBlock({ value1, value2 }) {
+          return value1 !== value2;
+        }
+
+
+        blankArray() {
+          return "[]";
+        }
+
+        addToArray({ array, value }) {
+          return JSON.stringify([...JSON.parse(array), value]);
+        }
+
+        getFromArray({ array, index }) {
+          return JSON.parse(array)[--index];
+        }
+
+        insertIntoArray({ array, index, value }) {
+          const arr = JSON.parse(array);
+          arr.splice(--index, 0, value);
+          return JSON.stringify(arr);
+        }
+
+        replaceInArray({ array, index, value }) {
+          const arr = JSON.parse(array);
+          arr[--index] = value;
+          return JSON.stringify(arr);
+        }
+
+        removeFromArray({ array, index }) {
+          const arr = JSON.parse(array);
+          arr.splice(--index, 1);
+          return JSON.stringify(arr);
+        }
+
+        mergeArrays({ array1, array2 }) {
+          return JSON.stringify([...JSON.parse(array1), ...JSON.parse(array2)]);
+        }
+
+        lengthOfArray({ array }) {
+          return JSON.parse(array).length;
+        }
+
+        arrayHas({ array, value }) {
+          return JSON.parse(array).includes(value);
+        }
+
+        indexOf({ array, value }) {
+          return ++(JSON.parse(array).indexOf(value));
+        }
+
+        splitString({ string, delimiter }) {
+          return JSON.stringify(string.split(delimiter));
+        }
+
+        joinArray({ array, delimiter }) {
+          return JSON.parse(array).join(delimiter);
+        }
+
+
+
+
+        blankObject() {
+          return "{}";
+        }
+
+        setInObject({ object, key, value }) {
+          const obj = JSON.parse(object);
+          obj[key] = value;
+          return JSON.stringify(obj);
+        }
+
+        getFromObject({ object, key }) {
+          return JSON.parse(object)[key];
+        }
+
+        deleteFromObject({ object, key }) {
+          const obj = JSON.parse(object);
+          delete obj[key];
+          return JSON.stringify(obj);
+        }
+
+        objectHasKey({ object, key }) {
+          return JSON.parse(object).hasOwnProperty(key);
+        }
+
+        keysOfObject({ object }) {
+          return JSON.stringify(Object.keys(JSON.parse(object)));
+        }
+
+        valuesOfObject({ object }) {
+          return JSON.stringify(Object.values(JSON.parse(object)));
+        }
+
+        entriesOfObject({ object }) {
+          return JSON.stringify(Object.entries(JSON.parse(object)));
+        }
+
+        sizeOfObject({ object }) {
+          return Object.keys(JSON.parse(object)).length;
+        }
+
+        pathInObject({ object, path }) {
+          const obj = JSON.parse(object);
+          const keys = JSON.parse(path);
+          let result = obj;
+          for (const key of keys) {
+            result = result[key];
+          }
+          if (Array.isArray(result) || typeof result === "object") {
+            return JSON.stringify(result);
+          }
+          return result;
+        }
+
+        setPathInObject({ object, path, value }) {
+          const obj = JSON.parse(object);
+          const keys = JSON.parse(path);
+          let result = obj;
+          for (let i = 0; i < keys.length - 1; i++) {
+            result = result[keys[i]];
+          }
+          result[keys[keys.length - 1]] = value;
+          return JSON.stringify(obj);
+        }
+
         getInfo() {
           return {
             id: "math" /* ID Math because it's one of the only valid IDs that work */,
@@ -337,6 +510,28 @@ try {
                   whole: Argument("number", 100),
                 },
               ),
+              Block(BlockType.REPORTER, "increment", "[value]++", {
+                value: Argument("number", 5),
+              }),
+              Block(BlockType.REPORTER, "decrement", "[value]--", {
+                value: Argument("number", 5),
+              }),
+              Block(BlockType.BOOLEAN, "trueBlock", "True"),
+              Block(BlockType.BOOLEAN, "falseBlock", "False"),
+              Block(BlockType.REPORTER, "newlineBlock", "Newline"),
+              Block(BlockType.REPORTER, "tabBlock", "Tab"),
+              Block(BlockType.BOOLEAN, "moreOrEqualsBlock", "[value1] >= [value2]", {
+                value1: Argument("number", 5),
+                value2: Argument("number", 5),
+              }),
+              Block(BlockType.BOOLEAN, "lessOrEqualsBlock", "[value1] <= [value2]", {
+                value1: Argument("number", 5),
+                value2: Argument("number", 5),
+              }),
+              Block(BlockType.BOOLEAN, "inequalityBlock", "[value1] ≠ [value2]", {
+                value1: Argument("number", 5),
+                value2: Argument("number", 5),
+              }),
               Spacer,
               Block(
                 BlockType.REPORTER,
@@ -444,6 +639,13 @@ try {
                   defaultValue: "Put any boolean block here",
                 },
               }),
+              Block(BlockType.CONDITIONAL, "forInLoop", "For i in [value]", {
+                value: Argument("string", "10"),
+              }),
+              Block(BlockType.REPORTER, "iReporter", "i"),
+              Block(BlockType.COMMAND, "setI", "Set i to [value]", {
+                value: Argument("number", 0),
+              }),
               Block(BlockType.REPORTER, "stringReport", "[arg1]", {
                 arg1: Argument("string", "Hello"),
               }),
@@ -481,6 +683,93 @@ try {
               }),
               Block(BlockType.REPORTER, "boolToText", "[bool]", {
                 bool: Argument("Boolean"),
+              }),
+              Spacer,
+              Block(BlockType.REPORTER, "blankArray", "Blank array"),
+              Block(BlockType.REPORTER, "addToArray", "Append [value] to array [array]", {
+                value: Argument("string", "Hello"),
+                array: Argument("string", "[]"),
+              }),
+              Block(BlockType.REPORTER, "getFromArray", "Get [index] from array [array]", {
+                index: Argument("number", 1),
+                array: Argument("string", "[]"),
+              }),
+              Block(BlockType.REPORTER, "insertIntoArray", "Insert [value] at [index] in array [array]", {
+                value: Argument("string", "Hello"),
+                index: Argument("number", 1),
+                array: Argument("string", "[\"Apple\"]"),
+              }),
+              Block(BlockType.REPORTER, "replaceInArray", "Replace [index] in array [array] with [value]", {
+                index: Argument("number", 1),
+                array: Argument("string", "[\"Apple\"]"),
+                value: Argument("string", "Banana"),
+              }),
+              Block(BlockType.REPORTER, "removeFromArray", "Remove [index] from array [array]", {
+                index: Argument("number", 1),
+                array: Argument("string", "[\"Apple\"]"),
+              }),
+              Block(BlockType.REPORTER, "mergeArrays", "Merge [array1] and [array2]", {
+                array1: Argument("string", "[\"Hello\"]"),
+                array2: Argument("string", "[\"World\"]"),
+              }),
+              Block(BlockType.REPORTER, "lengthOfArray", "Length of array [array]", {
+                array: Argument("string", "[\"Apple\", \"Banana\"]"),
+              }),
+              Block(BlockType.BOOLEAN, "arrayHas", "Array [array] contains [value]", {
+                array: Argument("string", "[\"Apple\", \"Banana\"]"),
+                value: Argument("string", "Carrot"),
+              }),
+              Block(BlockType.REPORTER, "indexOf", "Index of [value] in array [array]", {
+                value: Argument("string", "Hello"),
+                array: Argument("string", "[\"Apple\"]"),
+              }),
+              Block(BlockType.REPORTER, "splitString", "Split [string] by [delimiter] into array", {
+                string: Argument("string", "Hello, World"),
+                delimiter: Argument("string", ","),
+              }),
+              Block(BlockType.REPORTER, "joinArray", "Join array [array] with [delimiter]", {
+                array: Argument("string", "[\"Hello\", \"World\"]"),
+                delimiter: Argument("string", ","),
+              }),
+              Spacer,
+              Block(BlockType.REPORTER, "blankObject", "Blank object"),
+              Block(BlockType.REPORTER, "setInObject", "Set [key] in object [object] to [value]", {
+                key: Argument("string", "name"),
+                object: Argument("string", "{}"),
+                value: Argument("string", "John"),
+              }),
+              Block(BlockType.REPORTER, "getFromObject", "Get [key] from object [object]", {
+                key: Argument("string", "name"),
+                object: Argument("string", "{\"name\": \"John\"}"),
+              }),
+              Block(BlockType.REPORTER, "deleteFromObject", "Delete [key] from object [object]", {
+                key: Argument("string", "name"),
+                object: Argument("string", "{\"name\": \"John\"}"),
+              }),
+              Block(BlockType.BOOLEAN, "objectHasKey", "Object [object] has key [key]", {
+                object: Argument("string", "{\"name\": \"John\"}"),
+                key: Argument("string", "name"),
+              }),
+              Block(BlockType.REPORTER, "keysOfObject", "Keys of object [object] (array)", {
+                object: Argument("string", "{\"name\": \"John\"}"),
+              }),
+              Block(BlockType.REPORTER, "valuesOfObject", "Values of object [object] (array)", {
+                object: Argument("string", "{\"name\": \"John\"}"),
+              }),
+              Block(BlockType.REPORTER, "entriesOfObject", "Entries of object [object] (array)", {
+                object: Argument("string", "{\"name\": \"John\"}"),
+              }),
+              Block(BlockType.REPORTER, "sizeOfObject", "Size of object [object]", {
+                object: Argument("string", "{\"name\": \"John\"}"),
+              }),
+              Block(BlockType.REPORTER, "pathInObject", "Get path (array) [path] from object [object]", {
+                path: Argument("string", "[\"name\"]"),
+                object: Argument("string", "{\"name\": \"John\"}"),
+              }),
+              Block(BlockType.REPORTER, "setPathInObject", "Set path (array) [path] in object [object] to [value]", {
+                path: Argument("string", "[\"name\"]"),
+                object: Argument("string", "{}"),
+                value: Argument("string", "John"),
               }),
             ],
             menus: {
