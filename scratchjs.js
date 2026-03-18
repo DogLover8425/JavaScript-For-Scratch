@@ -80,6 +80,7 @@ try {
       };
 
       let i = 0;
+      let inLoop = false;
 
       /**
        * Block factory function. Creates a block object with the given parameters.
@@ -303,9 +304,15 @@ try {
         }
 
         forInLoop({ value }, util) {
-          i++;
-          if (i <= value) {
+          if (!inLoop) {
+            i = 0;
+          }
+          if (++i <= value) {
+            inLoop = true;
             util.startBranch(1, true);
+          } else {
+            i = 0;
+            inLoop = false;
           }
         }
 
