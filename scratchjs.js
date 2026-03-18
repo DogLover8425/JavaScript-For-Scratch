@@ -568,6 +568,10 @@ try {
           localStorage.removeItem(lsnamespace + key);
         }
 
+        clearLocalstorage() {
+          localStorage.clear();
+        }
+
         promptBlock({ message }) {
           return prompt(message);
         }
@@ -754,24 +758,24 @@ try {
                 },
               ),
               Spacer,
-              Block(BlockType.COMMAND, "logBlock", "Log to console [value]", {
-                value: Argument("string", "Something worked!"),
+              Block(BlockType.COMMAND, "logBlock", "Log to console [message]", {
+                message: Argument("string", "Something worked!"),
               }),
-              Block(BlockType.COMMAND, "warningBlock", "Log warning to console [value]", {
-                value: Argument("string", "Something could go wrong!"),
+              Block(BlockType.COMMAND, "warningBlock", "Log warning to console [message]", {
+                message: Argument("string", "Something could go wrong!"),
               }),
-              Block(BlockType.COMMAND, "errorBlock", "Log error to console [value]", {
-                value: Argument("string", "Something went wrong!"),
+              Block(BlockType.COMMAND, "errorBlock", "Log error to console [message]", {
+                message: Argument("string", "Something went wrong!"),
               }),
               Block(BlockType.COMMAND, "clearConsole", "Clear console"),
-              Block(BlockType.COMMAND, "alertBlock", "Show alert [value]", {
-                value: Argument("string", "Hello World!"),
+              Block(BlockType.COMMAND, "alertBlock", "Show alert [message]", {
+                message: Argument("string", "Hello World!"),
               }),
-              Block(BlockType.BOOLEAN, "confirmBlock", "Confirm [value]", {
-                value: Argument("string", "Are you sure?"),
+              Block(BlockType.BOOLEAN, "confirmBlock", "Confirm [message]", {
+                message: Argument("string", "Are you sure?"),
               }),
-              Block(BlockType.REPORTER, "promptBlock", "Prompt [value]", {
-                value: Argument("string", "What is your name?"),
+              Block(BlockType.REPORTER, "promptBlock", "Prompt [message]", {
+                message: Argument("string", "What is your name?"),
               }),
               Spacer,
               Block(BlockType.HAT, "whenCondition", "when [condit] is true", {
@@ -787,6 +791,22 @@ try {
               Block(BlockType.COMMAND, "setI", "Set i to [value]", {
                 value: Argument("number", 0),
               }),
+              Spacer,
+              Block(BlockType.COMMAND, "setLocalstorageNamespace", "Set LocalStorage namespace to [namespace]", {
+                namespace: Argument("string", "Replace this with a unique namespace for your project"),
+              }),
+              Block(BlockType.COMMAND, "setLocalstorageKey", "Set LocalStorage key [key] to [value]", {
+                key: Argument("string", "key"),
+                value: Argument("string", "value"),
+              }),
+              Block(BlockType.REPORTER, "getLocalstorageKey", "Get LocalStorage key [key]", {
+                key: Argument("string", "key"),
+              }),
+              Block(BlockType.COMMAND, "removeLocalstorageKey", "Remove LocalStorage key [key]", {
+                key: Argument("string", "key"),
+              }),
+              Block(BlockType.COMMAND, "clearLocalstorage", "Clear LocalStorage"),
+              Spacer,
               Block(BlockType.REPORTER, "stringReport", "[arg1]", {
                 arg1: Argument("string", "Hello"),
               }),
