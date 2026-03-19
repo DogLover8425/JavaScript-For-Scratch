@@ -177,7 +177,7 @@ try {
        * @returns {Object} - The block object.
        */
       const Block = (blockType, opcode, text, args) => ({
-        blockType: blockType || BlockType.command,
+        blockType: blockType || BlockType.COMMAND,
         opcode,
         text,
         arguments: args,
