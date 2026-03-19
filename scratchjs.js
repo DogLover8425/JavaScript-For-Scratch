@@ -577,7 +577,7 @@ try {
           return localStorage.getItem(lsnamespace + key);
         }
 
-        deleteLocalstorageKey({ key }) {
+        removeLocalstorageKey({ key }) {
           localStorage.removeItem(lsnamespace + key);
         }
 
