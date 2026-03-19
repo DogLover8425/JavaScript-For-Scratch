@@ -129,8 +129,8 @@ try {
       if (!devmode) return;
       console.log(`ScratchJS currently has ${extensionInstance.getInfo().blocks.length} blocks!`);
       for (const block of extensionInstance.getInfo().blocks) {
-        if (!(block.id in extensionInstance) || typeof extensionInstance[block.id] !== 'function') {
-          console.warn(`[DEVELOPER WARNING] Missing function for block: ${block.id}`);
+        if (!(block.opcode in extensionInstance) || typeof extensionInstance[block.opcode] !== 'function') {
+          console.warn(`[DEVELOPER WARNING] Missing function for block: ${block.opcode}`);
         }
       }
     }
