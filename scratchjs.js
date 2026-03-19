@@ -1,6 +1,7 @@
 try {
   (function () {
     "use strict";
+    let devmode = false;
 
     /**
      * Waits for the Scratch VM to be available and calls the callback with it.
@@ -40,6 +41,12 @@ try {
         callback(vm);
       }
     }
+    
+    window.sjs_toggleDevMode = (checked) => {
+      devmode = checked;
+    };
+
+    
 
     function warningModal() {
       let modal = document.createElement("div");
@@ -57,7 +64,9 @@ try {
       <br>If you don't trust this project, click "Cancel".
       </p>
       <button onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">OK</button>
-      <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button>`;
+      <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button>
+      <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
+      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>`;
       modal.id = "scratchjs-warning-modal";
       document.head.innerHTML += `
       <style>
@@ -113,6 +122,16 @@ try {
         return JSON.parse(value);
       } catch {
         return value;
+      }
+    }
+
+    function devLogging(extensionInstance) {
+      if (!devmode) return;
+      console.log(`ScratchJS currently has ${extensionInstance.getInfo().blocks.length} blocks!`);
+      for (const block of extensionInstance.getInfo().blocks) {
+        if (!(block.id in extensionInstance) || typeof extensionInstance[block.id] !== 'function') {
+          console.warn(`[DEVELOPER WARNING] Missing function for block: ${block.id}`);
+        }
       }
     }
 
@@ -703,19 +722,19 @@ try {
           return isFinite(Number(number));
         }
 
-        pi() {
+        piBlock() {
           return Math.PI;
         }
 
-        e() {
+        eBlock() {
           return Math.E;
         }
 
-        infinity() {
+        infinityBlock() {
           return Infinity;
         }
 
-        negativeInfinity() {
+        negativeInfinityBlock() {
           return -Infinity;
         }
 
@@ -1182,7 +1201,7 @@ try {
           extensionInstance.getInfo().id,
           serviceName,
         );
-        console.log(`ScratchJS currently has ${extensionInstance.getInfo().blocks.length} blocks!`);
+        devLogging(extensionInstance.getInfo());
     };
     });
   })();
