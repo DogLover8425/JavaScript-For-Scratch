@@ -1201,7 +1201,7 @@ try {
           extensionInstance.getInfo().id,
           serviceName,
         );
-        devLogging(extensionInstance.getInfo());
+        devLogging(extensionInstance);
     };
     });
   })();
