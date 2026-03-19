@@ -1182,6 +1182,7 @@ try {
           extensionInstance.getInfo().id,
           serviceName,
         );
+        console.log(`ScratchJS currently has ${extensionInstance.getInfo().blocks.length} blocks!`);
     };
     });
   })();
