@@ -185,7 +185,7 @@ try {
         for (const file of blockFiles) {
           try {
             const response = await fetch(
-              "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/refs/heads/main/" +
+              "https://cdn.jsdelivr.net/gh/Ironbill25/JavaScript-For-Scratch@refs/heads/main/" +
                 file,
             );
             if (response.ok) {
@@ -458,15 +458,13 @@ try {
         }
       };
       
-      for (const [opcode, func] of Object.entries(window.allFunctions || {})) {
-        window.ScratchJS.prototype[opcode] = func;
-      }
-
-      console.log("TEMP DEV TEST MESSAGE")
-      
       window.sjs_userConsent = function () {
         window.sjs_hasUserConsent = true;
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
+        
+        for (const [opcode, func] of Object.entries(window.allFunctions || {})) {
+          extensionInstance[opcode] = func;
+        }
         var serviceName =
           vm.extensionManager._registerInternalExtension(extensionInstance);
         vm.extensionManager._loadedExtensions.set(
