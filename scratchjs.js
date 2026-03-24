@@ -458,10 +458,49 @@ try {
         }
       };
       
-      window.sjs_userConsent = function () {
+      window.sjs_userConsent = async function () {
         window.sjs_hasUserConsent = true;
+        
+        // Wait for all blocks to be loaded
+        let retryCount = 0;
+        const maxRetries = 10;
+        
+        while (retryCount < maxRetries) {
+          const totalBlocks = Object.keys(window.allFunctions || {}).length;
+          const totalArrays = (window.sjs_math?.length || 0) + 
+                           (window.sjs_constants?.length || 0) + 
+                           (window.sjs_booleans?.length || 0) + 
+                           (window.sjs_strings?.length || 0) + 
+                           (window.sjs_specialreporters?.length || 0) + 
+                           (window.sjs_corejs?.length || 0) + 
+                           (window.sjs_console?.length || 0) + 
+                           (window.sjs_controlflow?.length || 0) + 
+                           (window.sjs_storage?.length || 0) + 
+                           (window.sjs_utilities?.length || 0) + 
+                           (window.sjs_tempvars?.length || 0) + 
+                           (window.sjs_arrays?.length || 0) + 
+                           (window.sjs_objects?.length || 0) + 
+                           (window.sjs_enhanced?.length || 0);
+          
+          console.log(`Loading check ${retryCount + 1}: Functions=${totalBlocks}, Arrays=${totalArrays}`);
+          
+          if (totalBlocks >= 140 && totalArrays >= 140) {
+            console.log("[OK] All blocks loaded successfully!");
+            break;
+          }
+          
+          if (retryCount === maxRetries - 1) {
+            console.warn(`[WARN] Timeout waiting for blocks. Functions: ${totalBlocks}, Arrays: ${totalArrays}`);
+            break;
+          }
+          
+          await new Promise(resolve => setTimeout(resolve, 500));
+          retryCount++;
+        }
+        
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
         
+        // Add all block functions to extension instance
         for (const [opcode, func] of Object.entries(window.allFunctions || {})) {
           extensionInstance[opcode] = func;
         }
