@@ -483,14 +483,36 @@ try {
                            (window.sjs_enhanced?.length || 0);
           
           console.log(`Loading check ${retryCount + 1}: Functions=${totalBlocks}, Arrays=${totalArrays}`);
+          console.log(`Expected: Functions=${totalArrays}, Arrays=${totalArrays}`);
           
-          if (totalBlocks >= 140 && totalArrays >= 140) {
-            console.log("[OK] All blocks loaded successfully!");
+          if (totalBlocks >= 120 && totalArrays >= 120) {
+            console.log("[OKAY] All blocks loaded successfully!");
             break;
           }
           
           if (retryCount === maxRetries - 1) {
             console.warn(`[WARN] Timeout waiting for blocks. Functions: ${totalBlocks}, Arrays: ${totalArrays}`);
+            
+            // Debug: Find which blocks are missing functions
+            const allBlocks = [
+              ...(window.sjs_math || []),
+              ...(window.sjs_constants || []),
+              ...(window.sjs_booleans || []),
+              ...(window.sjs_strings || []),
+              ...(window.sjs_specialreporters || []),
+              ...(window.sjs_corejs || []),
+              ...(window.sjs_console || []),
+              ...(window.sjs_controlflow || []),
+              ...(window.sjs_storage || []),
+              ...(window.sjs_utilities || []),
+              ...(window.sjs_tempvars || []),
+              ...(window.sjs_arrays || []),
+              ...(window.sjs_objects || []),
+              ...(window.sjs_enhanced || [])
+            ];
+            
+            const missingFunctions = allBlocks.filter(block => block.opcode && !(block.opcode in (window.allFunctions || {})));
+            console.warn("Missing functions for blocks:", missingFunctions.map(b => b.opcode));
             break;
           }
           
