@@ -1,0 +1,645 @@
+OpenDocs() {
+          window.open("https://github.com/Ironbill25/JavaScript-For-Scratch/blob/main/README.md");
+        }
+        RunJS({ code }) {
+          eval(code);
+        }
+        OpenSite({ url }) {
+          window.open(url);
+        }
+        SaveFile({ name, contents }) {
+          const a = document.createElement("a");
+          a.download = name;
+          a.href = `data:text/plain;charset=utf-8,${encodeURIComponent(
+            contents,
+          )}`;
+          a.click();
+        }
+        setVar({ name, val }) {
+          eval(`${name}="${val}";`);
+        }
+        getReturnValOfJS({ code }) {
+          return eval(code);
+        }
+        stringReport({ arg1 }) {
+          return arg1;
+        }
+        whenCondition({ condit }) {
+          return Boolean(condit);
+        }
+        ifBoolStringElseString({ arg1, arg2, arg3 }) {
+          return arg1 ? arg2 : arg3;
+        }
+        outOfBoundsMouseX() {
+          return cursor_x;
+        }
+        outOfBoundsMouseY() {
+          return cursor_y;
+        }
+        outOfBoundsMouseDown() {
+          return cursor_down;
+        }
+        getCurrentDateTime({ format }) {
+          const now = new Date();
+          switch (format) {
+            case "date":
+              return now.toLocaleDateString();
+            case "time":
+              return now.toLocaleTimeString();
+            case "datetime":
+              return now.toLocaleString();
+            case "timestamp":
+              return now.getTime().toString();
+            default:
+              return now.toString();
+          }
+        }
+
+        changeCase({ text, caseType }) {
+          if (caseType === "uppercase") return text.toUpperCase();
+          if (caseType === "lowercase") return text.toLowerCase();
+          return text;
+        }
+
+        stringContains({ text, substring }) {
+          return text.includes(substring);
+        }
+
+        roundNumber({ number, decimals }) {
+          const factor = Math.pow(10, decimals);
+          return Math.round(number * factor) / factor;
+        }
+
+        textToBool({ bool }) {
+          return (
+            bool === "true" ||
+            bool === "1" ||
+            bool === "True" ||
+            (bool !== "0" && bool !== "false" && bool !== "False")
+          );
+        }
+
+        boolToText({ bool }) {
+          return new Boolean(bool).toString();
+        }
+
+        powerBlock({ base, exponent }) {
+          return Math.pow(base, exponent);
+        }
+
+        clampBlock({ value, min, max }) {
+          return Math.min(Math.max(value, min), max);
+        }
+
+        strReplaceBlock({ text, string, replace }) {
+          return text.replace(string, replace);
+        }
+
+        substringBlock({ text, start, end }) {
+          return text.substring(start - 1, end - 1); // to 0 based
+        }
+
+        reverseStringBlock({ text }) {
+          return text.split("").reverse().join("");
+        }
+
+        percentageBlock({ percentage, whole }) {
+          return (percentage / 100) * whole;
+        }
+
+        ReloadPage() {
+          location.reload();
+        }
+
+        currentProjectID() {
+          // url format: https://scratch.mit.edu/projects/{projectID}/ or https://scratch.mit.edu/projects/{projectID}/editor
+          return window.location.pathname.split("/")[2];
+        }
+
+        OpenInTurbowarp() {
+          const projectID = this.currentProjectID();
+          window.open(`https://turbowarp.org/${projectID}`, "_blank");
+        }
+
+        getUserInfo({ what }) {
+          switch (what) {
+            case "OS":
+              return navigator.platform;
+            case "browser":
+              return navigator.userAgent;
+            case "language":
+              return navigator.language;
+            case "timezone":
+              return Intl.DateTimeFormat().resolvedOptions().timeZone;
+            case "screenWidth":
+              return window.screen.width;
+            case "screenHeight":
+              return window.screen.height;
+            case "windowWidth":
+              return window.innerWidth;
+            case "windowHeight":
+              return window.innerHeight;
+            case "devicePixelRatio":
+              return window.devicePixelRatio;
+            default:
+              return "";
+          }
+        }
+
+        forInLoop({ value }, util) {
+          if (!inLoop) {
+            i = 0;
+          }
+          if (++i <= value) {
+            inLoop = true;
+            util.startBranch(1, true);
+          } else {
+            i = 0;
+            inLoop = false;
+          }
+        }
+
+        iReporter() {
+          return i;
+        }
+
+        setI({ value }) {
+          i = value;
+        }
+
+        increment({ value }) {
+          return Number(value) + 1;
+        }
+
+        decrement({ value }) {
+          return Number(value) - 1;
+        }
+
+        trueBlock() {
+          return true;
+        }
+
+        falseBlock() {
+          return false;
+        }
+
+        newlineBlock() {
+          return "\n";
+        }
+
+        tabBlock() {
+          return "\t";
+        }
+
+        moreOrEqualsBlock({ value1, value2 }) {
+          return value1 >= value2;
+        }
+
+        lessOrEqualsBlock({ value1, value2 }) {
+          return value1 <= value2;
+        }
+
+        inequalityBlock({ value1, value2 }) {
+          return value1 !== value2;
+        }
+
+        blankArray() {
+          return "[]";
+        }
+
+        addToArray({ array, value }) {
+          return JSON.stringify([...tryParse(array), value]);
+        }
+
+        getFromArray({ array, index }) {
+          return tryParse(array)[--index];
+        }
+
+        insertIntoArray({ array, index, value }) {
+          const arr = tryParse(array);
+          arr.splice(--index, 0, value);
+          return JSON.stringify(arr);
+        }
+
+        replaceInArray({ array, index, value }) {
+          const arr = tryParse(array);
+          arr[--index] = value;
+          return JSON.stringify(arr);
+        }
+
+        removeFromArray({ array, index }) {
+          const arr = tryParse(array);
+          arr.splice(--index, 1);
+          return JSON.stringify(arr);
+        }
+
+        mergeArrays({ array1, array2 }) {
+          return JSON.stringify([...tryParse(array1), ...tryParse(array2)]);
+        }
+
+        lengthOfArray({ array }) {
+          return tryParse(array).length;
+        }
+
+        arrayHas({ array, value }) {
+          return tryParse(array).includes(value);
+        }
+
+        indexOf({ array, value }) {
+          return ++(tryParse(array).indexOf(value));
+        }
+
+        splitString({ string, delimiter }) {
+          return JSON.stringify(string.split(delimiter));
+        }
+
+        joinArray({ array, delimiter }) {
+          return tryParse(array).join(delimiter);
+        }
+
+
+
+
+        blankObject() {
+          return "{}";
+        }
+
+        setInObject({ object, key, value }) {
+          const obj = tryParse(object);
+          obj[key] = value;
+          return JSON.stringify(obj);
+        }
+
+        getFromObject({ object, key }) {
+          return tryParse(object)[key];
+        }
+
+        deleteFromObject({ object, key }) {
+          const obj = tryParse(object);
+          delete obj[key];
+          return JSON.stringify(obj);
+        }
+
+        objectHasKey({ object, key }) {
+          return tryParse(object).hasOwnProperty(key);
+        }
+
+        keysOfObject({ object }) {
+          return JSON.stringify(Object.keys(tryParse(object)));
+        }
+
+        valuesOfObject({ object }) {
+          return JSON.stringify(Object.values(tryParse(object)));
+        }
+
+        entriesOfObject({ object }) {
+          return JSON.stringify(Object.entries(tryParse(object)));
+        }
+
+        sizeOfObject({ object }) {
+          return Object.keys(tryParse(object)).length;
+        }
+
+        pathInObject({ object, path }) {
+          const obj = tryParse(object);
+          const keys = tryParse(path);
+          let result = obj;
+          for (const key of keys) {
+            result = result[key];
+          }
+          if (Array.isArray(result) || typeof result === "object") {
+            return JSON.stringify(result);
+          }
+          return result;
+        }
+
+        setPathInObject({ object, path, value }) {
+          const obj = tryParse(object);
+          const keys = tryParse(path);
+          let result = obj;
+          for (let i = 0; i < keys.length - 1; i++) {
+            result = result[keys[i]];
+          }
+          result[keys[keys.length - 1]] = value;
+          return JSON.stringify(obj);
+        }
+
+        fetchSite({ url }) {
+          return fetch(url).then((res) => res.text());
+        }
+
+        logBlock({ message }) {
+          console.log(message);
+        }
+
+        warningBlock({ message }) {
+          console.warn(message);
+        }
+
+        errorBlock({ message }) {
+          console.error(message);
+        }
+
+        setLocalstorageNamespace({ namespace }) {
+          lsnamespace = namespace;
+        }
+
+        setLocalstorageKey({ key, value }) {
+          localStorage.setItem(lsnamespace + key, value);
+        }
+
+        getLocalstorageKey({ key }) {
+          return localStorage.getItem(lsnamespace + key);
+        }
+
+        removeLocalstorageKey({ key }) {
+          localStorage.removeItem(lsnamespace + key);
+        }
+
+        clearLocalstorage() {
+          localStorage.clear();
+        }
+
+        promptBlock({ message }) {
+          return prompt(message);
+        }
+
+        alertBlock({ message }) {
+          alert(message);
+        }
+
+        confirmBlock({ message }) {
+          return confirm(message);
+        }
+
+        clearConsole() {
+          console.clear();
+        }
+
+        hexToRgb({ hex }) {
+          const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+          return result ? JSON.stringify([parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]) : "[]";
+        }
+
+        rgbToHex({ r, g, b }) {
+          return "#" + ((1 << 24) + (parseInt(r) << 16) + (parseInt(g) << 8) + parseInt(b)).toString(16).slice(1);
+        }
+
+        randomColor() {
+          return "#" + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+        }
+
+        blendColors({ color1, color2, percentage }) {
+          const c1 = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color1);
+          const c2 = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color2);
+          if (!c1 || !c2) return color1;
+          
+          const factor = Math.max(0, Math.min(1, parseFloat(percentage) / 100));
+          const r = Math.round(parseInt(c1[1], 16) * (1 - factor) + parseInt(c2[1], 16) * factor);
+          const g = Math.round(parseInt(c1[2], 16) * (1 - factor) + parseInt(c2[2], 16) * factor);
+          const b = Math.round(parseInt(c1[3], 16) * (1 - factor) + parseInt(c2[3], 16) * factor);
+          
+          return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+
+        trimString({ text }) {
+          return text.trim();
+        }
+
+        padString({ text, length, character, side }) {
+          const padLength = Math.max(0, parseInt(length) - text.length);
+          const padChar = character || " ";
+          if (side === "left") return text.padStart(parseInt(length), padChar);
+          if (side === "right") return text.padEnd(parseInt(length), padChar);
+          return text;
+        }
+
+        regexMatch({ text, pattern }) {
+          try {
+            const matches = text.match(new RegExp(pattern));
+            return matches ? JSON.stringify(matches) : "[]";
+          } catch (e) {
+            return "[]";
+          }
+        }
+
+        urlEncode({ text }) {
+          return encodeURIComponent(text);
+        }
+
+        urlDecode({ text }) {
+          return decodeURIComponent(text);
+        }
+
+        fetchJson({ url }) {
+          return fetch(url).then((res) => res.json()).then((data) => JSON.stringify(data));
+        }
+
+        postRequest({ url, data }) {
+          return fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: data
+          }).then((res) => res.text());
+        }
+
+        getUrlParameter({ param }) {
+          const urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(param) || "";
+        }
+
+        currentUrl() {
+          return window.location.href;
+        }
+
+        browserHistory({ action }) {
+          if (action === "back") window.history.back();
+          if (action === "forward") window.history.forward();
+        }
+
+        copyToClipboard({ text }) {
+          navigator.clipboard.writeText(text);
+        }
+
+        readClipboard() {
+          return navigator.clipboard.readText();
+        }
+
+        toggleFullscreen() {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+          } else {
+            document.exitFullscreen();
+          }
+        }
+
+        isFullscreen() {
+          return !!document.fullscreenElement;
+        }
+
+        pageTitle() {
+          return document.title;
+        }
+
+        setPageTitle({ title }) {
+          document.title = title;
+        }
+
+        scrollPosition() {
+          return JSON.stringify([window.scrollX, window.scrollY]);
+        }
+
+        scrollTo({ x, y }) {
+          window.scrollTo(parseInt(x), parseInt(y));
+        }
+
+        setTimeoutBlock({ delay, code }) {
+          setTimeout(() => eval(code), parseInt(delay));
+        }
+
+        setIntervalBlock({ delay, code }) {
+          return setInterval(() => eval(code), parseInt(delay));
+        }
+
+        clearIntervalBlock({ intervalId }) {
+          clearInterval(parseInt(intervalId));
+        }
+
+        lastKeyPressed() {
+          return lastKey;
+        }
+
+        mouseWheelDelta() {
+          return wheelDelta;
+        }
+
+        isValidJson({ text }) {
+          try {
+            JSON.parse(text);
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }
+
+        setTemp({ key, value }) {
+          tempVariables[key] = value;
+        }
+
+        getTemp({ key }) {
+          return tempVariables[key];
+        }
+        
+        delTemp({ key }) {
+          delete tempVariables[key];
+        }
+
+        clearAllTemp() {
+          tempVariables = {};
+        }
+
+        isObject({ value }) {
+          return typeof tryParse(value) === "object";
+        }
+
+        isArray({ value }) {
+          return Array.isArray(tryParse(value));
+        }
+        
+        swapArrayItems({ index1, index2, array }) {
+          let res;
+          try {
+            res = JSON.parse(array);
+          } catch {
+            return array;
+          }
+          const temp = res[index1 - 1];
+          res[index1 - 1] = res[index2 - 1];
+          res[index2 - 1] = temp;
+          return JSON.stringify(res);
+        }
+
+        getItemsFrom({ start, end, array }) {
+          let res;
+          try {
+            res = JSON.parse(array);
+          } catch {
+            return array;
+          }
+          return JSON.stringify(res.slice(start - 1, end - 1)); // scratch is one based indexing
+        }
+
+        arrayLoop({array}, util) {
+          let parsed = tryParse(array);
+          if (!inArrLoop) {
+            arri = 0;
+          }
+          if (++arri <= parsed.length) {
+            inArrLoop = true;
+            currentArray = array;
+            currentItem = parsed[arri - 1];
+            util.startBranch(1, true);
+          } else {
+            arri = 0;
+            inArrLoop = false;
+          }
+        }
+        
+        arrayLoopItem() {
+          return currentItem;
+        }
+        
+        arrayLoopIndex() {
+          return arri;
+        }
+
+        ifBoolString({ arg1, arg2 }) {
+          if (arg1) {
+            return arg2;
+          }
+          return "";
+        }
+
+        isInt({ number }) {
+          return Number.isInteger(Number(number));
+        }
+
+        isFloat({ number }) {
+          return !Number.isInteger(Number(number));
+        }
+
+        isNumber({ number }) {
+          return !isNaN(Number(number));
+        }
+
+        isEven({ number }) {
+          return Number(number) % 2 === 0;
+        }
+        
+        isOdd({ number }) {
+          return Number(number) % 2 !== 0;
+        }
+        
+        isFinite({ number }) {
+          return isFinite(Number(number));
+        }
+
+        piBlock() {
+          return Math.PI;
+        }
+
+        eBlock() {
+          return Math.E;
+        }
+
+        infinityBlock() {
+          return Infinity;
+        }
+
+        negativeInfinityBlock() {
+          return -Infinity;
+        }
+
+        evalExpr({ expr }) {
+          return eval(expr);
+        }
