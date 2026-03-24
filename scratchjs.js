@@ -333,15 +333,18 @@ try {
       };
 
       await loadBlockFiles();
+      
       window.ScratchJS = class {
         constructor(runtime) {
           this.runtime = runtime;
         }
+        
         OpenDocs() {
           window.open(
             "https://github.com/Ironbill25/JavaScript-For-Scratch/blob/main/README.md",
           );
         }
+        
         getInfo() {
           return {
             id: "math" /* ID Math because it's one of the only valid IDs that work */,
@@ -454,6 +457,11 @@ try {
           return vars.length == 0 ? [" "] : vars;
         }
       };
+      
+      for (const [opcode, func] of Object.entries(window.allFunctions || {})) {
+        window.ScratchJS.prototype[opcode] = func;
+      }
+      
       window.sjs_userConsent = function () {
         window.sjs_hasUserConsent = true;
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
