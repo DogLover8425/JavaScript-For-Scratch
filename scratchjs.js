@@ -41,12 +41,10 @@ try {
         callback(vm);
       }
     }
-    
+
     window.sjs_toggleDevMode = (checked) => {
       devmode = checked;
     };
-
-    
 
     function warningModal() {
       let modal = document.createElement("div");
@@ -127,10 +125,17 @@ try {
 
     function devLogging(extensionInstance) {
       if (!devmode) return;
-      console.log(`ScratchJS currently has ${extensionInstance.getInfo().blocks.length} blocks!`);
+      console.log(
+        `ScratchJS currently has ${extensionInstance.getInfo().blocks.length} blocks!`,
+      );
       for (const block of extensionInstance.getInfo().blocks) {
-        if (!(block.opcode in extensionInstance) || typeof extensionInstance[block.opcode] !== 'function') {
-          console.warn(`[DEVELOPER WARNING] Missing function for block: ${block.opcode}`);
+        if (
+          !(block.opcode in extensionInstance) ||
+          typeof extensionInstance[block.opcode] !== "function"
+        ) {
+          console.warn(
+            `[DEVELOPER WARNING] Missing function for block: ${block.opcode}`,
+          );
         }
       }
     }
@@ -148,7 +153,7 @@ try {
       let cursor_x = -1,
         cursor_y = -1,
         cursor_down = false;
-      
+
       let pressedKeys = {};
       let lastKey = "";
       let wheelDelta = 0;
@@ -159,25 +164,28 @@ try {
 
       async function loadBlockFiles() {
         const blockFiles = [
-          'scratchjsblocks/math.js',
-          'scratchjsblocks/constants.js',
-          'scratchjsblocks/booleans.js',
-          'scratchjsblocks/strings.js',
-          'scratchjsblocks/specialreporters.js',
-          'scratchjsblocks/corejs.js',
-          'scratchjsblocks/console.js',
-          'scratchjsblocks/controlflow.js',
-          'scratchjsblocks/storage.js',
-          'scratchjsblocks/utilities.js',
-          'scratchjsblocks/tempvars.js',
-          'scratchjsblocks/arrays.js',
-          'scratchjsblocks/objects.js',
-          'scratchjsblocks/enhanced.js'
+          "scratchjsblocks/math.js",
+          "scratchjsblocks/constants.js",
+          "scratchjsblocks/booleans.js",
+          "scratchjsblocks/strings.js",
+          "scratchjsblocks/specialreporters.js",
+          "scratchjsblocks/corejs.js",
+          "scratchjsblocks/console.js",
+          "scratchjsblocks/controlflow.js",
+          "scratchjsblocks/storage.js",
+          "scratchjsblocks/utilities.js",
+          "scratchjsblocks/tempvars.js",
+          "scratchjsblocks/arrays.js",
+          "scratchjsblocks/objects.js",
+          "scratchjsblocks/enhanced.js",
         ];
 
         for (const file of blockFiles) {
           try {
-            const response = await fetch("https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/refs/heads/main/" + file);
+            const response = await fetch(
+              "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/refs/heads/main/" +
+                file,
+            );
             if (response.ok) {
               const code = await response.text();
               eval(code);
@@ -187,8 +195,6 @@ try {
           }
         }
       }
-
-      
 
       document.onmousemove = function (event) {
         cursor_x = event.pageX;
@@ -200,19 +206,19 @@ try {
       document.onmouseup = function (event) {
         cursor_down = false;
       };
-      
+
       document.onkeydown = function (event) {
         pressedKeys[event.key.toLowerCase()] = true;
         lastKey = event.key;
       };
-      
+
       document.onkeyup = function (event) {
         pressedKeys[event.key.toLowerCase()] = false;
       };
-      
+
       document.onwheel = function (event) {
         wheelDelta = event.deltaY;
-        setTimeout(() => wheelDelta = 0, 100);
+        setTimeout(() => (wheelDelta = 0), 100);
       };
 
       let i = 0;
@@ -235,15 +241,15 @@ try {
        */
       window.Block = (blockType, opcode, text, args, fun) => {
         window.allBlocks.push({
-        blockType: blockType || BlockType.COMMAND,
-        opcode,
-        text,
-        arguments: args,
-        args,
-        hideFromPalette: false,
-      });
+          blockType: blockType || BlockType.COMMAND,
+          opcode,
+          text,
+          arguments: args,
+          args,
+          hideFromPalette: false,
+        });
 
-      window.allFunctions[opcode] = fun;
+        window.allFunctions[opcode] = fun;
       };
 
       window.Argument = (type, defaultValue) => ({
@@ -251,7 +257,12 @@ try {
         defaultValue,
       });
 
-      window.ArgumentWithMenu = (type, defaultValue, menu, acceptReporters = true) => ({
+      window.ArgumentWithMenu = (
+        type,
+        defaultValue,
+        menu,
+        acceptReporters = true,
+      ) => ({
         type,
         defaultValue,
         menu,
@@ -298,12 +309,16 @@ try {
         SPRITE: "sprite",
         STAGE: "stage",
       };
+
+      await loadBlockFiles();
       window.ScratchJS = class {
         constructor(runtime) {
           this.runtime = runtime;
         }
         OpenDocs() {
-          window.open("https://github.com/Ironbill25/JavaScript-For-Scratch/blob/main/README.md");
+          window.open(
+            "https://github.com/Ironbill25/JavaScript-For-Scratch/blob/main/README.md",
+          );
         }
         getInfo() {
           return {
@@ -349,14 +364,14 @@ try {
                   MenuItem("time only", "time"),
                   MenuItem("timestamp", "timestamp"),
                 ],
-                "datetime"
+                "datetime",
               ),
               caseTypeMenu: Menu(
                 [
                   MenuItem("UPPERCASE", "uppercase"),
                   MenuItem("lowercase", "lowercase"),
                 ],
-                "uppercase"
+                "uppercase",
               ),
               userInfoMenu: Menu(
                 [
@@ -370,7 +385,7 @@ try {
                   MenuItem("window height", "windowHeight"),
                   MenuItem("device pixel ratio", "devicePixelRatio"),
                 ],
-                "OS"
+                "OS",
               ),
               boolOpMenu: Menu(
                 [
@@ -397,21 +412,15 @@ try {
                   MenuItem("^", "power"),
                   MenuItem("* 10^", "scientific"),
                 ],
-                "and"
+                "and",
               ),
               padSideMenu: Menu(
-                [
-                  MenuItem("left", "left"),
-                  MenuItem("right", "right"),
-                ],
-                "left"
+                [MenuItem("left", "left"), MenuItem("right", "right")],
+                "left",
               ),
               historyActionMenu: Menu(
-                [
-                  MenuItem("back", "back"),
-                  MenuItem("forward", "forward"),
-                ],
-                "back"
+                [MenuItem("back", "back"), MenuItem("forward", "forward")],
+                "back",
               ),
             },
           };
@@ -422,8 +431,7 @@ try {
             .getAllVariableNamesInScopeByType("list");
           return vars.length == 0 ? [" "] : vars;
         }
-      }
-      await loadBlockFiles();
+      };
       window.sjs_userConsent = function () {
         window.sjs_hasUserConsent = true;
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
@@ -434,7 +442,7 @@ try {
           serviceName,
         );
         devLogging(extensionInstance);
-    };
+      };
     });
   })();
 } catch (e) {
