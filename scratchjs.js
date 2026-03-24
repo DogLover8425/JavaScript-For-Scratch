@@ -188,7 +188,7 @@ try {
         }
       }
 
-      await loadBlockFiles();
+      
 
       document.onmousemove = function (event) {
         cursor_x = event.pageX;
@@ -423,6 +423,7 @@ try {
           return vars.length == 0 ? [" "] : vars;
         }
       }
+      await loadBlockFiles();
       window.sjs_userConsent = function () {
         window.sjs_hasUserConsent = true;
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
