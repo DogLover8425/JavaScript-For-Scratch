@@ -177,7 +177,7 @@ try {
 
         for (const file of blockFiles) {
           try {
-            const response = await fetch(file);
+            const response = await fetch("https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/refs/heads/main/" + file);
             if (response.ok) {
               const code = await response.text();
               eval(code);
