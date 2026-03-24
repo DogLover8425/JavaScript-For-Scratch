@@ -502,6 +502,8 @@ try {
               ...(window.sjs_objects || []),
               ...(window.sjs_enhanced || [])
             ];
+
+            console.log(allBlocks)
             
             const missingFunctions = allBlocks.filter(block => block.opcode && !(block.opcode in (window.allFunctions || {})));
             console.warn("Missing functions for blocks:", missingFunctions.map(b => b.opcode));
