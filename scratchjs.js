@@ -180,6 +180,8 @@ try {
           "scratchjsblocks/enhanced.js",
         ];
 
+        console.log("Loading block files...");
+        
         for (const file of blockFiles) {
           try {
             const response = await fetch(
@@ -189,11 +191,31 @@ try {
             if (response.ok) {
               const code = await response.text();
               eval(code);
+              console.log(`[OK] Loaded ${file}`);
+            } else {
+              console.warn(`Failed to load ${file}: ${response.status}`);
             }
           } catch (e) {
             console.warn(`Failed to load ${file}:`, e);
           }
         }
+
+        // Debug: Check what was loaded
+        console.log("Checking loaded arrays:");
+        console.log("sjs_math:", window.sjs_math?.length || "undefined");
+        console.log("sjs_constants:", window.sjs_constants?.length || "undefined");
+        console.log("sjs_booleans:", window.sjs_booleans?.length || "undefined");
+        console.log("sjs_strings:", window.sjs_strings?.length || "undefined");
+        console.log("sjs_specialreporters:", window.sjs_specialreporters?.length || "undefined");
+        console.log("sjs_corejs:", window.sjs_corejs?.length || "undefined");
+        console.log("sjs_console:", window.sjs_console?.length || "undefined");
+        console.log("sjs_controlflow:", window.sjs_controlflow?.length || "undefined");
+        console.log("sjs_storage:", window.sjs_storage?.length || "undefined");
+        console.log("sjs_utilities:", window.sjs_utilities?.length || "undefined");
+        console.log("sjs_tempvars:", window.sjs_tempvars?.length || "undefined");
+        console.log("sjs_arrays:", window.sjs_arrays?.length || "undefined");
+        console.log("sjs_objects:", window.sjs_objects?.length || "undefined");
+        console.log("sjs_enhanced:", window.sjs_enhanced?.length || "undefined");
       }
 
       document.onmousemove = function (event) {
@@ -327,33 +349,33 @@ try {
             blocks: [
               Block(BlockType.COMMAND, "OpenDocs", "Open Documentation"),
               Spacer,
-              ...window.sjs_math,
+              ...(window.sjs_math || []),
               Spacer,
-              ...window.sjs_constants,
+              ...(window.sjs_constants || []),
               Spacer,
-              ...window.sjs_booleans,
+              ...(window.sjs_booleans || []),
               Spacer,
-              ...window.sjs_strings,
+              ...(window.sjs_strings || []),
               Spacer,
-              ...window.sjs_specialreporters,
+              ...(window.sjs_specialreporters || []),
               Spacer,
-              ...window.sjs_corejs,
+              ...(window.sjs_corejs || []),
               Spacer,
-              ...window.sjs_console,
+              ...(window.sjs_console || []),
               Spacer,
-              ...window.sjs_controlflow,
+              ...(window.sjs_controlflow || []),
               Spacer,
-              ...window.sjs_storage,
+              ...(window.sjs_storage || []),
               Spacer,
-              ...window.sjs_utilities,
+              ...(window.sjs_utilities || []),
               Spacer,
-              ...window.sjs_tempvars,
+              ...(window.sjs_tempvars || []),
               Spacer,
-              ...window.sjs_arrays,
+              ...(window.sjs_arrays || []),
               Spacer,
-              ...window.sjs_objects,
+              ...(window.sjs_objects || []),
               Spacer,
-              ...window.sjs_enhanced,
+              ...(window.sjs_enhanced || []),
             ],
             menus: {
               varMenu: "getVarMenu",
