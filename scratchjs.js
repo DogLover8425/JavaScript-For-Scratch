@@ -129,13 +129,8 @@ try {
         `ScratchJS currently has ${extensionInstance.getInfo().blocks.length} blocks!`,
       );
       for (const block of extensionInstance.getInfo().blocks) {
-        if (
-          !(block.opcode in extensionInstance) ||
-          typeof extensionInstance[block.opcode] !== "function"
-        ) {
-          console.warn(
-            `[DEVELOPER WARNING] Missing function for block: ${block.opcode}`,
-          );
+        if (block.opcode && (!(block.opcode in extensionInstance) || typeof extensionInstance[block.opcode] !== 'function')) {
+          console.warn(`[DEVELOPER WARNING] Missing function for block: ${block.opcode}`);
         }
       }
     }
@@ -200,7 +195,6 @@ try {
           }
         }
 
-        // Debug: Check what was loaded
         console.log("Checking loaded arrays:");
         console.log("sjs_math:", window.sjs_math?.length || "undefined");
         console.log("sjs_constants:", window.sjs_constants?.length || "undefined");
@@ -461,7 +455,6 @@ try {
       window.sjs_userConsent = async function () {
         window.sjs_hasUserConsent = true;
         
-        // Wait for all blocks to be loaded
         let retryCount = 0;
         const maxRetries = 10;
         
@@ -493,7 +486,6 @@ try {
           if (retryCount === maxRetries - 1) {
             console.warn(`[WARN] Timeout waiting for blocks. Functions: ${totalBlocks}, Arrays: ${totalArrays}`);
             
-            // Debug: Find which blocks are missing functions
             const allBlocks = [
               ...(window.sjs_math || []),
               ...(window.sjs_constants || []),
@@ -522,7 +514,6 @@ try {
         
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
         
-        // Add all block functions to extension instance
         for (const [opcode, func] of Object.entries(window.allFunctions || {})) {
           extensionInstance[opcode] = func;
         }
