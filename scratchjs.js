@@ -346,8 +346,8 @@ try {
           return text.split("").reverse().join("");
         }
 
-        percentageBlock({ part, whole }) {
-          return (part / whole) * 100;
+        percentageBlock({ percentage, whole }) {
+          return (percentage / 100) * whole;
         }
 
         ReloadPage() {
@@ -742,6 +742,57 @@ try {
           return eval(expr);
         }
 
+        boolOperation({val1, val2, op}) {
+          switch (op) {
+            case "and":
+              return val1 && val2;
+            case "or":
+              return val1 || val2;
+            case "xor":
+              return val1 !== val2;
+            case "nand":
+              return !(val1 && val2);
+            case "nor":
+              return !(val1 || val2);
+            case "xnor":
+              return val1 === val2;
+            case "implies":
+              return !val1 || val2;
+            case "n-implies":
+              return val1 && !val2;
+            case "greater":
+              return val1 > val2;
+            case "less":
+              return val1 < val2;
+            case "greater-equal":
+              return val1 >= val2;
+            case "less-equal":
+              return val1 <= val2;
+            case "equal":
+              return val1 == val2;
+            case "not-equal":
+              return val1 != val2;
+            case "exactly-equal":
+              return val1 === val2;
+            case "add":
+              return val1 + val2;
+            case "subtract":
+              return val1 - val2;
+            case "multiply":
+              return val1 * val2;
+            case "divide":
+              return val1 / val2;
+            case "modulo":
+              return val1 % val2;
+            case "power":
+              return Math.pow(val1, val2);
+            case "scientific":
+              return Number(`${val1}e+${val2}`);
+            default:
+              return false;
+          }
+        }
+
         getInfo() {
           return {
             id: "math" /* ID Math because it's one of the only valid IDs that work */,
@@ -778,9 +829,9 @@ try {
               Block(
                 BlockType.REPORTER,
                 "percentageBlock",
-                "[part]% of [whole]",
+                "[percentage]% of [whole]",
                 {
-                  part: Argument("number", 25),
+                  percentage: Argument("number", 25),
                   whole: Argument("number", 100),
                 },
               ),
@@ -822,6 +873,11 @@ try {
               Block(BlockType.REPORTER, "infinityBlock", "∞"),
               Block(BlockType.REPORTER, "negativeInfinityBlock", "-∞"),
               Spacer, // Boolean
+              Block(BlockType.BOOLEAN, "boolOperation", "[val1] [op] [val2]", {
+                val1: Argument("string", "true"),
+                op: ArgumentWithMenu("string", "and", "boolOpMenu"),
+                val2: Argument("string", "false"),
+              }),
               Block(BlockType.BOOLEAN, "moreOrEqualsBlock", "[value1] >= [value2]", {
                 value1: Argument("number", 5),
                 value2: Argument("number", 5),
@@ -993,7 +1049,7 @@ try {
               Block(
                 BlockType.REPORTER,
                 "ifBoolStringElseString",
-                "if [arg1] then [arg2] else [arg3]",
+                "If [arg1] then [arg2] else [arg3]",
                 {
                   arg1: Argument("Boolean"),
                   arg2: Argument("string", "Hello"),
@@ -1181,6 +1237,33 @@ try {
                   MenuItem("device pixel ratio", "devicePixelRatio"),
                 ],
                 "OS"
+              ),
+              boolOpMenu: Menu(
+                [
+                  MenuItem("AND", "and"),
+                  MenuItem("OR", "or"),
+                  MenuItem("XOR", "xor"),
+                  MenuItem("NAND", "nand"),
+                  MenuItem("NOR", "nor"),
+                  MenuItem("XNOR", "xnor"),
+                  MenuItem("Implies", "implies"),
+                  MenuItem("Not-Implies", "n-implies"),
+                  MenuItem(">", "greater"),
+                  MenuItem("<", "less"),
+                  MenuItem("≥", "greater-equal"),
+                  MenuItem("≤", "less-equal"),
+                  MenuItem("=", "equal"),
+                  MenuItem("===", "exactly-equal"),
+                  MenuItem("≠", "not-equal"),
+                  MenuItem("+", "add"),
+                  MenuItem("-", "subtract"),
+                  MenuItem("×", "multiply"),
+                  MenuItem("÷", "divide"),
+                  MenuItem("%", "modulo"),
+                  MenuItem("^", "power"),
+                  MenuItem("* 10^", "scientific"),
+                ],
+                "and"
               ),
             },
           };
