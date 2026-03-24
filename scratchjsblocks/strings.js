@@ -8,7 +8,7 @@ window.sjs_strings = [
       string: Argument("string", "World"),
       replace: Argument("string", "Scratch"),
     }, 
-    ({text, string, replace}) => text.replaceAll(string, replace)
+    ({ text, string, replace }) => text.replace(string, replace)
   ),
   Block(
     BlockType.REPORTER,

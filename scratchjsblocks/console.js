@@ -14,7 +14,9 @@ window.sjs_console = [
   }, ({ message }) => {
     console.error(message);
   }),
-  Block(BlockType.COMMAND, "clearConsole", "Clear console"),
+  Block(BlockType.COMMAND, "clearConsole", "Clear console", {}, () => {
+    console.clear();
+  }),
   Block(BlockType.COMMAND, "alertBlock", "Show alert [message]", {
     message: Argument("string", "Hello World!"),
   }, ({ message }) => {

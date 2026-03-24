@@ -115,7 +115,7 @@ try {
       document.body.appendChild(modal);
     }
 
-    function tryParse(value) {
+    window.tryParse = function(value) {
       try {
         return JSON.parse(value);
       } catch {
@@ -123,7 +123,7 @@ try {
       }
     }
 
-    function devLogging(extensionInstance) {
+    window.devLogging = function(extensionInstance) {
       if (!devmode) return;
       console.log(
         `ScratchJS currently has ${extensionInstance.getInfo().blocks.length} blocks!`,
@@ -145,13 +145,13 @@ try {
 
       warningModal();
 
-      let cursor_x = -1,
-        cursor_y = -1,
-        cursor_down = false;
+      window.cursor_x = -1;
+      window.cursor_y = -1;
+      window.cursor_down = false;
 
-      let pressedKeys = {};
-      let lastKey = "";
-      let wheelDelta = 0;
+      window.pressedKeys = {};
+      window.lastKey = "";
+      window.wheelDelta = 0;
 
       window.allBlocks = [];
 
@@ -237,14 +237,14 @@ try {
         setTimeout(() => (wheelDelta = 0), 100);
       };
 
-      let i = 0;
-      let inLoop = false;
-      let arri = 0;
-      let inArrLoop = false;
-      let currentArray = "";
-      let currentItem = "";
-      let lsnamespace = "";
-      let tempVariables = {};
+      window.sjs_i = 0;
+      window.sjs_inLoop = false;
+      window.sjs_arri = 0;
+      window.sjs_inArrLoop = false;
+      window.sjs_currentArray = "";
+      window.sjs_currentItem = "";
+      window.sjs_lsnamespace = "";
+      window.sjs_tempVariables = {};
 
       /**
        * Block factory function. Creates a block object with the given parameters.

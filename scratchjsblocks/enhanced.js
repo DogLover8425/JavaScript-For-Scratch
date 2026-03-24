@@ -12,7 +12,9 @@ window.sjs_enhanced = [
   }, ({ r, g, b }) => {
     return "#" + ((1 << 24) + (parseInt(r) << 16) + (parseInt(g) << 8) + parseInt(b)).toString(16).slice(1);
   }),
-  Block(BlockType.REPORTER, "randomColor", "Random color"),
+  Block(BlockType.REPORTER, "randomColor", "Random color", {}, () => {
+    return "#" + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+  }),
   Block(BlockType.REPORTER, "blendColors", "Blend [color1] and [color2] by [percentage]%", {
     color1: Argument("string", "#FF0000"),
     color2: Argument("string", "#0000FF"),

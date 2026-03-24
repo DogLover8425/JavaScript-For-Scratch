@@ -26,28 +26,28 @@ window.sjs_math = [
   }, ({ percentage, whole }) => (percentage / 100) * whole),
   Block(BlockType.REPORTER, "increment", "[value]++", {
     value: Argument("number", 5),
-  }, ({ value }) => value + 1),
+  }, ({ value }) => Number(value) + 1),
   Block(BlockType.REPORTER, "decrement", "[value]--", {
     value: Argument("number", 5),
-  }, ({ value }) => value - 1),
+  }, ({ value }) => Number(value) - 1),
   Block(BlockType.BOOLEAN, "isEven", "[number] is even", {
     number: Argument("number", 4),
-  }, ({ number }) => number % 2 === 0),
+  }, ({ number }) => Number(number) % 2 === 0),
   Block(BlockType.BOOLEAN, "isOdd", "[number] is odd", {
     number: Argument("number", 3),
-  }, ({ number }) => number % 2 !== 0),
+  }, ({ number }) => Number(number) % 2 !== 0),
   Block(BlockType.BOOLEAN, "isInt", "[number] is an integer", {
     number: Argument("number", 3.14),
-  }, ({ number }) => Number.isInteger(number)),
+  }, ({ number }) => Number.isInteger(Number(number))),
   Block(BlockType.BOOLEAN, "isFinite", "[number] is finite", {
     number: Argument("number", 3.14),
-  }, ({ number }) => Number.isFinite(number)),
+  }, ({ number }) => isFinite(Number(number))),
   Block(BlockType.BOOLEAN, "isNumber", "[number] is a number", {
     number: Argument("number", 6),
-  }, ({ number }) => typeof number === "number" && !isNaN(number)),
+  }, ({ number }) => !isNaN(Number(number))),
   Block(BlockType.BOOLEAN, "isFloat", "[number] has decimals", {
     number: Argument("number", 2.71),
-  }, ({ number }) => !Number.isInteger(number)),
+  }, ({ number }) => !Number.isInteger(Number(number))),
   Block(BlockType.REPORTER, "evalExpr", "Evaluate math [expr]", {
     expr: Argument("string", "2 + 2"),
   }, ({ expr }) => eval(expr)),

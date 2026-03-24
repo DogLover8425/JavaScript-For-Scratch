@@ -4,14 +4,27 @@ window.sjs_controlflow = [
       type: "Boolean",
       defaultValue: "Put any boolean block here",
     },
+  }, ({ condit }) => {
+    return Boolean(condit);
   }),
   Block(BlockType.LOOP, "forInLoop", "For i in [value]", {
     value: Argument("string", "10"),
+  }, ({ value }, util) => {
+    if (!window.sjs_inLoop) {
+      window.sjs_i = 0;
+    }
+    if (++window.sjs_i <= value) {
+      window.sjs_inLoop = true;
+      util.startBranch(1, true);
+    } else {
+      window.sjs_i = 0;
+      window.sjs_inLoop = false;
+    }
   }),
-  Block(BlockType.REPORTER, "iReporter", "i"),
+  Block(BlockType.REPORTER, "iReporter", "i", {}, () => window.sjs_i),
   Block(BlockType.COMMAND, "setI", "Set i to [value]", {
     value: Argument("number", 0),
   }, ({ value }) => {
-    i = value;
+    window.sjs_i = value;
   }),
 ];
