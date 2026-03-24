@@ -461,6 +461,8 @@ try {
       for (const [opcode, func] of Object.entries(window.allFunctions || {})) {
         window.ScratchJS.prototype[opcode] = func;
       }
+
+      console.log("TEMP DEV TEST MESSAGE")
       
       window.sjs_userConsent = function () {
         window.sjs_hasUserConsent = true;
