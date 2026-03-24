@@ -685,7 +685,7 @@ try {
             return "[]";
           }
         }
-        
+
         urlEncode({ text }) {
           return encodeURIComponent(text);
         }
@@ -1251,7 +1251,7 @@ try {
                 bool: Argument("Boolean"),
               }),
               Spacer, // Temporary variables
-              Block(BlockType.REPORTER, "setTemp", "Set temporary [key] to [value]", {
+              Block(BlockType.COMMAND, "setTemp", "Set temporary [key] to [value]", {
                 key: Argument("string", "key"),
                 value: Argument("string", "value"),
               }),
