@@ -179,12 +179,17 @@ try {
         
         for (const file of blockFiles) {
           try {
+            const timestamp = Date.now();
             const response = await fetch(
               "https://cdn.jsdelivr.net/gh/Ironbill25/JavaScript-For-Scratch@refs/heads/main/" +
-                file,
+                file + "?t=" + timestamp,
             );
             if (response.ok) {
               const code = await response.text();
+              console.log(`[DEBUG] ${file} content length: ${code.length}`);
+              if (code.includes("window.sjs_arrays") && file.includes("arrays.js")) {
+                console.log(`[DEBUG] Found ${code.match(/Block\(/g)?.length || 0} blocks in arrays.js`);
+              }
               eval(code);
               console.log(`[OK] Loaded ${file}`);
             } else {
