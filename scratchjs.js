@@ -186,10 +186,6 @@ try {
             );
             if (response.ok) {
               const code = await response.text();
-              console.log(`[DEBUG] ${file} content length: ${code.length}`);
-              if (code.includes("window.sjs_arrays") && file.includes("arrays.js")) {
-                console.log(`[DEBUG] Found ${code.match(/Block\(/g)?.length || 0} blocks in arrays.js`);
-              }
               eval(code);
               console.log(`[OK] Loaded ${file}`);
             } else {
@@ -485,7 +481,7 @@ try {
           
           if (totalBlocks >= 120 && totalArrays >= 120) {
             console.log("[OKAY] All blocks loaded successfully!");
-            break;
+            // break;
           }
           
           if (retryCount === maxRetries - 1) {
