@@ -267,6 +267,7 @@ try {
         });
 
         window.allFunctions[opcode] = fun;
+        return window.allBlocks[window.allBlocks.length - 1];
       };
 
       window.Argument = (type, defaultValue) => ({
