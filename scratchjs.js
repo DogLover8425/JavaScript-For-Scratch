@@ -350,6 +350,9 @@ try {
           return {
             id: "math" /* ID Math because it's one of the only valid IDs that work */,
             name: "ScratchJS",
+            color1: "#FF6600",
+            color2: "#E65C00",
+            color3: "#CC5200",
             blocks: [
               Block(BlockType.COMMAND, "OpenDocs", "Open Documentation"),
               Spacer,
