@@ -41,7 +41,7 @@ window.sjs_arrays = [
   Block(BlockType.REPORTER, "lengthOfArray", "ARRAY | Length of array [array]", {
     array: Argument("string", "[\"Apple\", \"Banana\"]"),
   }, ({ array }) => tryParse(array).length),
-  Block(BlockType.BOOLEAN, "ARRAY | Array [array] contains [value]", {
+  Block(BlockType.BOOLEAN, "arrayHas", "ARRAY | Array [array] contains [value]", {
     array: Argument("string", "[\"Apple\", \"Banana\"]"),
     value: Argument("string", "Carrot"),
   }, ({ array, value }) => tryParse(array).includes(value)),

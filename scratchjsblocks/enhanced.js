@@ -90,7 +90,9 @@ window.sjs_enhanced = [
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param) || "";
   }),
-  Block(BlockType.REPORTER, "currentUrl", "Current page URL"),
+  Block(BlockType.REPORTER, "currentUrl", "Current page URL", {}, () => {
+    return window.location.href;
+  }),
   Block(BlockType.COMMAND, "browserHistory", "Browser history [action]", {
     action: ArgumentWithMenu("string", "back", "historyActionMenu"),
   }, ({ action }) => {
@@ -102,16 +104,30 @@ window.sjs_enhanced = [
   }, ({ text }) => {
     navigator.clipboard.writeText(text);
   }),
-  Block(BlockType.REPORTER, "readClipboard", "Read from clipboard"),
-  Block(BlockType.COMMAND, "toggleFullscreen", "Toggle fullscreen"),
-  Block(BlockType.BOOLEAN, "isFullscreen", "Is fullscreen?"),
-  Block(BlockType.REPORTER, "pageTitle", "Page title"),
+  Block(BlockType.REPORTER, "readClipboard", "Read from clipboard", {}, () => {
+    return navigator.clipboard.readText();
+  }),
+  Block(BlockType.COMMAND, "toggleFullscreen", "Toggle fullscreen", {}, () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  }),
+  Block(BlockType.BOOLEAN, "isFullscreen", "Is fullscreen?", {}, () => {
+    return !!document.fullscreenElement;
+  }),
+  Block(BlockType.REPORTER, "pageTitle", "Page title", {}, () => {
+    return document.title;
+  }),
   Block(BlockType.COMMAND, "setPageTitle", "Set page title to [title]", {
     title: Argument("string", "My Scratch Project"),
   }, ({ title }) => {
     document.title = title;
   }),
-  Block(BlockType.REPORTER, "scrollPosition", "Scroll position"),
+  Block(BlockType.REPORTER, "scrollPosition", "Scroll position", {}, () => {
+    return JSON.stringify([window.scrollX, window.scrollY]);
+  }),
   Block(BlockType.COMMAND, "scrollTo", "Scroll to [x][y]", {
     x: Argument("number", 0),
     y: Argument("number", 0),
@@ -135,8 +151,12 @@ window.sjs_enhanced = [
   }, ({ intervalId }) => {
     clearInterval(parseInt(intervalId));
   }),
-  Block(BlockType.REPORTER, "lastKeyPressed", "Last key pressed"),
-  Block(BlockType.REPORTER, "mouseWheelDelta", "Mouse wheel delta"),
+  Block(BlockType.REPORTER, "lastKeyPressed", "Last key pressed", {}, () => {
+    return window.sjs_lastKey;
+  }),
+  Block(BlockType.REPORTER, "mouseWheelDelta", "Mouse wheel delta", {}, () => {
+    return window.sjs_wheelDelta;
+  }),
   Block(BlockType.BOOLEAN, "isValidJson", "Is [text] valid JSON?", {
     text: Argument("string", "{\"key\":\"value\"}"),
   }, ({ text }) => {

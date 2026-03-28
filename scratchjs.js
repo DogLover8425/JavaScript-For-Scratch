@@ -227,6 +227,7 @@ try {
       document.onkeydown = function (event) {
         pressedKeys[event.key.toLowerCase()] = true;
         lastKey = event.key;
+        window.sjs_lastKey = event.key;
       };
 
       document.onkeyup = function (event) {
@@ -235,7 +236,11 @@ try {
 
       document.onwheel = function (event) {
         wheelDelta = event.deltaY;
-        setTimeout(() => (wheelDelta = 0), 100);
+        window.sjs_wheelDelta = event.deltaY;
+        setTimeout(() => {
+          wheelDelta = 0;
+          window.sjs_wheelDelta = 0;
+        }, 100);
       };
 
       window.sjs_i = 0;

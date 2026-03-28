@@ -13,16 +13,26 @@ window.sjs_corejs = [
     what: ArgumentWithMenu("string", "OS", "userInfoMenu"),
   }, ({ what }) => {
     switch (what) {
-      case "OS": return navigator.platform;
-      case "browser": return navigator.userAgent;
-      case "language": return navigator.language;
-      case "timezone": return Intl.DateTimeFormat().resolvedOptions().timeZone;
-      case "screenWidth": return screen.width;
-      case "screenHeight": return screen.height;
-      case "windowWidth": return window.innerWidth;
-      case "windowHeight": return window.innerHeight;
-      case "devicePixelRatio": return window.devicePixelRatio;
-      default: return "";
+      case "OS":
+        return navigator.platform;
+      case "browser":
+        return navigator.userAgent;
+      case "language":
+        return navigator.language;
+      case "timezone":
+        return Intl.DateTimeFormat().resolvedOptions().timeZone;
+      case "screenWidth":
+        return window.screen.width;
+      case "screenHeight":
+        return window.screen.height;
+      case "windowWidth":
+        return window.innerWidth;
+      case "windowHeight":
+        return window.innerHeight;
+      case "devicePixelRatio":
+        return window.devicePixelRatio;
+      default:
+        return "";
     }
   }),
   Spacer, // Web/extra JS
@@ -32,18 +42,13 @@ window.sjs_corejs = [
     window.open(url);
   }),
   Block(BlockType.COMMAND, "OpenInTurbowarp", "Open this project in Turbowarp", {}, () => {
-    const projectId = window.location.pathname.split("/")[2];
-    window.open(`https://turbowarp.org/${projectId}`);
+    const projectID = window.location.pathname.split("/")[2];
+    window.open(`https://turbowarp.org/${projectID}`, "_blank");
   }),
   Block(BlockType.REPORTER, "fetchSite", "Fetch site [url]", {
     url: Argument("string", "https://example.com"),
-  }, async ({ url }) => {
-    try {
-      const response = await fetch(url);
-      return await response.text();
-    } catch (e) {
-      return "Error: " + e.message;
-    }
+  }, ({ url }) => {
+    return fetch(url).then((res) => res.text());
   }),
   Block(BlockType.COMMAND, "ReloadPage", "Reload page", {}, () => {
     location.reload();
