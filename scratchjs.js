@@ -61,7 +61,7 @@ try {
       <br>Please make sure you trust the creator of this project.\
       <br>If you don't trust this project, click "Cancel".
       </p>
-      <button onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">OK</button>
+      <button id="scratchjs-ok-button" disabled onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">Please wait, extension is loading</button>
       <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button>
       <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
       <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>`;
@@ -77,6 +77,12 @@ try {
           border: 1px solid #ddd;
           cursor: pointer;
           display: inline-block;
+        }
+
+        #scratchjs-warning-modal button:disabled {
+          background-color: #cccccc;
+          cursor: not-allowed;
+          opacity: 0.7;
         }
 
         #scratchjs-warning-modal p {
@@ -177,6 +183,11 @@ try {
 
         console.log("Loading block files...");
         
+        const loadingButton = document.getElementById('scratchjs-ok-button');
+        if (loadingButton) {
+          loadingButton.textContent = 'Loading blocks...';
+        }
+        
         for (const file of blockFiles) {
           try {
             const timestamp = Date.now();
@@ -196,7 +207,7 @@ try {
           }
         }
 
-        console.log("Checking loaded arrays:");
+        console.log("Checking arrays:");
         console.log("sjs_math:", window.sjs_math?.length || "undefined");
         console.log("sjs_constants:", window.sjs_constants?.length || "undefined");
         console.log("sjs_booleans:", window.sjs_booleans?.length || "undefined");
@@ -211,6 +222,12 @@ try {
         console.log("sjs_arrays:", window.sjs_arrays?.length || "undefined");
         console.log("sjs_objects:", window.sjs_objects?.length || "undefined");
         console.log("sjs_enhanced:", window.sjs_enhanced?.length || "undefined");
+
+        const readyButton = document.getElementById('scratchjs-ok-button');
+        if (readyButton) {
+          readyButton.disabled = false;
+          readyButton.textContent = 'OK';
+        }
       }
 
       document.onmousemove = function (event) {
@@ -466,36 +483,11 @@ try {
         window.sjs_hasUserConsent = true;
         
         let retryCount = 0;
-        const maxRetries = 10;
+        const maxRetries = 3;
         
         while (retryCount < maxRetries) {
-          const totalBlocks = Object.keys(window.allFunctions || {}).length;
-          const totalArrays = (window.sjs_math?.length || 0) + 
-                           (window.sjs_constants?.length || 0) + 
-                           (window.sjs_booleans?.length || 0) + 
-                           (window.sjs_strings?.length || 0) + 
-                           (window.sjs_specialreporters?.length || 0) + 
-                           (window.sjs_corejs?.length || 0) + 
-                           (window.sjs_console?.length || 0) + 
-                           (window.sjs_controlflow?.length || 0) + 
-                           (window.sjs_storage?.length || 0) + 
-                           (window.sjs_utilities?.length || 0) + 
-                           (window.sjs_tempvars?.length || 0) + 
-                           (window.sjs_arrays?.length || 0) + 
-                           (window.sjs_objects?.length || 0) + 
-                           (window.sjs_enhanced?.length || 0);
-          
-          console.log(`Loading check ${retryCount + 1}: Functions=${totalBlocks}, Arrays=${totalArrays}`);
-          console.log(`Expected: Functions=${totalArrays}, Arrays=${totalArrays}`);
-          
-          if (totalBlocks >= 120 && totalArrays >= 120) {
-            console.log("[OKAY] All blocks loaded successfully!");
-            // break;
-          }
           
           if (retryCount === maxRetries - 1) {
-            console.warn(`[WARN] Timeout waiting for blocks. Functions: ${totalBlocks}, Arrays: ${totalArrays}`);
-            
             const allBlocks = [
               ...(window.sjs_math || []),
               ...(window.sjs_constants || []),
