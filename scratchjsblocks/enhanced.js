@@ -157,14 +157,4 @@ window.sjs_enhanced = [
   Block(BlockType.REPORTER, "mouseWheelDelta", "Mouse wheel delta", {}, () => {
     return window.sjs_wheelDelta;
   }),
-  Block(BlockType.BOOLEAN, "isValidJson", "Is [text] valid JSON?", {
-    text: Argument("string", "{\"key\":\"value\"}"),
-  }, ({ text }) => {
-    try {
-      JSON.parse(text);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }),
 ];

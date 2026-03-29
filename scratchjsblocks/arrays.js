@@ -1,4 +1,15 @@
 window.sjs_arrays = [
+    Block(BlockType.BOOLEAN, "isValidJson", "Is [text] valid JSON?", {
+    text: Argument("string", "{\"key\":\"value\"}"),
+  }, ({ text }) => {
+    try {
+      JSON.parse(text);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }),
+  Spacer,
   Block(BlockType.REPORTER, "blankArray", "ARRAY | Blank array", {}, () => "[]"),
   Block(BlockType.REPORTER, "addToArray", "ARRAY | Append [value] to array [array]", {
     value: Argument("string", "Hello"),
@@ -48,7 +59,10 @@ window.sjs_arrays = [
   Block(BlockType.REPORTER, "indexOf", "ARRAY | Index of [value] in array [array]", {
     value: Argument("string", "Hello"),
     array: Argument("string", "[\"Apple\"]"),
-  }, ({ array, value }) => ++(tryParse(array).indexOf(value))),
+  }, ({ array, value }) => {
+    const index = tryParse(array).indexOf(value);
+    return index === -1 ? 0 : index + 1;
+  }),
   Block(BlockType.REPORTER, "splitString", "ARRAY | Split [string] by [delimiter] into array", {
     string: Argument("string", "Hello, World"),
     delimiter: Argument("string", ","),
