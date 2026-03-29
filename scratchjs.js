@@ -179,6 +179,9 @@ try {
           "scratchjsblocks/arrays.js",
           "scratchjsblocks/objects.js",
           "scratchjsblocks/data.js",
+          "scratchjsblocks/games.js",
+          "scratchjsblocks/datetime.js",
+          "scratchjsblocks/statistics.js",
           "scratchjsblocks/browser.js",
           "scratchjsblocks/color.js",
           "scratchjsblocks/input.js",
@@ -466,6 +469,12 @@ try {
               Spacer,
               ...(window.sjs_data || []),
               Spacer,
+              ...(window.sjs_games || []),
+              Spacer,
+              ...(window.sjs_datetime || []),
+              Spacer,
+              ...(window.sjs_statistics || []),
+              Spacer,
               ...(window.sjs_browser || []),
               Spacer,
               ...(window.sjs_color || []),
@@ -554,6 +563,25 @@ try {
               hashAlgorithmMenu: Menu(
                 [MenuItem("simple", "simple")],
                 "simple",
+              ),
+              diceSidesMenu: Menu(
+                [MenuItem("4", "4"), MenuItem("6", "6"), MenuItem("8", "8"), MenuItem("10", "10"), 
+                 MenuItem("12", "12"), MenuItem("20", "20"), MenuItem("100", "100")],
+                "6",
+              ),
+              passwordOptionsMenu: Menu(
+                [MenuItem("letters", "letters"), MenuItem("numbers", "numbers"), 
+                 MenuItem("letters+numbers", "letters+numbers"), MenuItem("all", "all")],
+                "letters+numbers",
+              ),
+              rpsMenu: Menu(
+                [MenuItem("rock", "rock"), MenuItem("paper", "paper"), MenuItem("scissors", "scissors")],
+                "rock",
+              ),
+              dateFormatMenu: Menu(
+                [MenuItem("MM/DD/YYYY", "MM/DD/YYYY"), MenuItem("DD/MM/YYYY", "DD/MM/YYYY"), 
+                 MenuItem("YYYY-MM-DD", "YYYY-MM-DD"), MenuItem("Month DD, YYYY", "Month DD, YYYY")],
+                "MM/DD/YYYY",
               ),
             },
           };
