@@ -268,6 +268,28 @@ try {
       window.sjs_currentItem = "";
       window.sjs_lsnamespace = "";
       window.sjs_tempVariables = {};
+      
+      window.sjs_errorCount = 0;
+      window.sjs_errorLog = [];
+      window.sjs_maxErrors = 50;
+      
+      window.sjs_getErrorStats = function() {
+        return {
+          totalErrors: window.sjs_errorCount,
+          recentErrors: window.sjs_errorLog.length,
+          errorLog: [...window.sjs_errorLog],
+          mostCommonError: window.sjs_errorLog.reduce((acc, err) => {
+            acc[err.error] = (acc[err.error] || 0) + 1;
+            return acc;
+          }, {})
+        };
+      };
+      
+      window.sjs_clearErrorLog = function() {
+        window.sjs_errorCount = 0;
+        window.sjs_errorLog = [];
+        console.log("[ScratchJS] Error log cleared");
+      };
 
       /**
        * Block factory function. Creates a block object with the given parameters.
@@ -288,7 +310,45 @@ try {
           hideFromPalette: false,
         });
 
-        window.allFunctions[opcode] = fun;
+        const wrappedFunction = function(...args) {
+          try {
+            return fun.apply(this, args);
+          } catch (error) {
+            window.sjs_errorCount++;
+            
+            const errorInfo = {
+              opcode,
+              blockType,
+              error: error.message,
+              timestamp: new Date().toISOString(),
+              args: args.length
+            };
+            
+            window.sjs_errorLog.unshift(errorInfo);
+            if (window.sjs_errorLog.length > window.sjs_maxErrors) {
+              window.sjs_errorLog = window.sjs_errorLog.slice(0, window.sjs_maxErrors);
+            }
+
+            console.error(`[ScratchJS] A block has thrown an error! Please report this to the developer at https://github.com/Ironbill25/JavaScript-For-Scratch/issues`)
+            console.error(`[ScratchJS] Error #${window.sjs_errorCount}: Block "${opcode}" (${blockType}) failed:`, error);
+            console.error(`[ScratchJS] Arguments received: ${args.length} | Error: ${error.message}`);
+            
+            switch (blockType) {
+              case BlockType.REPORTER:
+                return `Error: ${error.message}`;
+              case BlockType.BOOLEAN:
+                return false;
+              case BlockType.COMMAND:
+              case BlockType.HAT:
+              case BlockType.LOOP:
+                return undefined;
+              default:
+                return null;
+            }
+          }
+        };
+
+        window.allFunctions[opcode] = wrappedFunction;
         return window.allBlocks[window.allBlocks.length - 1];
       };
 
