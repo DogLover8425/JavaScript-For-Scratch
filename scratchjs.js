@@ -178,6 +178,11 @@ try {
           "scratchjsblocks/tempvars.js",
           "scratchjsblocks/arrays.js",
           "scratchjsblocks/objects.js",
+          "scratchjsblocks/data.js",
+          "scratchjsblocks/browser.js",
+          "scratchjsblocks/color.js",
+          "scratchjsblocks/input.js",
+          "scratchjsblocks/timing.js",
           "scratchjsblocks/enhanced.js",
         ];
 
@@ -459,6 +464,16 @@ try {
               Spacer,
               ...(window.sjs_objects || []),
               Spacer,
+              ...(window.sjs_data || []),
+              Spacer,
+              ...(window.sjs_browser || []),
+              Spacer,
+              ...(window.sjs_color || []),
+              Spacer,
+              ...(window.sjs_input || []),
+              Spacer,
+              ...(window.sjs_timing || []),
+              Spacer,
               ...(window.sjs_enhanced || []),
             ],
             menus: {
@@ -527,6 +542,18 @@ try {
               historyActionMenu: Menu(
                 [MenuItem("back", "back"), MenuItem("forward", "forward")],
                 "back",
+              ),
+              httpMethodMenu: Menu(
+                [MenuItem("GET", "GET"), MenuItem("POST", "POST"), MenuItem("PUT", "PUT"), MenuItem("DELETE", "DELETE")],
+                "GET",
+              ),
+              timeFormatMenu: Menu(
+                [MenuItem("ISO", "ISO"), MenuItem("local", "local"), MenuItem("date", "date"), MenuItem("time", "time"), MenuItem("unix", "unix")],
+                "ISO",
+              ),
+              hashAlgorithmMenu: Menu(
+                [MenuItem("simple", "simple")],
+                "simple",
               ),
             },
           };
