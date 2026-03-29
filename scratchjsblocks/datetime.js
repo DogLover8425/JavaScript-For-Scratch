@@ -1,7 +1,7 @@
 window.sjs_datetime = [
   Block(BlockType.REPORTER, "addDays", "Add [days] days to [date]", {
     days: Argument("number", 7),
-    date: Argument("string", "2024-01-01"),
+    date: Argument("string", "2026-01-01"),
   }, ({ days, date }) => {
     try {
       const d = new Date(date);
@@ -14,7 +14,7 @@ window.sjs_datetime = [
   
   Block(BlockType.REPORTER, "subtractDays", "Subtract [days] days from [date]", {
     days: Argument("number", 7),
-    date: Argument("string", "2024-01-01"),
+    date: Argument("string", "2026-01-01"),
   }, ({ days, date }) => {
     try {
       const d = new Date(date);
@@ -26,7 +26,7 @@ window.sjs_datetime = [
   }),
   
   Block(BlockType.REPORTER, "getDayOfWeek", "Day of week for [date]", {
-    date: Argument("string", "2024-01-01"),
+    date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
       const d = new Date(date);
@@ -38,7 +38,7 @@ window.sjs_datetime = [
   }),
   
   Block(BlockType.REPORTER, "getMonthName", "Month name for [date]", {
-    date: Argument("string", "2024-01-01"),
+    date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
       const d = new Date(date);
@@ -69,7 +69,7 @@ window.sjs_datetime = [
   }),
   
   Block(BlockType.REPORTER, "countdown", "Days until [targetDate]", {
-    targetDate: Argument("string", "2024-12-25"),
+    targetDate: Argument("string", "2026-12-25"),
   }, ({ targetDate }) => {
     try {
       const target = new Date(targetDate);
@@ -97,7 +97,7 @@ window.sjs_datetime = [
   }),
   
   Block(BlockType.REPORTER, "getWeekNumber", "Week number for [date]", {
-    date: Argument("string", "2024-01-01"),
+    date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
       const d = new Date(date);
@@ -110,7 +110,7 @@ window.sjs_datetime = [
   }),
   
   Block(BlockType.REPORTER, "getQuarter", "Quarter for [date]", {
-    date: Argument("string", "2024-01-01"),
+    date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
       const d = new Date(date);
@@ -121,7 +121,7 @@ window.sjs_datetime = [
   }),
   
   Block(BlockType.BOOLEAN, "isWeekend", "Is [date] a weekend?", {
-    date: Argument("string", "2024-01-01"),
+    date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
       const d = new Date(date);
@@ -133,7 +133,7 @@ window.sjs_datetime = [
   }),
   
   Block(BlockType.REPORTER, "getDaysInMonth", "Days in month for [date]", {
-    date: Argument("string", "2024-01-01"),
+    date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
       const d = new Date(date);
@@ -146,7 +146,7 @@ window.sjs_datetime = [
   }),
   
   Block(BlockType.REPORTER, "formatDate", "Format [date] as [format]", {
-    date: Argument("string", "2024-01-01"),
+    date: Argument("string", "2026-01-01"),
     format: ArgumentWithMenu("string", "MM/DD/YYYY", "dateFormatMenu"),
   }, ({ date, format }) => {
     try {
@@ -175,7 +175,7 @@ window.sjs_datetime = [
   }),
   
   Block(BlockType.REPORTER, "getTimeAgo", "Time ago from [timestamp]", {
-    timestamp: Argument("number", 1640995200000),
+    timestamp: Argument("number", 1761995200000),
   }, ({ timestamp }) => {
     try {
       const past = new Date(parseInt(timestamp));

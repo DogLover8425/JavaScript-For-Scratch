@@ -5,10 +5,6 @@ window.sjs_games = [
     return Math.floor(Math.random() * parseInt(sides)) + 1;
   }),
   
-  Block(BlockType.BOOLEAN, "flipCoin", "Flip coin", {}, () => {
-    return Math.random() < 0.5 ? "heads" : "tails";
-  }),
-  
   Block(BlockType.REPORTER, "randomChoice", "Random choice from [choices]", {
     choices: Argument("string", '["rock","paper","scissors"]'),
   }, ({ choices }) => {
@@ -103,15 +99,6 @@ window.sjs_games = [
     return winConditions[player] === opponent;
   }),
   
-  Block(BlockType.REPORTER, "randomInRange", "Random number between [min] and [max]", {
-    min: Argument("number", 1),
-    max: Argument("number", 100),
-  }, ({ min, max }) => {
-    const minVal = parseInt(min);
-    const maxVal = parseInt(max);
-    return Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
-  }),
-  
   Block(BlockType.BOOLEAN, "chance", "[percent]% chance", {
     percent: Argument("number", 50),
   }, ({ percent }) => {
@@ -144,18 +131,6 @@ window.sjs_games = [
     } catch (e) {
       return "";
     }
-  }),
-  
-  Block(BlockType.BOOLEAN, "isEven", "Is [number] even?", {
-    number: Argument("number", 4),
-  }, ({ number }) => {
-    return parseInt(number) % 2 === 0;
-  }),
-  
-  Block(BlockType.BOOLEAN, "isOdd", "Is [number] odd?", {
-    number: Argument("number", 3),
-  }, ({ number }) => {
-    return parseInt(number) % 2 !== 0;
   }),
   
   Block(BlockType.REPORTER, "diceRollSum", "Roll [dice]d[sides] dice", {
