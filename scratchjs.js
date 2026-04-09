@@ -164,55 +164,27 @@ try {
       window.allFunctions = {};
 
       async function loadBlockFiles() {
-        const blockFiles = [
-          "scratchjsblocks/math.js",
-          "scratchjsblocks/constants.js",
-          "scratchjsblocks/booleans.js",
-          "scratchjsblocks/strings.js",
-          "scratchjsblocks/specialreporters.js",
-          "scratchjsblocks/corejs.js",
-          "scratchjsblocks/console.js",
-          "scratchjsblocks/controlflow.js",
-          "scratchjsblocks/storage.js",
-          "scratchjsblocks/utilities.js",
-          "scratchjsblocks/tempvars.js",
-          "scratchjsblocks/arrays.js",
-          "scratchjsblocks/objects.js",
-          "scratchjsblocks/data.js",
-          "scratchjsblocks/games.js",
-          "scratchjsblocks/datetime.js",
-          "scratchjsblocks/statistics.js",
-          "scratchjsblocks/browser.js",
-          "scratchjsblocks/color.js",
-          "scratchjsblocks/input.js",
-          "scratchjsblocks/timing.js",
-          "scratchjsblocks/enhanced.js",
-        ];
-
-        console.log("Loading block files...");
+        console.log("Loading blocks file...");
         
         const loadingButton = document.getElementById('scratchjs-ok-button');
         if (loadingButton) {
           loadingButton.textContent = 'Loading blocks...';
         }
         
-        for (const file of blockFiles) {
-          try {
-            const timestamp = Date.now();
-            const response = await fetch(
-              "https://cdn.jsdelivr.net/gh/Ironbill25/JavaScript-For-Scratch@refs/heads/main/" +
-                file + "?t=" + timestamp,
-            );
-            if (response.ok) {
-              const code = await response.text();
-              eval(code);
-              console.log(`[OK] Loaded ${file}`);
-            } else {
-              console.warn(`Failed to load ${file}: ${response.status}`);
-            }
-          } catch (e) {
-            console.warn(`Failed to load ${file}:`, e);
+        try {
+          const timestamp = Date.now();
+          const response = await fetch(
+            "https://cdn.jsdelivr.net/gh/Ironbill25/JavaScript-For-Scratch@refs/heads/main/dist/bundle.js?t=" + timestamp,
+          );
+          if (response.ok) {
+            const code = await response.text();
+            eval(code);
+            console.log("[OK] Loaded bundled blocks");
+          } else {
+            console.warn(`Failed to load bundle: ${response.status}`);
           }
+        } catch (e) {
+          console.warn(`Failed to load bundle:`, e);
         }
 
         console.log("Checking arrays:");
