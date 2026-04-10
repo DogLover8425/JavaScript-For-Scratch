@@ -46,7 +46,16 @@ try {
       devmode = checked;
     };
 
+    window.sjs_dontShowAgain = (checked) => {
+      localStorage.setItem("scratchjs_dontShowAgain", checked);
+    };
+
     function warningModal() {
+      const dontShowAgain = localStorage.getItem("scratchjs_dontShowAgain") === "true";
+      if (dontShowAgain) {
+        window.sjs_userConsent();
+        return;
+      }
       let modal = document.createElement("div");
       modal.innerHTML = `<span>Warning!</span>
       <p>This extension has access to advanced features. 
@@ -64,7 +73,11 @@ try {
       <button id="scratchjs-ok-button" disabled onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">Please wait, extension is loading</button>
       <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button>
       <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
-      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>`;
+      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>
+      <br>
+      <input type="checkbox" id="scratchjs-dontshowagain-checkbox">
+      <label for="scratchjs-dontshowagain-checkbox">Don't show this message again</label>
+      `;
       modal.id = "scratchjs-warning-modal";
       document.head.innerHTML += `
       <style>
