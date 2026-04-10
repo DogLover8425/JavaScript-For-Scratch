@@ -60,14 +60,15 @@ try {
       modal.innerHTML = `<span>Warning!</span>
       <p>This extension has access to advanced features. 
       <br>Projects using this extension can potentially do dangerous things.
-      <br>A project using this extension can do the following:
+      <br>A project using this extension can do the following:</p>
       <ul>
       <li> Modify the website
       <li> Open pages and links
       <li> Send data to other websites
       <li> Access stored data
       </ul>
-      <br>Please make sure you trust the creator of this project.\
+      <p>
+      <br>Please make sure you trust the creator of this project.
       <br>If you don't trust this project, click "Cancel".
       </p>
       <button id="scratchjs-ok-button" disabled onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">Please wait, extension is loading</button>
@@ -100,8 +101,12 @@ try {
 
         #scratchjs-warning-modal p {
           margin: 0;
-          color: black;
+          color: black !important;
           text-align: center;
+        }
+
+        #scratchjs-warning-modal label {
+          color: black !important;
         }
 
         #scratchjs-warning-modal span {
@@ -131,6 +136,8 @@ try {
         }
       </style>
       `;
+      modal.querySelector("#scratchjs-devmode-checkbox").checked = localStorage.getItem("scratchjs_devMode") === "true";
+      devmode = localStorage.getItem("scratchjs_devMode") === "true" || false;
       document.body.appendChild(modal);
     }
 
@@ -412,7 +419,7 @@ try {
         
         OpenDocs() {
           window.open(
-            "https://github.com/Ironbill25/JavaScript-For-Scratch/blob/main/README.md",
+            "https://ironbill25.github.io/projects/scratchjs/docs",
           );
         }
         
@@ -581,6 +588,18 @@ try {
       
       window.sjs_userConsent = async function () {
         window.sjs_hasUserConsent = true;
+
+        const dontShowAgainCheckbox = document.getElementById("scratchjs-dontshowagain-checkbox");
+        if (dontShowAgainCheckbox && dontShowAgainCheckbox.checked) {
+          localStorage.setItem("scratchjs_dontShowAgain", "true");
+        }
+
+        const devModeCheckbox = document.getElementById("scratchjs-devmode-checkbox");
+        if (devModeCheckbox && devModeCheckbox.checked) {
+          localStorage.setItem("scratchjs_devMode", "true");
+        }
+
+
         
         let retryCount = 0;
         const maxRetries = 3;
