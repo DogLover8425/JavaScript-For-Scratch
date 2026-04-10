@@ -209,6 +209,7 @@ try {
         console.log("sjs_arrays:", window.sjs_arrays?.length || "undefined");
         console.log("sjs_objects:", window.sjs_objects?.length || "undefined");
         console.log("sjs_enhanced:", window.sjs_enhanced?.length || "undefined");
+        console.log("sjs_unicode:", window.sjs_unicode?.length || "undefined");
 
         const readyButton = document.getElementById('scratchjs-ok-button');
         if (readyButton) {
