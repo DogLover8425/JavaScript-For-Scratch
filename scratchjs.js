@@ -123,30 +123,37 @@ try {
         }
       </style>
       `;
-      modal.querySelector("#scratchjs-devmode-checkbox").checked = localStorage.getItem("scratchjs_devMode") === "true";
+      modal.querySelector("#scratchjs-devmode-checkbox").checked =
+        localStorage.getItem("scratchjs_devMode") === "true";
       devmode = localStorage.getItem("scratchjs_devMode") === "true" || false;
       document.body.appendChild(modal);
     }
 
-    window.tryParse = function(value) {
+    window.tryParse = function (value) {
       try {
         return JSON.parse(value);
       } catch {
         return value;
       }
-    }
+    };
 
-    window.devLogging = function(extensionInstance) {
+    window.devLogging = function (extensionInstance) {
       if (!devmode) return;
       console.log(
         `ScratchJS currently has ${extensionInstance.getInfo().blocks.length} blocks!`,
       );
       for (const block of extensionInstance.getInfo().blocks) {
-        if (block.opcode && (!(block.opcode in extensionInstance) || typeof extensionInstance[block.opcode] !== 'function')) {
-          console.warn(`[DEVELOPER WARNING] Missing function for block: ${block.opcode}`);
+        if (
+          block.opcode &&
+          (!(block.opcode in extensionInstance) ||
+            typeof extensionInstance[block.opcode] !== "function")
+        ) {
+          console.warn(
+            `[DEVELOPER WARNING] Missing function for block: ${block.opcode}`,
+          );
         }
       }
-    }
+    };
 
     waitForVM(async (vm) => {
       // Extension code.
@@ -155,6 +162,32 @@ try {
         "color: lime;",
         "color: none;",
       );
+
+      window.categories = [
+        "math",
+        "constants",
+        "booleans",
+        "strings",
+        "specialreporters",
+        "corejs",
+        "console",
+        "controlflow",
+        "storage",
+        "utilities",
+        "tempvars",
+        "arrays",
+        "objects",
+        "data",
+        "games",
+        "datetime",
+        "statistics",
+        "browser",
+        "color",
+        "input",
+        "timing",
+        "enhanced",
+        "unicode",
+      ];
 
       warningModal();
 
@@ -172,16 +205,17 @@ try {
 
       async function loadBlockFiles() {
         console.log("Loading blocks file...");
-        
-        const loadingButton = document.getElementById('scratchjs-ok-button');
+
+        const loadingButton = document.getElementById("scratchjs-ok-button");
         if (loadingButton) {
-          loadingButton.textContent = 'Loading blocks...';
+          loadingButton.textContent = "Loading blocks...";
         }
-        
+
         try {
           const timestamp = Date.now();
           const response = await fetch(
-            "https://cdn.jsdelivr.net/gh/Ironbill25/JavaScript-For-Scratch@refs/heads/main/dist/bundle.js?t=" + timestamp,
+            "https://cdn.jsdelivr.net/gh/Ironbill25/JavaScript-For-Scratch@refs/heads/main/dist/bundle.js?t=" +
+              timestamp,
           );
           if (response.ok) {
             const code = await response.text();
@@ -194,27 +228,19 @@ try {
           console.warn(`Failed to load bundle:`, e);
         }
 
-        console.log("Checking arrays:");
-        console.log("sjs_math:", window.sjs_math?.length || "undefined");
-        console.log("sjs_constants:", window.sjs_constants?.length || "undefined");
-        console.log("sjs_booleans:", window.sjs_booleans?.length || "undefined");
-        console.log("sjs_strings:", window.sjs_strings?.length || "undefined");
-        console.log("sjs_specialreporters:", window.sjs_specialreporters?.length || "undefined");
-        console.log("sjs_corejs:", window.sjs_corejs?.length || "undefined");
-        console.log("sjs_console:", window.sjs_console?.length || "undefined");
-        console.log("sjs_controlflow:", window.sjs_controlflow?.length || "undefined");
-        console.log("sjs_storage:", window.sjs_storage?.length || "undefined");
-        console.log("sjs_utilities:", window.sjs_utilities?.length || "undefined");
-        console.log("sjs_tempvars:", window.sjs_tempvars?.length || "undefined");
-        console.log("sjs_arrays:", window.sjs_arrays?.length || "undefined");
-        console.log("sjs_objects:", window.sjs_objects?.length || "undefined");
-        console.log("sjs_enhanced:", window.sjs_enhanced?.length || "undefined");
-        console.log("sjs_unicode:", window.sjs_unicode?.length || "undefined");
+        console.log("Checking arrays");
 
-        const readyButton = document.getElementById('scratchjs-ok-button');
+        for (const category of categories) {
+          console.log(
+            `${category}:`,
+            window["sjs_" + category]?.length || "undefined",
+          );
+        }
+
+        const readyButton = document.getElementById("scratchjs-ok-button");
         if (readyButton) {
           readyButton.disabled = false;
-          readyButton.textContent = 'OK';
+          readyButton.textContent = "OK";
         }
       }
 
@@ -256,12 +282,12 @@ try {
       window.sjs_currentItem = "";
       window.sjs_lsnamespace = "";
       window.sjs_tempVariables = {};
-      
+
       window.sjs_errorCount = 0;
       window.sjs_errorLog = [];
       window.sjs_maxErrors = 50;
-      
-      window.sjs_getErrorStats = function() {
+
+      window.sjs_getErrorStats = function () {
         return {
           totalErrors: window.sjs_errorCount,
           recentErrors: window.sjs_errorLog.length,
@@ -269,11 +295,11 @@ try {
           mostCommonError: window.sjs_errorLog.reduce((acc, err) => {
             acc[err.error] = (acc[err.error] || 0) + 1;
             return acc;
-          }, {})
+          }, {}),
         };
       };
-      
-      window.sjs_clearErrorLog = function() {
+
+      window.sjs_clearErrorLog = function () {
         window.sjs_errorCount = 0;
         window.sjs_errorLog = [];
         console.log("[ScratchJS] Error log cleared");
@@ -298,29 +324,39 @@ try {
           hideFromPalette: false,
         });
 
-        const wrappedFunction = function(...args) {
+        const wrappedFunction = function (...args) {
           try {
             return fun.apply(this, args);
           } catch (error) {
             window.sjs_errorCount++;
-            
+
             const errorInfo = {
               opcode,
               blockType,
               error: error.message,
               timestamp: new Date().toISOString(),
-              args: args.length
+              args: args.length,
             };
-            
+
             window.sjs_errorLog.unshift(errorInfo);
             if (window.sjs_errorLog.length > window.sjs_maxErrors) {
-              window.sjs_errorLog = window.sjs_errorLog.slice(0, window.sjs_maxErrors);
+              window.sjs_errorLog = window.sjs_errorLog.slice(
+                0,
+                window.sjs_maxErrors,
+              );
             }
 
-            console.error(`[ScratchJS] A block has thrown an error! Please report this to the developer at https://github.com/Ironbill25/JavaScript-For-Scratch/issues`)
-            console.error(`[ScratchJS] Error #${window.sjs_errorCount}: Block "${opcode}" (${blockType}) failed:`, error);
-            console.error(`[ScratchJS] Arguments received: ${args.length} | Error: ${error.message}`);
-            
+            console.error(
+              `[ScratchJS] A block has thrown an error! Please report this to the developer at https://github.com/Ironbill25/JavaScript-For-Scratch/issues`,
+            );
+            console.error(
+              `[ScratchJS] Error #${window.sjs_errorCount}: Block "${opcode}" (${blockType}) failed:`,
+              error,
+            );
+            console.error(
+              `[ScratchJS] Arguments received: ${args.length} | Error: ${error.message}`,
+            );
+
             switch (blockType) {
               case BlockType.REPORTER:
                 return `Error: ${error.message}`;
@@ -339,6 +375,10 @@ try {
         window.allFunctions[opcode] = wrappedFunction;
         return window.allBlocks[window.allBlocks.length - 1];
       };
+
+      function formatBlocksCategory(name) {
+        return (window["sjs_" + name] || []).push(Spacer);
+      }
 
       window.Argument = (type, defaultValue) => ({
         type,
@@ -399,18 +439,16 @@ try {
       };
 
       await loadBlockFiles();
-      
+
       window.ScratchJS = class {
         constructor(runtime) {
           this.runtime = runtime;
         }
-        
+
         OpenDocs() {
-          window.open(
-            "https://ironbill25.github.io/projects/scratchjs/docs",
-          );
+          window.open("https://ironbill25.github.io/projects/scratchjs/docs");
         }
-        
+
         getInfo() {
           return {
             id: "math" /* ID Math because it's one of the only valid IDs that work */,
@@ -418,53 +456,18 @@ try {
             color1: "#FF6600",
             color2: "#E65C00",
             color3: "#CC5200",
-            blocks: [
-              Block(BlockType.COMMAND, "OpenDocs", "Open Documentation"),
-              Spacer,
-              ...(window.sjs_math || []),
-              Spacer,
-              ...(window.sjs_constants || []),
-              Spacer,
-              ...(window.sjs_booleans || []),
-              Spacer,
-              ...(window.sjs_strings || []),
-              Spacer,
-              ...(window.sjs_specialreporters || []),
-              Spacer,
-              ...(window.sjs_corejs || []),
-              Spacer,
-              ...(window.sjs_console || []),
-              Spacer,
-              ...(window.sjs_controlflow || []),
-              Spacer,
-              ...(window.sjs_storage || []),
-              Spacer,
-              ...(window.sjs_utilities || []),
-              Spacer,
-              ...(window.sjs_tempvars || []),
-              Spacer,
-              ...(window.sjs_arrays || []),
-              Spacer,
-              ...(window.sjs_objects || []),
-              Spacer,
-              ...(window.sjs_data || []),
-              Spacer,
-              ...(window.sjs_games || []),
-              Spacer,
-              ...(window.sjs_datetime || []),
-              Spacer,
-              ...(window.sjs_statistics || []),
-              Spacer,
-              ...(window.sjs_browser || []),
-              Spacer,
-              ...(window.sjs_color || []),
-              Spacer,
-              ...(window.sjs_input || []),
-              Spacer,
-              ...(window.sjs_timing || []),
-              Spacer,
-              ...(window.sjs_enhanced || []),
-            ],
+            blocks: (() => {
+              const blocks = [
+                Block(BlockType.COMMAND, "OpenDocs", "Open Documentation"),
+              ];
+
+              categories.forEach((category) => {
+                blocks.push(Spacer);
+                blocks.push(...(window[`sjs_${category}`] || []));
+              });
+
+              return blocks;
+            })(),
             menus: {
               varMenu: "getVarMenu",
               dateFormatMenu: Menu(
@@ -533,34 +536,61 @@ try {
                 "back",
               ),
               httpMethodMenu: Menu(
-                [MenuItem("GET", "GET"), MenuItem("POST", "POST"), MenuItem("PUT", "PUT"), MenuItem("DELETE", "DELETE")],
+                [
+                  MenuItem("GET", "GET"),
+                  MenuItem("POST", "POST"),
+                  MenuItem("PUT", "PUT"),
+                  MenuItem("DELETE", "DELETE"),
+                ],
                 "GET",
               ),
               timeFormatMenu: Menu(
-                [MenuItem("ISO", "ISO"), MenuItem("local", "local"), MenuItem("date", "date"), MenuItem("time", "time"), MenuItem("unix", "unix")],
+                [
+                  MenuItem("ISO", "ISO"),
+                  MenuItem("local", "local"),
+                  MenuItem("date", "date"),
+                  MenuItem("time", "time"),
+                  MenuItem("unix", "unix"),
+                ],
                 "ISO",
               ),
-              hashAlgorithmMenu: Menu(
-                [MenuItem("simple", "simple")],
-                "simple",
-              ),
+              hashAlgorithmMenu: Menu([MenuItem("simple", "simple")], "simple"),
               diceSidesMenu: Menu(
-                [MenuItem("4", "4"), MenuItem("6", "6"), MenuItem("8", "8"), MenuItem("10", "10"), 
-                 MenuItem("12", "12"), MenuItem("20", "20"), MenuItem("100", "100")],
+                [
+                  MenuItem("4", "4"),
+                  MenuItem("6", "6"),
+                  MenuItem("8", "8"),
+                  MenuItem("10", "10"),
+                  MenuItem("12", "12"),
+                  MenuItem("20", "20"),
+                  MenuItem("100", "100"),
+                ],
                 "6",
               ),
               passwordOptionsMenu: Menu(
-                [MenuItem("letters", "letters"), MenuItem("numbers", "numbers"), 
-                 MenuItem("letters+numbers", "letters+numbers"), MenuItem("all", "all")],
+                [
+                  MenuItem("letters", "letters"),
+                  MenuItem("numbers", "numbers"),
+                  MenuItem("letters+numbers", "letters+numbers"),
+                  MenuItem("all", "all"),
+                ],
                 "letters+numbers",
               ),
               rpsMenu: Menu(
-                [MenuItem("rock", "rock"), MenuItem("paper", "paper"), MenuItem("scissors", "scissors")],
+                [
+                  MenuItem("rock", "rock"),
+                  MenuItem("paper", "paper"),
+                  MenuItem("scissors", "scissors"),
+                ],
                 "rock",
               ),
               dateFormatMenu: Menu(
-                [MenuItem("MM/DD/YYYY", "MM/DD/YYYY"), MenuItem("DD/MM/YYYY", "DD/MM/YYYY"), 
-                 MenuItem("YYYY-MM-DD", "YYYY-MM-DD"), MenuItem("Month DD, YYYY", "Month DD, YYYY")],
+                [
+                  MenuItem("MM/DD/YYYY", "MM/DD/YYYY"),
+                  MenuItem("DD/MM/YYYY", "DD/MM/YYYY"),
+                  MenuItem("YYYY-MM-DD", "YYYY-MM-DD"),
+                  MenuItem("Month DD, YYYY", "Month DD, YYYY"),
+                ],
                 "MM/DD/YYYY",
               ),
             },
@@ -573,59 +603,55 @@ try {
           return vars.length == 0 ? [" "] : vars;
         }
       };
-      
+
       window.sjs_userConsent = async function () {
         window.sjs_hasUserConsent = true;
 
-        const dontShowAgainCheckbox = document.getElementById("scratchjs-dontshowagain-checkbox");
+        const dontShowAgainCheckbox = document.getElementById(
+          "scratchjs-dontshowagain-checkbox",
+        );
         if (dontShowAgainCheckbox && dontShowAgainCheckbox.checked) {
           localStorage.setItem("scratchjs_dontShowAgain", "true");
         }
 
-        const devModeCheckbox = document.getElementById("scratchjs-devmode-checkbox");
+        const devModeCheckbox = document.getElementById(
+          "scratchjs-devmode-checkbox",
+        );
         if (devModeCheckbox && devModeCheckbox.checked) {
           localStorage.setItem("scratchjs_devMode", "true");
         }
 
-
-        
         let retryCount = 0;
         const maxRetries = 3;
-        
-        while (retryCount < maxRetries) {
-          
-          if (retryCount === maxRetries - 1) {
-            const allBlocks = [
-              ...(window.sjs_math || []),
-              ...(window.sjs_constants || []),
-              ...(window.sjs_booleans || []),
-              ...(window.sjs_strings || []),
-              ...(window.sjs_specialreporters || []),
-              ...(window.sjs_corejs || []),
-              ...(window.sjs_console || []),
-              ...(window.sjs_controlflow || []),
-              ...(window.sjs_storage || []),
-              ...(window.sjs_utilities || []),
-              ...(window.sjs_tempvars || []),
-              ...(window.sjs_arrays || []),
-              ...(window.sjs_objects || []),
-              ...(window.sjs_enhanced || [])
-            ];
 
-            console.log(allBlocks)
-            
-            const missingFunctions = allBlocks.filter(block => block.opcode && !(block.opcode in (window.allFunctions || {})));
-            console.warn("Missing functions for blocks:", missingFunctions.map(b => b.opcode));
+        while (retryCount < maxRetries) {
+          if (retryCount === maxRetries - 1) {
+            const allBlocks = categories.flatMap(
+              (category) => window[`sjs_${category}`] || [],
+            );
+
+            console.log(allBlocks);
+
+            const missingFunctions = allBlocks.filter(
+              (block) =>
+                block.opcode && !(block.opcode in (window.allFunctions || {})),
+            );
+            console.warn(
+              "Missing functions for blocks:",
+              missingFunctions.map((b) => b.opcode),
+            );
             break;
           }
-          
-          await new Promise(resolve => setTimeout(resolve, 500));
+
+          await new Promise((resolve) => setTimeout(resolve, 500));
           retryCount++;
         }
-        
+
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
-        
-        for (const [opcode, func] of Object.entries(window.allFunctions || {})) {
+
+        for (const [opcode, func] of Object.entries(
+          window.allFunctions || {},
+        )) {
           extensionInstance[opcode] = func;
         }
         var serviceName =
