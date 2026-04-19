@@ -20,25 +20,35 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
         return console.log("VM already available");
       }
       vmtries++;
+      if (vmtries > 15) {
+        console.error("VM not found after 15 tries, stopping attempts. Please report this error on the ScratchJS GitHub page (https://github.com/IronBill25/JavaScript-For-Scratch/issues)");
+        return;
+      }
       console.log("waiting for VM, try " + vmtries);
       const el = document.querySelector(
         'div[class*="stage-header_stage-header-wrapper"]',
       );
+      console.log("Check 1 - el:", el);
       if (!el) return console.log("No stage header found");
+      console.log("Check 2 - el keys:", Object.keys(el));
 
       const reactKey = Object.keys(el).find(
         (k) =>
           k.startsWith("__reactFiber$") ||
           k.startsWith("__reactInternalInstance$"),
       );
+      console.log("Check 3 - reactKey:", reactKey);
       if (!reactKey) return console.log("No react key found");
 
       let fiber = el[reactKey];
+      console.log("Check 4 - fiber:", fiber);
       while (fiber && !fiber.stateNode) fiber = fiber.return;
+      console.log("Check 5 - fiber after loop:", fiber);
       const vm =
         fiber?.stateNode?.props?.vm ||
         fiber?.return?.return?.return?.return?.updateQueue?.stores?.[0]?.value
           ?.vm;
+      console.log("Check 6 - vm:", vm);
 
       if (vm) {
         console.log(
