@@ -1,6 +1,12 @@
 try {
   (function () {
     "use strict";
+
+    console.log("%cScratch%cJS", "color: lime; font-size: 24px; font-weight: bold;", "color: yellow; font-size: 24px; font-weight: bold;");
+    console.log(`Thanks for using ScratchJS! This is the developer console, here you can find some debug information and error messages.
+If you are a developer of ScratchJS, remember to enable the developer tools on the popup window to see extra logging.
+See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
+
     let devmode = false;
 
     /**
@@ -133,6 +139,7 @@ try {
       try {
         return JSON.parse(value);
       } catch {
+        console.log("Failed to parse:", value);
         return value;
       }
     };
