@@ -25,6 +25,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
         return;
       }
       console.log("waiting for VM, try " + vmtries);
+      console.log("Check 0 - document:", document);
       const el = document.querySelector(
         'div[class*="stage-header_stage-header-wrapper"]',
       );
