@@ -43,7 +43,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
 
       let fiber = el[reactKey];
       console.log("Check 4 - fiber:", fiber);
-      while (fiber && !fiber.stateNode && (fiber[ariaLabel] || "") !== "Stage") fiber = fiber.return;
+      while (fiber && (fiber[ariaLabel] || "") !== "Stage") fiber = fiber.return;
       console.log("Check 5 - fiber after loop:", fiber);
       let vm =
         fiber?.stateNode?.props?.vm ||
