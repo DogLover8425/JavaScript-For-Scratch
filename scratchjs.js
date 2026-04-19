@@ -45,7 +45,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       console.log("Check 4 - fiber:", fiber);
       while (fiber && !fiber.stateNode && (fiber[ariaLabel] || "") !== "Stage") fiber = fiber.return;
       console.log("Check 5 - fiber after loop:", fiber);
-      const vm =
+      let vm =
         fiber?.stateNode?.props?.vm ||
         fiber?.return?.return?.return?.return?.updateQueue?.stores?.[0]?.value
           ?.vm;
