@@ -8,6 +8,7 @@ If you are a developer of ScratchJS, remember to enable the developer tools on t
 See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
 
     let devmode = false;
+    let vmtries = 0;
 
     /**
      * Waits for the Scratch VM to be available and calls the callback with it.
@@ -16,19 +17,21 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     function waitForVM(callback) {
       if (window.vm) {
         callback(window.vm);
-        return;
+        return console.log("VM already available");
       }
+      vmtries++;
+      console.log("waiting for VM, try " + vmtries);
       const el = document.querySelector(
         'div[class*="stage-header_stage-header-wrapper"]',
       );
-      if (!el) return;
+      if (!el) return console.log("No stage header found");
 
       const reactKey = Object.keys(el).find(
         (k) =>
           k.startsWith("__reactFiber$") ||
           k.startsWith("__reactInternalInstance$"),
       );
-      if (!reactKey) return;
+      if (!reactKey) return console.log("No react key found");
 
       let fiber = el[reactKey];
       while (fiber && !fiber.stateNode) fiber = fiber.return;
@@ -45,6 +48,8 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
         );
         window.vm = vm;
         callback(vm);
+      } else {
+        setTimeout(() => waitForVM(callback), 1000);
       }
     }
 
