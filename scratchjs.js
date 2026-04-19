@@ -10,6 +10,10 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     let devmode = false;
     let vmtries = 0;
 
+    function chkKey(obj, key) {
+      return Object.keys(obj).includes(key) ? obj[key] : "";
+    }
+
     /**
      * Waits for the Scratch VM to be available and calls the callback with it.
      * @param {Function} callback - The function to call with the VM.
@@ -43,7 +47,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
 
       let fiber = el[reactKey];
       console.log("Check 4 - fiber:", fiber);
-      while (fiber && (Object.keys(fiber).includes("ariaLabel") ? fiber.ariaLabel : "") !== "Stage") fiber = fiber.return;
+      while (fiber && (chkKey(fiber.memoizedProps, "ariaLabel") !== "Stage")) fiber = fiber.return;
       console.log("Check 5 - fiber after loop:", fiber);
       let vm =
         fiber?.stateNode?.props?.vm ||
@@ -51,7 +55,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
           ?.vm;
       console.log("Check 6 - vm:", vm);
 
-      if (!vm) {
+      if (!vm && fiber?.memoizedProps) {
         vm = fiber.memoizedProps.vm;
         console.log("Check 7 - vm from memoizedProps:", vm);
       }
