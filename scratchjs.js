@@ -248,7 +248,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
           const timestamp = Date.now();
           const response = await fetch(
             "https://cdn.jsdelivr.net/gh/Ironbill25/JavaScript-For-Scratch@refs/heads/main/dist/bundle.js?t=" +
-              timestamp,
+              timestamp, { cache: "no-store" }
           );
           if (response.ok) {
             const code = await response.text();
