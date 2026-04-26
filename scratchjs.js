@@ -29,40 +29,37 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
         return;
       }
       console.log("waiting for VM, try " + vmtries);
-      console.log("Check 0 - document:", document);
       const el = document.querySelector(
         'div[class*="stage-header_stage-header-wrapper"]',
       );
-      console.log("Check 1 - el:", el);
       if (!el) return console.log("No stage header found");
-      console.log("Check 2 - el keys:", Object.keys(el));
 
       const reactKey = Object.keys(el).find(
         (k) =>
           k.startsWith("__reactFiber$") ||
           k.startsWith("__reactInternalInstance$"),
       );
-      console.log("Check 3 - reactKey:", reactKey);
+      console.log("Check 1 - reactKey:", reactKey);
       if (!reactKey) return console.log("No react key found");
 
       let fiber = el[reactKey];
-      console.log("Check 4 - fiber:", fiber);
+      console.log("Check 2 - fiber:", fiber);
       while (fiber && (chkKey(fiber.memoizedProps, "ariaLabel") !== "Stage")) fiber = fiber.return;
-      console.log("Check 5 - fiber after loop:", fiber);
+      console.log("Check 3 - fiber after loop:", fiber);
       let vm =
         fiber?.stateNode?.props?.vm ||
         fiber?.return?.return?.return?.return?.updateQueue?.stores?.[0]?.value
           ?.vm;
-      console.log("Check 6 - vm:", vm);
+      console.log("Check 4 - vm:", vm);
 
       if (!vm && fiber?.memoizedProps) {
         vm = fiber.memoizedProps.vm;
-        console.log("Check 7 - vm from memoizedProps:", vm);
+        console.log("Check 5 - vm from memoizedProps:", vm);
       }
 
       if (vm) {
         console.log(
-          "%c[Scratch Injector]%c VM found!",
+          "%c[ScratchJS]%c VM found!",
           "color: lime;",
           "color: none;",
         );
@@ -189,11 +186,6 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
 
     waitForVM(async (vm) => {
       // Extension code.
-      console.log(
-        "%c[ScratchJS]%c Using ScratchJS!",
-        "color: lime;",
-        "color: none;",
-      );
 
       window.categories = [
         "math",
