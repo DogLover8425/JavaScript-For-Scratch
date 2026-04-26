@@ -1,17 +1,121 @@
 window.sjs_bignum = [
     Block(BlockType.REPORTER, "parseAsBignum", "Convert to big number [num]", {
-        num: Argument("number", "123")
+        num: Argument("string", "123")
     }, ({ num }) => {
         return BigInt(num);
     }),
     Block(BlockType.BOOLEAN, "isBignum", "Is [num] a big number?", {
-        num: Argument("number", "123")
+        num: Argument("string", "123")
     }, ({ num }) => {
-        return typeof num === "bigint";
+        try {
+            return typeof BigInt(num) === "bigint";
+        } catch {
+            return false;
+        }
     }),
     Block(BlockType.REPORTER, "bignumToString", "Big number [num] to string", {
-        num: Argument("number", "123n")
+        num: Argument("string", "123n")
     }, ({ num }) => {
-        return num.toString();
-    })
+        try {
+            return BigInt(num).toString();
+        } catch {
+            return num.toString();
+        }
+    }),
+    
+    Block(BlockType.REPORTER, "bignumAdd", "[num1] + [num2]", {
+        num1: Argument("string", "100000000000000000000"),
+        num2: Argument("string", "200000000000000000000")
+    }, ({ num1, num2 }) => {
+        return (BigInt(num1) + BigInt(num2));
+    }),
+    
+    Block(BlockType.REPORTER, "bignumSubtract", "[num1] - [num2]", {
+        num1: Argument("string", "300000000000000000000"),
+        num2: Argument("string", "100000000000000000000")
+    }, ({ num1, num2 }) => {
+        return (BigInt(num1) - BigInt(num2));
+    }),
+    
+    Block(BlockType.REPORTER, "bignumMultiply", "[num1] × [num2]", {
+        num1: Argument("string", "100000000000000000000"),
+        num2: Argument("string", "2")
+    }, ({ num1, num2 }) => {
+        return (BigInt(num1) * BigInt(num2));
+    }),
+    
+    Block(BlockType.REPORTER, "bignumDivide", "[num1] ÷ [num2]", {
+        num1: Argument("string", "200000000000000000000"),
+        num2: Argument("string", "2")
+    }, ({ num1, num2 }) => {
+        return (BigInt(num1) / BigInt(num2));
+    }),
+    
+    Block(BlockType.REPORTER, "bignumModulo", "[num1] mod [num2]", {
+        num1: Argument("string", "100000000000000000001"),
+        num2: Argument("string", "100000000000000000000")
+    }, ({ num1, num2 }) => {
+        return (BigInt(num1) % BigInt(num2));
+    }),
+    
+    Block(BlockType.REPORTER, "bignumPower", "[num1] ^ [num2]", {
+        num1: Argument("string", "2"),
+        num2: Argument("number", 10)
+    }, ({ num1, num2 }) => {
+        return (BigInt(num1) ** BigInt(num2));
+    }),
+    
+    Block(BlockType.BOOLEAN, "bignumEqual", "[num1] = [num2]", {
+        num1: Argument("string", "100000000000000000000"),
+        num2: Argument("string", "100000000000000000000")
+    }, ({ num1, num2 }) => {
+        return BigInt(num1) === BigInt(num2);
+    }),
+    
+    Block(BlockType.BOOLEAN, "bignumNotEqual", "[num1] ≠ [num2]", {
+        num1: Argument("string", "100000000000000000000"),
+        num2: Argument("string", "200000000000000000000")
+    }, ({ num1, num2 }) => {
+        return BigInt(num1) !== BigInt(num2);
+    }),
+    
+    Block(BlockType.BOOLEAN, "bignumGreater", "[num1] > [num2]", {
+        num1: Argument("string", "200000000000000000000"),
+        num2: Argument("string", "100000000000000000000")
+    }, ({ num1, num2 }) => {
+        return BigInt(num1) > BigInt(num2);
+    }),
+    
+    Block(BlockType.BOOLEAN, "bignumLess", "[num1] < [num2]", {
+        num1: Argument("string", "100000000000000000000"),
+        num2: Argument("string", "200000000000000000000")
+    }, ({ num1, num2 }) => {
+        return BigInt(num1) < BigInt(num2);
+    }),
+    
+    Block(BlockType.BOOLEAN, "bignumGreaterEqual", "[num1] ≥ [num2]", {
+        num1: Argument("string", "200000000000000000000"),
+        num2: Argument("string", "100000000000000000000")
+    }, ({ num1, num2 }) => {
+        return BigInt(num1) >= BigInt(num2);
+    }),
+    
+    Block(BlockType.BOOLEAN, "bignumLessEqual", "[num1] ≤ [num2]", {
+        num1: Argument("string", "100000000000000000000"),
+        num2: Argument("string", "200000000000000000000")
+    }, ({ num1, num2 }) => {
+        return BigInt(num1) <= BigInt(num2);
+    }),
+    
+    Block(BlockType.REPORTER, "bignumAbs", "Absolute value of [num]", {
+        num: Argument("string", "-100000000000000000000")
+    }, ({ num }) => {
+        return BigInt(num) < 0n ? -BigInt(num) : BigInt(num);
+    }),
+    
+    Block(BlockType.REPORTER, "bignumNegate", "-[num]", {
+        num: Argument("string", "100000000000000000000")
+    }, ({ num }) => {
+        return -BigInt(num);
+    }),
 ]
