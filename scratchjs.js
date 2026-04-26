@@ -219,6 +219,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
         "timing",
         "enhanced",
         "unicode",
+        "bignum",
       ];
 
       warningModal();
