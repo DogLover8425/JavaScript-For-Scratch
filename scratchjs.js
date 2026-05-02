@@ -79,75 +79,8 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     };
 
     function warningModal() {
-      const shadowHost = document.createElement("div");
-      shadowHost.id = "scratchjs-warning-modal";
-      
-      const shadowRoot = shadowHost.attachShadow({ mode: 'closed' });
-      
-      const styles = `
-        :host {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          background-color: rgba(4, 122, 233, 1);
-          z-index: 9999;
-          font-family: Arial, sans-serif;
-          font-size: 16px;
-          line-height: 1.5;
-        }
-        
-        button {
-          margin-top: 1rem;
-          padding: 5px;
-          background-color: #10a7ff;
-          border-radius: 5px;
-          color: white;
-          border: 1px solid #ddd;
-          cursor: pointer;
-          display: inline-block;
-        }
-
-        button:disabled {
-          background-color: #cccccc;
-          cursor: not-allowed;
-          opacity: 0.7;
-        }
-
-        p {
-          margin: 0;
-          color: black !important;
-          text-align: center;
-        }
-
-        label {
-          color: black !important;
-        }
-
-        span {
-          text-align: center;
-          font-size: 2rem;
-          color: red;
-        }
-
-        ul {
-          margin: 0;
-          padding-left: 1rem;
-          color: black;
-        }
-
-        li {
-          margin: 0 !important;
-          padding: 0 !important;
-        }
-      `;
-      
-      const modalHTML = `<span>Warning!</span>
+      let modal = document.createElement("div");
+      modal.innerHTML = `<span>Warning!</span>
       <p>This extension has access to advanced features. 
       <br>Projects using this extension can potentially do dangerous things.
       <br>A project using this extension can do the following:</p>
@@ -165,33 +98,75 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button>
       <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
       <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>`;
-      
-      shadowRoot.innerHTML = `
-        <style>${styles}</style>
-        ${modalHTML}
+      modal.id = "scratchjs-warning-modal";
+      document.head.innerHTML += `
+      <style>
+        #scratchjs-warning-modal button {
+          margin-top: 1rem;
+          padding: 5px;
+          background-color: #10a7ff;
+          border-radius: 5px;
+          color: white;
+          border: 1px solid #ddd;
+          cursor: pointer;
+          display: inline-block;
+        }
+
+        #scratchjs-warning-modal button:disabled {
+          background-color: #cccccc;
+          cursor: not-allowed;
+          opacity: 0.7;
+        }
+
+        #scratchjs-warning-modal p {
+          margin: 0;
+          color: black !important;
+          text-align: center;
+        }
+
+        #scratchjs-warning-modal label {
+          color: black !important;
+        }
+
+        #scratchjs-warning-modal span {
+          text-align: center;
+          font-size: 2rem;
+          color: red;
+        }
+
+        #scratchjs-warning-modal ul {
+          margin: 0;
+          padding-left: 1rem;
+          color: black;
+        }
+
+        #scratchjs-warning-modal li {
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+
+        #scratchjs-warning-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background-color: rgba(4, 122, 233, 1);
+          z-index: 9999;
+          font-family: Arial, sans-serif;
+          font-size: 16px;
+          line-height: 1.5;
+        }
+      </style>
       `;
-      
-      const okButton = shadowRoot.querySelector("#scratchjs-ok-button");
-      const cancelButton = shadowRoot.querySelector("#scratchjs-cancel-button");
-      const devModeCheckbox = shadowRoot.querySelector("#scratchjs-devmode-checkbox");
-      
-      okButton.onclick = () => {
-        window.sjs_userConsent();
-        document.body.removeChild(shadowHost);
-      };
-      
-      cancelButton.onclick = () => {
-        document.body.removeChild(shadowHost);
-      };
-      
-      devModeCheckbox.onchange = () => {
-        window.sjs_toggleDevMode(devModeCheckbox.checked);
-      };
-      
-      devModeCheckbox.checked = localStorage.getItem("scratchjs_devMode") === "true";
+      modal.querySelector("#scratchjs-devmode-checkbox").checked =
+        localStorage.getItem("scratchjs_devMode") === "true";
       devmode = localStorage.getItem("scratchjs_devMode") === "true" || false;
-      
-      document.body.appendChild(shadowHost);
+      document.body.appendChild(modal);
     }
 
     window.tryParse = function (value) {
