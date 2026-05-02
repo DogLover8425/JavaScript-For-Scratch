@@ -331,7 +331,7 @@
         end: Argument("number", 6)
       },
       ({ text, start, end }) => {
-        return text.substring(start - 1, end - 1);
+        return text.substring(start - 1, end);
       }
     ),
     Block(BlockType.REPORTER, "reverseStringBlock", "Reverse string [text]", {

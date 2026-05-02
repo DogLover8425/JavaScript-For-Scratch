@@ -19,7 +19,7 @@ window.sjs_strings = [
       start: Argument("number", 1),
       end: Argument("number", 6),
     }, ({ text, start, end }) => {
-      return text.substring(start - 1, end - 1); // to 0 based
+      return text.substring(start - 1, end);
     }
   ),
   Block(BlockType.REPORTER, "reverseStringBlock", "Reverse string [text]", {
