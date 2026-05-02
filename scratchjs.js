@@ -43,8 +43,8 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       if (!reactKey) return console.log("No react key found");
 
       let fiber = el[reactKey];
-      console.log("Check 2 - fiber:", fiber);
-      while (fiber && (chkKey(fiber.memoizedProps, "ariaLabel") !== "Stage")) fiber = fiber.return;
+      console.log("Check 2 - fiber:", fiber, fiber.memoizedProps);
+      while (fiber && (chkKey(fiber.memoizedProps, "ariaLabel") !== "Stage")) {console.log("Check 2.1 - fiber:", fiber); fiber = fiber.return;}
       console.log("Check 3 - fiber after loop:", fiber);
       let vm =
         fiber?.stateNode?.props?.vm ||
