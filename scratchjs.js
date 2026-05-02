@@ -79,28 +79,12 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     };
 
     function warningModal() {
-      let modal = document.createElement("div");
-      modal.innerHTML = `<span>Warning!</span>
-      <p>This extension has access to advanced features. 
-      <br>Projects using this extension can potentially do dangerous things.
-      <br>A project using this extension can do the following:</p>
-      <ul>
-      <li> Modify the website
-      <li> Open pages and links
-      <li> Send data to other websites
-      <li> Access stored data
-      </ul>
-      <p>
-      <br>Please make sure you trust the creator of this project.
-      <br>If you don't trust this project, click "Cancel".
-      </p>
-      <button id="scratchjs-ok-button" disabled onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">Please wait, extension is loading</button>
-      <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button>
-      <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
-      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>`;
-      modal.id = "scratchjs-warning-modal";
-      document.head.innerHTML += `
-      <style>
+      const shadowHost = document.createElement("div");
+      shadowHost.id = "scratchjs-warning-modal";
+      
+      const shadowRoot = shadowHost.attachShadow({ mode: 'closed' });
+      
+      const styles = `
         #scratchjs-warning-modal button {
           margin-top: 1rem;
           padding: 5px;
@@ -140,6 +124,11 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
           color: black;
         }
 
+        #scratchjs-warning-modal li {
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+
         #scratchjs-warning-modal {
           position: fixed;
           top: 0;
@@ -152,13 +141,41 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
           justify-content: center;
           background-color: rgba(4, 122, 233, 1);
           z-index: 9999;
+          font-family: Arial, sans-serif;
+          font-size: 16px;
+          line-height: 1.5;
         }
-      </style>
       `;
-      modal.querySelector("#scratchjs-devmode-checkbox").checked =
+      
+      const modalHTML = `<span>Warning!</span>
+      <p>This extension has access to advanced features. 
+      <br>Projects using this extension can potentially do dangerous things.
+      <br>A project using this extension can do the following:</p>
+      <ul>
+      <li> Modify the website
+      <li> Open pages and links
+      <li> Send data to other websites
+      <li> Access stored data
+      </ul>
+      <p>
+      <br>Please make sure you trust the creator of this project.
+      <br>If you don't trust this project, click "Cancel".
+      </p>
+      <button id="scratchjs-ok-button" disabled onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">Please wait, extension is loading</button>
+      <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button>
+      <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
+      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>`;
+      
+      shadowRoot.innerHTML = `
+        <style>${styles}</style>
+        ${modalHTML}
+      `;
+      
+      shadowRoot.querySelector("#scratchjs-devmode-checkbox").checked =
         localStorage.getItem("scratchjs_devMode") === "true";
       devmode = localStorage.getItem("scratchjs_devMode") === "true" || false;
-      document.body.appendChild(modal);
+      
+      document.body.appendChild(shadowHost);
     }
 
     window.tryParse = function (value) {
