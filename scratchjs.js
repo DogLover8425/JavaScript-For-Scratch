@@ -85,51 +85,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       const shadowRoot = shadowHost.attachShadow({ mode: 'closed' });
       
       const styles = `
-        #scratchjs-warning-modal button {
-          margin-top: 1rem;
-          padding: 5px;
-          background-color: #10a7ff;
-          border-radius: 5px;
-          color: white;
-          border: 1px solid #ddd;
-          cursor: pointer;
-          display: inline-block;
-        }
-
-        #scratchjs-warning-modal button:disabled {
-          background-color: #cccccc;
-          cursor: not-allowed;
-          opacity: 0.7;
-        }
-
-        #scratchjs-warning-modal p {
-          margin: 0;
-          color: black !important;
-          text-align: center;
-        }
-
-        #scratchjs-warning-modal label {
-          color: black !important;
-        }
-
-        #scratchjs-warning-modal span {
-          text-align: center;
-          font-size: 2rem;
-          color: red;
-        }
-
-        #scratchjs-warning-modal ul {
-          margin: 0;
-          padding-left: 1rem;
-          color: black;
-        }
-
-        #scratchjs-warning-modal li {
-          margin: 0 !important;
-          padding: 0 !important;
-        }
-
-        #scratchjs-warning-modal {
+        :host {
           position: fixed;
           top: 0;
           left: 0;
@@ -144,6 +100,50 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
           font-family: Arial, sans-serif;
           font-size: 16px;
           line-height: 1.5;
+        }
+        
+        button {
+          margin-top: 1rem;
+          padding: 5px;
+          background-color: #10a7ff;
+          border-radius: 5px;
+          color: white;
+          border: 1px solid #ddd;
+          cursor: pointer;
+          display: inline-block;
+        }
+
+        button:disabled {
+          background-color: #cccccc;
+          cursor: not-allowed;
+          opacity: 0.7;
+        }
+
+        p {
+          margin: 0;
+          color: black !important;
+          text-align: center;
+        }
+
+        label {
+          color: black !important;
+        }
+
+        span {
+          text-align: center;
+          font-size: 2rem;
+          color: red;
+        }
+
+        ul {
+          margin: 0;
+          padding-left: 1rem;
+          color: black;
+        }
+
+        li {
+          margin: 0 !important;
+          padding: 0 !important;
         }
       `;
       
@@ -171,8 +171,24 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
         ${modalHTML}
       `;
       
-      shadowRoot.querySelector("#scratchjs-devmode-checkbox").checked =
-        localStorage.getItem("scratchjs_devMode") === "true";
+      const okButton = shadowRoot.querySelector("#scratchjs-ok-button");
+      const cancelButton = shadowRoot.querySelector("#scratchjs-cancel-button");
+      const devModeCheckbox = shadowRoot.querySelector("#scratchjs-devmode-checkbox");
+      
+      okButton.onclick = () => {
+        window.sjs_userConsent();
+        document.body.removeChild(shadowHost);
+      };
+      
+      cancelButton.onclick = () => {
+        document.body.removeChild(shadowHost);
+      };
+      
+      devModeCheckbox.onchange = () => {
+        window.sjs_toggleDevMode(devModeCheckbox.checked);
+      };
+      
+      devModeCheckbox.checked = localStorage.getItem("scratchjs_devMode") === "true";
       devmode = localStorage.getItem("scratchjs_devMode") === "true" || false;
       
       document.body.appendChild(shadowHost);
