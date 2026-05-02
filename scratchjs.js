@@ -11,6 +11,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     let vmtries = 0;
 
     function chkKey(obj, key) {
+      if (!obj) return "";
       return Object.keys(obj).includes(key) ? obj[key] : "";
     }
 
