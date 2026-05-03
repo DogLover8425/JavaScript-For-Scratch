@@ -1,4 +1,5 @@
 window.sjs_arrays = [
+  Block(BlockType.BUTTON, "arraysCategory", "Arrays"),
     Block(BlockType.BOOLEAN, "isValidJson", "Is [text] valid JSON?", {
     text: Argument("string", "{\"key\":\"value\"}"),
   }, ({ text }) => {
@@ -117,6 +118,6 @@ window.sjs_arrays = [
       window.sjs_inArrLoop = false;
     }
   }),
-  Block(BlockType.REPORTER, "arrayLoopItem", "ARRAY | Current item in array loop", {}, () => window.sjs_currentItem),
-  Block(BlockType.REPORTER, "arrayLoopIndex", "ARRAY | Current index in array loop", {}, () => window.sjs_arri),
+  Block(BlockType.REPORTER, "arrayLoopItem", "ARRAY | Current item", {}, () => window.sjs_currentItem),
+  Block(BlockType.REPORTER, "arrayLoopIndex", "ARRAY | Current index", {}, () => window.sjs_arri),
 ];

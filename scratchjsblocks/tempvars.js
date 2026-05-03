@@ -1,4 +1,5 @@
 window.sjs_tempvars = [
+  Block(BlockType.BUTTON, "tempvarsCategory", "Temporary Variables"),
   Block(BlockType.COMMAND, "setTemp", "Set temporary [key] to [value]", {
     key: Argument("string", "key"),
     value: Argument("string", "value"),

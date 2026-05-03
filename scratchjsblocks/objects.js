@@ -1,4 +1,5 @@
 window.sjs_objects = [
+  Block(BlockType.BUTTON, "objectsCategory", "Objects"),
   Block(BlockType.REPORTER, "blankObject", "OBJECT | Blank object", {}, () => "{}"),
   Block(BlockType.BOOLEAN, "isObject", "OBJECT | Is [value] an object?", {
     value: Argument("string", "{}"),

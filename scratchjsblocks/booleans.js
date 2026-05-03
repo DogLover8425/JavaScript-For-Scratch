@@ -1,4 +1,5 @@
 window.sjs_booleans = [
+  Block(BlockType.BUTTON, "booleansCategory", "Booleans"),
   Block(BlockType.BOOLEAN, "boolOperation", "[val1] [op] [val2]", {
     val1: Argument("string", "true"),
     op: ArgumentWithMenu("string", "and", "boolOpMenu"),

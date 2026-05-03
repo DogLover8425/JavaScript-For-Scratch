@@ -1,4 +1,5 @@
 window.sjs_console = [
+  Block(BlockType.BUTTON, "consoleCategory", "Console"),
   Block(BlockType.COMMAND, "logBlock", "Log to console [message]", {
     message: Argument("string", "Something worked!"),
   }, ({ message }) => {

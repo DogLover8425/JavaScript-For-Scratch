@@ -1,4 +1,5 @@
 window.sjs_color = [
+  Block(BlockType.BUTTON, "colorCategory", "Color"),
   Block(BlockType.REPORTER, "randomColor", "Random color", {}, () => {
     return `#${Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}`;
   }),

@@ -1,4 +1,5 @@
 window.sjs_bignum = [
+    Block(BlockType.BUTTON, "bignumCategory", "Big Numbers"),
     Block(BlockType.REPORTER, "parseAsBignum", "Convert to big number [num]", {
         num: Argument("string", "123")
     }, ({ num }) => {

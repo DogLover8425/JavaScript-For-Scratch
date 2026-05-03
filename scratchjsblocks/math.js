@@ -1,4 +1,5 @@
 window.sjs_math = [
+  Block(BlockType.BUTTON, "mathCategory", "Math"),
   Block(BlockType.REPORTER, "powerBlock", "[base] ^ [exponent]", {
     base: { type: "number", defaultValue: 2 },
     exponent: { type: "number", defaultValue: 3 },

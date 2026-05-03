@@ -1,4 +1,5 @@
 window.sjs_controlflow = [
+  Block(BlockType.BUTTON, "controlflowCategory", "Control Flow"),
   Block(BlockType.HAT, "whenCondition", "when [condit] is true", {
     condit: {
       type: "Boolean",

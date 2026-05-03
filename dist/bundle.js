@@ -29,6 +29,7 @@
   var require_math = __commonJS({
     "scratchjsblocks/math.js"(exports, module) {
       window.sjs_math = [
+        Block(BlockType.BUTTON, "mathCategory", "Math"),
         Block(BlockType.REPORTER, "powerBlock", "[base] ^ [exponent]", {
           base: { type: "number", defaultValue: 2 },
           exponent: { type: "number", defaultValue: 3 }
@@ -93,6 +94,7 @@
   var require_corejs = __commonJS({
     "scratchjsblocks/corejs.js"(exports, module) {
       window.sjs_corejs = [
+        Block(BlockType.BUTTON, "corejsCategory", "JS Operations"),
         Block(BlockType.COMMAND, "RunJS", "Run JS code [code]", {
           code: Argument("string", "alert('Hello World!')")
         }, ({ code }) => {
@@ -177,6 +179,7 @@
   var require_timing = __commonJS({
     "scratchjsblocks/timing.js"(exports, module) {
       window.sjs_timing = [
+        Block(BlockType.BUTTON, "timingCategory", "Timing"),
         Block(BlockType.COMMAND, "setTimeoutBlock", "After [delay] ms run [code] (timeout)", {
           delay: Argument("number", 1e3),
           code: Argument("string", "alert('Hello!')")
@@ -226,6 +229,7 @@
 
   // scratchjsblocks/constants.js
   window.sjs_constants = [
+    Block(BlockType.BUTTON, "constantsCategory", "Constants"),
     Block(BlockType.BOOLEAN, "trueBlock", "True", {}, () => true),
     Block(BlockType.BOOLEAN, "falseBlock", "False", {}, () => false),
     Block(BlockType.REPORTER, "newlineBlock", "Newline", {}, () => "\n"),
@@ -240,6 +244,7 @@
 
   // scratchjsblocks/booleans.js
   window.sjs_booleans = [
+    Block(BlockType.BUTTON, "booleansCategory", "Booleans"),
     Block(BlockType.BOOLEAN, "boolOperation", "[val1] [op] [val2]", {
       val1: Argument("string", "true"),
       op: ArgumentWithMenu("string", "and", "boolOpMenu"),
@@ -310,6 +315,7 @@
 
   // scratchjsblocks/strings.js
   window.sjs_strings = [
+    Block(BlockType.BUTTON, "stringsCategory", "Strings"),
     Block(
       BlockType.REPORTER,
       "strReplaceBlock",
@@ -354,6 +360,7 @@
 
   // scratchjsblocks/specialreporters.js
   window.sjs_specialreporters = [
+    Block(BlockType.BUTTON, "specialreportersCategory", "Special Reporters"),
     Block(BlockType.REPORTER, "getCurrentDateTime", "current [format]", {
       format: ArgumentWithMenu("string", "datetime", "dateFormatMenu")
     }, ({ format }) => {
@@ -379,6 +386,7 @@
 
   // scratchjsblocks/console.js
   window.sjs_console = [
+    Block(BlockType.BUTTON, "consoleCategory", "Console"),
     Block(BlockType.COMMAND, "logBlock", "Log to console [message]", {
       message: Argument("string", "Something worked!")
     }, ({ message }) => {
@@ -416,6 +424,7 @@
 
   // scratchjsblocks/controlflow.js
   window.sjs_controlflow = [
+    Block(BlockType.BUTTON, "controlflowCategory", "Control Flow"),
     Block(BlockType.HAT, "whenCondition", "when [condit] is true", {
       condit: {
         type: "Boolean",
@@ -448,6 +457,7 @@
 
   // scratchjsblocks/storage.js
   window.sjs_storage = [
+    Block(BlockType.BUTTON, "storageCategory", "Storage"),
     Block(BlockType.COMMAND, "setLocalstorageNamespace", "Set LocalStorage namespace to [namespace]", {
       namespace: Argument("string", "Replace this with a unique namespace for your project")
     }, ({ namespace }) => {
@@ -480,6 +490,7 @@
 
   // scratchjsblocks/utilities.js
   window.sjs_utilities = [
+    Block(BlockType.BUTTON, "utilitiesCategory", "General Utilities"),
     Block(BlockType.REPORTER, "stringReport", "[arg1]", {
       arg1: Argument("string", "Hello")
     }, ({ arg1 }) => arg1),
@@ -510,6 +521,7 @@
 
   // scratchjsblocks/tempvars.js
   window.sjs_tempvars = [
+    Block(BlockType.BUTTON, "tempvarsCategory", "Temporary Variables"),
     Block(BlockType.COMMAND, "setTemp", "Set temporary [key] to [value]", {
       key: Argument("string", "key"),
       value: Argument("string", "value")
@@ -533,6 +545,7 @@
 
   // scratchjsblocks/arrays.js
   window.sjs_arrays = [
+    Block(BlockType.BUTTON, "arraysCategory", "Arrays"),
     Block(BlockType.BOOLEAN, "isValidJson", "Is [text] valid JSON?", {
       text: Argument("string", '{"key":"value"}')
     }, ({ text }) => {
@@ -651,12 +664,13 @@
         window.sjs_inArrLoop = false;
       }
     }),
-    Block(BlockType.REPORTER, "arrayLoopItem", "ARRAY | Current item in array loop", {}, () => window.sjs_currentItem),
-    Block(BlockType.REPORTER, "arrayLoopIndex", "ARRAY | Current index in array loop", {}, () => window.sjs_arri)
+    Block(BlockType.REPORTER, "arrayLoopItem", "ARRAY | Current item", {}, () => window.sjs_currentItem),
+    Block(BlockType.REPORTER, "arrayLoopIndex", "ARRAY | Current index", {}, () => window.sjs_arri)
   ];
 
   // scratchjsblocks/objects.js
   window.sjs_objects = [
+    Block(BlockType.BUTTON, "objectsCategory", "Objects"),
     Block(BlockType.REPORTER, "blankObject", "OBJECT | Blank object", {}, () => "{}"),
     Block(BlockType.BOOLEAN, "isObject", "OBJECT | Is [value] an object?", {
       value: Argument("string", "{}")
@@ -731,6 +745,7 @@
 
   // scratchjsblocks/data.js
   window.sjs_data = [
+    Block(BlockType.BUTTON, "dataCategory", "Data"),
     Block(BlockType.REPORTER, "parseCsv", "Parse CSV [csv]", {
       csv: Argument("string", "Name,Age,City\nJohn,25,NYC\nJane,30,LA")
     }, ({ csv }) => {
@@ -942,10 +957,24 @@
     Block(BlockType.REPORTER, "formatFileSize", "Format [bytes] as file size", {
       bytes: Argument("number", 1048576)
     }, ({ bytes }) => {
-      const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+      const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
       if (bytes === 0) return "0 Bytes";
       const i = Math.floor(Math.log(bytes) / Math.log(1024));
       return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + " " + sizes[i];
+    }),
+    Block(BlockType.REPORTER, "formatNumber", "Format [number] with [decimals] decimals", {
+      number: Argument("number", 1234.567),
+      decimals: Argument("number", 2)
+    }, ({ number, decimals }) => {
+      const suffixes = ["", "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "D", "Ud"];
+      const bnNumber = BigInt(number);
+      const bnDecimals = BigInt(decimals);
+      const bnTen = BigInt(10);
+      const bnPower = bnTen ** bnDecimals;
+      const bnFormatted = bnNumber * bnPower / bnPower;
+      const suffixIndex = Number(bnDecimals);
+      const suffix = suffixes[suffixIndex] || "Too Large";
+      return String(bnFormatted) + " " + suffix;
     }),
     Block(BlockType.REPORTER, "generateRandomString", "Generate random string length [length]", {
       length: Argument("number", 10)
@@ -973,6 +1002,7 @@
 
   // scratchjsblocks/games.js
   window.sjs_games = [
+    Block(BlockType.BUTTON, "gamesCategory", "Games"),
     Block(BlockType.REPORTER, "rollDice", "Roll [sides] sided dice", {
       sides: ArgumentWithMenu("number", "6", "diceSidesMenu")
     }, ({ sides }) => {
@@ -1107,6 +1137,7 @@
 
   // scratchjsblocks/datetime.js
   window.sjs_datetime = [
+    Block(BlockType.BUTTON, "datetimeCategory", "Date & Time"),
     Block(BlockType.REPORTER, "addDays", "Add [days] days to [date]", {
       days: Argument("number", 7),
       date: Argument("string", "2026-01-01")
@@ -1314,6 +1345,7 @@
 
   // scratchjsblocks/statistics.js
   window.sjs_statistics = [
+    Block(BlockType.BUTTON, "statisticsCategory", "Statistics"),
     Block(BlockType.REPORTER, "calculateMean", "Mean of [numbers]", {
       numbers: Argument("string", "[1, 2, 3, 4, 5]")
     }, ({ numbers }) => {
@@ -1550,6 +1582,7 @@
 
   // scratchjsblocks/browser.js
   window.sjs_browser = [
+    Block(BlockType.BUTTON, "browserCategory", "Browser"),
     Block(BlockType.REPORTER, "currentUrl", "Current page URL", {}, () => {
       return window.location.href;
     }),
@@ -1604,6 +1637,7 @@
 
   // scratchjsblocks/color.js
   window.sjs_color = [
+    Block(BlockType.BUTTON, "colorCategory", "Color"),
     Block(BlockType.REPORTER, "randomColor", "Random color", {}, () => {
       return `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0")}`;
     }),
@@ -1644,6 +1678,7 @@
 
   // scratchjsblocks/input.js
   window.sjs_input = [
+    Block(BlockType.BUTTON, "inputCategory", "Input"),
     Block(BlockType.REPORTER, "lastKeyPressed", "Last key pressed", {}, () => {
       return window.sjs_lastKey;
     }),
@@ -1666,6 +1701,7 @@
 
   // scratchjsblocks/enhanced.js
   window.sjs_enhanced = [
+    Block(BlockType.BUTTON, "enhancedCategory", "Miscellaneous"),
     Block(BlockType.REPORTER, "httpRequest", "HTTP [method] to [url] with [data]", {
       method: ArgumentWithMenu("string", "GET", "httpMethodMenu"),
       url: Argument("string", "https://example.com"),
@@ -1681,6 +1717,7 @@
 
   // scratchjsblocks/unicode.js
   window.sjs_unicode = [
+    Block(BlockType.BUTTON, "unicodeCategory", "Unicode"),
     Block(BlockType.REPORTER, "textToHexUnicode", "Text [text] to Hex Unicode", {
       text: Argument("string", "Hello")
     }, ({ text }) => {
@@ -1705,6 +1742,7 @@
 
   // scratchjsblocks/bignum.js
   window.sjs_bignum = [
+    Block(BlockType.BUTTON, "bignumCategory", "Big Numbers"),
     Block(BlockType.REPORTER, "parseAsBignum", "Convert to big number [num]", {
       num: Argument("string", "123")
     }, ({ num }) => {

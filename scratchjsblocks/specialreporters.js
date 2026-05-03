@@ -1,4 +1,5 @@
 window.sjs_specialreporters = [
+  Block(BlockType.BUTTON, "specialreportersCategory", "Special Reporters"),
   Block(BlockType.REPORTER, "getCurrentDateTime", "current [format]", {
     format: ArgumentWithMenu("string", "datetime", "dateFormatMenu"),
   }, ({ format }) => {

@@ -1,4 +1,5 @@
 window.sjs_constants = [
+  Block(BlockType.BUTTON, "constantsCategory", "Constants"),
   Block(BlockType.BOOLEAN, "trueBlock", "True", {}, () => true),
   Block(BlockType.BOOLEAN, "falseBlock", "False", {}, () => false),
   Block(BlockType.REPORTER, "newlineBlock", "Newline", {}, () => "\n"),

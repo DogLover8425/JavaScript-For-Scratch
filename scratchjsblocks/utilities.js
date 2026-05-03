@@ -1,4 +1,5 @@
 window.sjs_utilities = [
+  Block(BlockType.BUTTON, "utilitiesCategory", "General Utilities"),
   Block(BlockType.REPORTER, "stringReport", "[arg1]", {
     arg1: Argument("string", "Hello"),
   }, ({ arg1 }) => arg1),

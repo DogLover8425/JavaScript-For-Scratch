@@ -1,4 +1,5 @@
 window.sjs_data = [
+  Block(BlockType.BUTTON, "dataCategory", "Data"),
   Block(BlockType.REPORTER, "parseCsv", "Parse CSV [csv]", {
     csv: Argument("string", "Name,Age,City\nJohn,25,NYC\nJane,30,LA"),
   }, ({ csv }) => {
@@ -244,11 +245,26 @@ window.sjs_data = [
   Block(BlockType.REPORTER, "formatFileSize", "Format [bytes] as file size", {
     bytes: Argument("number", 1048576),
   }, ({ bytes }) => {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     if (bytes === 0) return '0 Bytes';
     
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
     return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+  }),
+
+  Block(BlockType.REPORTER, "formatNumber", "Format [number] with [decimals] decimals", {
+    number: Argument("number", 1234.567),
+    decimals: Argument("number", 2),
+  }, ({ number, decimals }) => {
+    const suffixes = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'D', 'Ud'];
+    const bnNumber = BigInt(number);
+    const bnDecimals = BigInt(decimals);
+    const bnTen = BigInt(10);
+    const bnPower = bnTen**bnDecimals;
+    const bnFormatted = (bnNumber * bnPower) / bnPower;
+    const suffixIndex = Number(bnDecimals);
+    const suffix = suffixes[suffixIndex] || "Too Large";
+    return String(bnFormatted) + ' ' + suffix;
   }),
   
   Block(BlockType.REPORTER, "generateRandomString", "Generate random string length [length]", {

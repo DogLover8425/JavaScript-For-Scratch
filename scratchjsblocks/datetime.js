@@ -1,4 +1,5 @@
 window.sjs_datetime = [
+  Block(BlockType.BUTTON, "datetimeCategory", "Date & Time"),
   Block(BlockType.REPORTER, "addDays", "Add [days] days to [date]", {
     days: Argument("number", 7),
     date: Argument("string", "2026-01-01"),

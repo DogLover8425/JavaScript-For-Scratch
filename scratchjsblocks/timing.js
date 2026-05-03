@@ -1,4 +1,5 @@
 window.sjs_timing = [
+  Block(BlockType.BUTTON, "timingCategory", "Timing"),
   Block(BlockType.COMMAND, "setTimeoutBlock", "After [delay] ms run [code] (timeout)", {
     delay: Argument("number", 1000),
     code: Argument("string", "alert('Hello!')"),

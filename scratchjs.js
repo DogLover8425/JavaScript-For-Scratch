@@ -89,13 +89,14 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       <li> Open pages and links
       <li> Send data to other websites
       <li> Access stored data
+      <li> Get Scratch data
       </ul>
       <p>
       <br>Please make sure you trust the creator of this project.
       <br>If you don't trust this project, click "Cancel".
       </p>
       <button id="scratchjs-ok-button" disabled onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">Please wait, extension is loading</button>
-      <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button>
+      <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button><br><br>
       <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
       <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>`;
       modal.id = "scratchjs-warning-modal";
@@ -126,6 +127,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
 
         #scratchjs-warning-modal label {
           color: black !important;
+          display: inline-block;
         }
 
         #scratchjs-warning-modal span {
@@ -143,6 +145,10 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
         #scratchjs-warning-modal li {
           margin: 0 !important;
           padding: 0 !important;
+        }
+
+        #scratchjs-devmode-checkbox {
+          display: inline-block;
         }
 
         #scratchjs-warning-modal {
@@ -351,14 +357,14 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
        * @param {Function} fun - The function to execute when the block is run.
        * @returns {Object} - The block object.
        */
-      window.Block = (blockType, opcode, text, args, fun) => {
+      window.Block = (blockType, opcode, text, args = {}, fun = () => {}, hideFromPalette = false) => {
         window.allBlocks.push({
           blockType: blockType || BlockType.COMMAND,
           opcode,
           text,
           arguments: args,
           args,
-          hideFromPalette: false,
+          hideFromPalette,
         });
 
         const wrappedFunction = function (...args) {
@@ -396,13 +402,13 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
 
             switch (blockType) {
               case BlockType.REPORTER:
-                return `Error: ${error.message}`;
+                return `An error occured: ${error.message}`;
               case BlockType.BOOLEAN:
                 return false;
               case BlockType.COMMAND:
               case BlockType.HAT:
               case BlockType.LOOP:
-                return undefined;
+                return `An error occured: ${error.message}`;
               default:
                 return null;
             }
@@ -493,6 +499,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
             color1: "#FF6600",
             color2: "#E65C00",
             color3: "#CC5200",
+            docsURI: "https://ironbill25.github.io/projects/scratchjs/docs",
             blocks: (() => {
               const blocks = [
                 Block(BlockType.COMMAND, "OpenDocs", "Open Documentation"),

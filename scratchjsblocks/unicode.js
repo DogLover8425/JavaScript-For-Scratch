@@ -1,4 +1,5 @@
 window.sjs_unicode = [
+    Block(BlockType.BUTTON, "unicodeCategory", "Unicode"),
     Block(BlockType.REPORTER, "textToHexUnicode", "Text [text] to Hex Unicode", {
         text: Argument("string", "Hello")
     }, ({ text }) => {

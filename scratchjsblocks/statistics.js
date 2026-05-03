@@ -1,4 +1,5 @@
 window.sjs_statistics = [
+  Block(BlockType.BUTTON, "statisticsCategory", "Statistics"),
   Block(BlockType.REPORTER, "calculateMean", "Mean of [numbers]", {
     numbers: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ numbers }) => {

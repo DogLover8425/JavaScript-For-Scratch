@@ -1,4 +1,5 @@
 window.sjs_games = [
+  Block(BlockType.BUTTON, "gamesCategory", "Games"),
   Block(BlockType.REPORTER, "rollDice", "Roll [sides] sided dice", {
     sides: ArgumentWithMenu("number", "6", "diceSidesMenu"),
   }, ({ sides }) => {

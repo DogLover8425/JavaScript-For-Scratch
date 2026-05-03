@@ -1,4 +1,5 @@
 window.sjs_corejs = [
+  Block(BlockType.BUTTON, "corejsCategory", "JS Operations"),
   Block(BlockType.COMMAND, "RunJS", "Run JS code [code]", {
     code: Argument("string", "alert('Hello World!')"),
   }, ({ code }) => {

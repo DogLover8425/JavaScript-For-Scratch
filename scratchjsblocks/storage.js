@@ -1,4 +1,5 @@
 window.sjs_storage = [
+  Block(BlockType.BUTTON, "storageCategory", "Storage"),
   Block(BlockType.COMMAND, "setLocalstorageNamespace", "Set LocalStorage namespace to [namespace]", {
     namespace: Argument("string", "Replace this with a unique namespace for your project"),
   }, ({ namespace }) => {

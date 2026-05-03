@@ -1,4 +1,5 @@
 window.sjs_strings = [
+  Block(BlockType.BUTTON, "stringsCategory", "Strings"),
   Block(
     BlockType.REPORTER,
     "strReplaceBlock",

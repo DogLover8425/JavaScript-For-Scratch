@@ -1,4 +1,5 @@
 window.sjs_input = [
+  Block(BlockType.BUTTON, "inputCategory", "Input"),
   Block(BlockType.REPORTER, "lastKeyPressed", "Last key pressed", {}, () => {
     return window.sjs_lastKey;
   }),

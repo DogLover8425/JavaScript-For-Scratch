@@ -1,4 +1,5 @@
 window.sjs_browser = [
+  Block(BlockType.BUTTON, "browserCategory", "Browser"),
   Block(BlockType.REPORTER, "currentUrl", "Current page URL", {}, () => {
     return window.location.href;
   }),
