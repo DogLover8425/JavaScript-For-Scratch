@@ -361,7 +361,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
         window.allBlocks.push({
           blockType: blockType || BlockType.COMMAND,
           opcode,
-          text,
+          text: opcode.endsWith("Category") ? "=== " + text + " ===" : text,
           arguments: args,
           args,
           hideFromPalette,
