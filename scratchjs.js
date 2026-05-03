@@ -457,7 +457,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
         COMMAND: "command",
         HAT: "hat",
         BOOLEAN: "Boolean", // Yes, this is supposed to be capitalized, I looked
-        BUTTON: "button",
+        BUTTON: "reporter",
         CONDITIONAL: "conditional",
         EVENT: "event",
         LOOP: "loop",

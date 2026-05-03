@@ -5,37 +5,59 @@ const YourExtensionName = "Replace This!";
  * @param {Function} callback - The function to call with the VM.
  */
 function waitForVM(callback) {
-  if (window.vm) {
-    callback(window.vm);
-    return;
-  }
-  const el = document.querySelector(
-    'div[class*="stage-header_stage-header-wrapper"]',
-  );
-  if (!el) return;
+      if (window.vm) {
+        callback(window.vm);
+        return console.log("VM already available");
+      }
+      vmtries++;
+      if (vmtries > 15) {
+        console.error("VM not found after 15 tries, stopping attempts. Please report this error on [INSERT YOUR WEBSITE LINK HERE]");
+        return;
+      }
+      console.log("waiting for VM, try " + vmtries);
+      const el = document.querySelector(
+        'div[class*="stage-header_stage-header-wrapper"]',
+      );
+      if (!el) return console.log("No stage header found");
 
-  const reactKey = Object.keys(el).find(
-    (k) =>
-      k.startsWith("__reactFiber$") || k.startsWith("__reactInternalInstance$"),
-  );
-  if (!reactKey) return;
+      const reactKey = Object.keys(el).find(
+        (k) =>
+          k.startsWith("__reactFiber$") ||
+          k.startsWith("__reactInternalInstance$"),
+      );
+      console.log("Check 1 - reactKey:", reactKey);
+      if (!reactKey) return console.log("No react key found");
 
-  let fiber = el[reactKey];
-  while (fiber && !fiber.stateNode) fiber = fiber.return;
-  const vm =
-    fiber?.stateNode?.props?.vm ||
-    fiber?.return?.return?.return?.return?.updateQueue?.stores?.[0]?.value?.vm;
+      let fiber = el[reactKey];
+      console.log("Check 2 - fiber:", fiber, fiber.memoizedProps);
+      while (fiber && (chkKey(fiber.memoizedProps, "ariaLabel") !== "Stage")) {
+        fiber = fiber.return;
+        if (fiber?.stateNode?.props?.vm) break;
+      }
+      console.log("Check 3 - fiber after loop:", fiber);
+      let vm =
+        fiber?.stateNode?.props?.vm ||
+        fiber?.return?.return?.return?.return?.updateQueue?.stores?.[0]?.value
+          ?.vm;
+      console.log("Check 4 - vm:", vm);
 
-  if (vm) {
-    console.log(
-      "%c[Scratch Injector]%c VM found!",
-      "color: lime;",
-      "color: none;",
-    );
-    window.vm = vm;
-    callback(vm);
-  }
-}
+      if (!vm && fiber?.memoizedProps) {
+        vm = fiber.memoizedProps.vm;
+        console.log("Check 5 - vm from memoizedProps:", vm);
+      }
+
+      if (vm) {
+        console.log(
+          "%c[Injector]%c VM found!",
+          "color: lime;",
+          "color: none;",
+        );
+        window.vm = vm;
+        callback(vm);
+      } else {
+        setTimeout(() => waitForVM(callback), 1000);
+      }
+    }
 
 waitForVM((vm) => {
   // Extension code.
