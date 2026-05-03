@@ -48,7 +48,7 @@ window.sjs_data = [
   }),
   
   Block(BlockType.REPORTER, "formatNumber", "Format [number] to [decimals] decimals", {
-    number: Argument("number", 3.14159),
+    number: Argument("number", 3.141592),
     decimals: Argument("number", 2),
   }, ({ number, decimals }) => {
     return parseFloat(number).toFixed(parseInt(decimals));
@@ -252,19 +252,21 @@ window.sjs_data = [
     return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
   }),
 
-  Block(BlockType.REPORTER, "formatNumber", "Format [number] with [decimals] decimals", {
+  Block(BlockType.REPORTER, "formatNumberWithSuffix", "Format [number] with [decimals] decimals", {
     number: Argument("number", 1234.567),
     decimals: Argument("number", 2),
   }, ({ number, decimals }) => {
     const suffixes = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'D', 'Ud'];
-    const bnNumber = BigInt(number);
-    const bnDecimals = BigInt(decimals);
-    const bnTen = BigInt(10);
-    const bnPower = bnTen**bnDecimals;
-    const bnFormatted = (bnNumber * bnPower) / bnPower;
-    const suffixIndex = Number(bnDecimals);
-    const suffix = suffixes[suffixIndex] || "Too Large";
-    return String(bnFormatted) + ' ' + suffix;
+    let absNumber = Math.abs(number);
+    let suffixIndex = 0;
+    
+    while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
+      absNumber /= 1000;
+      suffixIndex++;
+    }
+    
+    const formatted = (number / Math.pow(1000, suffixIndex)).toFixed(parseInt(decimals));
+    return formatted + suffixes[suffixIndex];
   }),
   
   Block(BlockType.REPORTER, "generateRandomString", "Generate random string length [length]", {
