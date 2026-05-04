@@ -360,20 +360,8 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
        * @returns {Object} - The block object.
        */
       window.Block = (blockType, opcode, text, args = {}, fun = () => {}, othersettings = {}) => {
-        window.allBlocks.push({
-          blockType: blockType || BlockType.COMMAND,
-          opcode,
-          text: opcode.endsWith("Category") ? "=== " + text + " ===" : text,
-          arguments: args,
-          args,
-          hideFromPalette: othersettings.hide || false,
-          isTerminal: othersettings.terminal || false,
-          blockAllThreads: othersettings.blockall || false,
-          filter: othersettings.filter || null,
-          func: wrappedFunction,
-        });
 
-        const wrappedFunction = function (...args) {
+const wrappedFunction = function (...args) {
           try {
             return fun.apply(this, args);
           } catch (error) {
@@ -420,6 +408,21 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
             }
           }
         };
+
+        window.allBlocks.push({
+          blockType: blockType || BlockType.COMMAND,
+          opcode,
+          text: opcode.endsWith("Category") ? "=== " + text + " ===" : text,
+          arguments: args,
+          args,
+          hideFromPalette: othersettings.hide || false,
+          isTerminal: othersettings.terminal || false,
+          blockAllThreads: othersettings.blockall || false,
+          filter: othersettings.filter || null,
+          func: wrappedFunction,
+        });
+
+        
 
         window.allFunctions[opcode] = true;
         return window.allBlocks[window.allBlocks.length - 1];
