@@ -1797,7 +1797,7 @@
     Block(BlockType.HAT, "whenKeyPressed", "When key [key] is pressed", {
       key: Argument("string", "a")
     }, ({ key }) => {
-      return window.pressedKeys.includes(key);
+      return Boolean(window.pressedKeys.includes(key));
     })
   ];
 
