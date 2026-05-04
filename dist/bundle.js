@@ -238,6 +238,8 @@
     // More constants
     Block(BlockType.REPORTER, "piBlock", "\u03C0", {}, () => Math.PI),
     Block(BlockType.REPORTER, "eBlock", "e", {}, () => Math.E),
+    Block(BlockType.REPORTER, "phiBlock", "\u03C6", {}, () => (1 + Math.sqrt(5)) / 2),
+    Block(BlockType.REPORTER, "eulergammaBlock", "\u03B3", {}, () => 0.5772156649015329),
     Block(BlockType.REPORTER, "infinityBlock", "\u221E", {}, () => Infinity),
     Block(BlockType.REPORTER, "negativeInfinityBlock", "-\u221E", {}, () => -Infinity)
   ];
@@ -281,6 +283,20 @@
           return val1 != val2;
         case "exactly-equal":
           return val1 === val2;
+        case "bitwise-and":
+          return val1 & val2;
+        case "bitwise-or":
+          return val1 | val2;
+        case "bitwise-xor":
+          return val1 ^ val2;
+        case "bitwise-not":
+          return ~val1;
+        case "left-shift":
+          return val1 << val2;
+        case "right-shift":
+          return val1 >> val2;
+        case "zero-fill-right-shift":
+          return val1 >>> val2;
         case "add":
           return val1 + val2;
         case "subtract":
@@ -292,9 +308,23 @@
         case "modulo":
           return val1 % val2;
         case "power":
-          return Math.pow(val1, val2);
+          return val1 ** val2;
         case "scientific":
           return Number(`${val1}e+${val2}`);
+        case "join":
+          return val1 + val2;
+        case "contains":
+          return val1.includes(val2);
+        case "startsWith":
+          return val1.startsWith(val2);
+        case "endsWith":
+          return val1.endsWith(val2);
+        case "repeated":
+          return val1.repeat(val2);
+        case "padstart":
+          return val1.padStart(val2, " ");
+        case "padend":
+          return val1.padEnd(val2, " ");
         default:
           return false;
       }
@@ -355,7 +385,68 @@
         default:
           return text;
       }
-    })
+    }),
+    Block(BlockType.REPORTER, "padString", "Pad [text] to length [length] characters on [side] with [char]", {
+      text: Argument("string", "Hello"),
+      length: Argument("number", 10),
+      side: ArgumentWithMenu("string", "left", "padSideMenu"),
+      char: Argument("string", " ")
+    }, ({ text, length, side, char }) => {
+      if (side === "left") {
+        return text.padStart(length, char);
+      } else {
+        return text.padEnd(length, char);
+      }
+    }),
+    Block(BlockType.REPORTER, "repeatString", "Repeat [text] [times] times", {
+      text: Argument("string", "Hello"),
+      times: Argument("number", 3)
+    }, ({ text, times }) => text.repeat(times)),
+    Block(BlockType.REPORTER, "countOccurrences", "Count occurrences of [text] in [string]", {
+      text: Argument("string", "l"),
+      string: Argument("string", "Hello World")
+    }, ({ text, string }) => {
+      let count = 0;
+      let pos = 0;
+      while ((pos = string.indexOf(text, pos)) !== -1) {
+        count++;
+        pos += text.length;
+      }
+      return count;
+    }),
+    Block(BlockType.REPORTER, "matchRegex", "Match regular expression [regex] in [text]", {
+      regex: Argument("string", "[a-z]+"),
+      text: Argument("string", "Hello World")
+    }, ({ regex, text }) => {
+      const matches = text.match(new RegExp(regex, "g"));
+      return matches ? JSON.stringify(matches) : "";
+    }),
+    Block(BlockType.REPORTER, "joinLen3", "Join [t1] [t2] [t3]", {
+      t1: Argument("string", "Hello"),
+      t2: Argument("string", " "),
+      t3: Argument("string", "World")
+    }, ({ t1, t2, t3 }) => t1 + t2 + t3),
+    Block(BlockType.REPORTER, "joinLen4", "Join [t1] [t2] [t3] [t4]", {
+      t1: Argument("string", "Hello"),
+      t2: Argument("string", " "),
+      t3: Argument("string", "World"),
+      t4: Argument("string", "!")
+    }, ({ t1, t2, t3, t4 }) => t1 + t2 + t3 + t4),
+    Block(BlockType.REPORTER, "joinLen5", "Join [t1] [t2] [t3] [t4] [t5]", {
+      t1: Argument("string", "Hello"),
+      t2: Argument("string", " "),
+      t3: Argument("string", "World"),
+      t4: Argument("string", "!"),
+      t5: Argument("string", "?")
+    }, ({ t1, t2, t3, t4, t5 }) => t1 + t2 + t3 + t4 + t5),
+    Block(BlockType.REPORTER, "joinLen6", "Join [t1] [t2] [t3] [t4] [t5] [t6]", {
+      t1: Argument("string", "Hello"),
+      t2: Argument("string", " "),
+      t3: Argument("string", "World"),
+      t4: Argument("string", "!"),
+      t5: Argument("string", "?"),
+      t6: Argument("string", "!")
+    }, ({ t1, t2, t3, t4, t5, t6 }) => t1 + t2 + t3 + t4 + t5 + t6)
   ];
 
   // scratchjsblocks/specialreporters.js
@@ -540,6 +631,9 @@
     }),
     Block(BlockType.COMMAND, "clearAllTemp", "Clear all temporary variables", {}, () => {
       Object.keys(window.sjs_tempVariables).forEach((key) => delete window.sjs_tempVariables[key]);
+    }),
+    Block(BlockType.REPORTER, "allTempVars", "All temporary variables", {}, () => {
+      return JSON.stringify(window.sjs_tempVariables);
     })
   ];
 
@@ -665,7 +759,10 @@
       }
     }),
     Block(BlockType.REPORTER, "arrayLoopItem", "ARRAY | Current item", {}, () => window.sjs_currentItem),
-    Block(BlockType.REPORTER, "arrayLoopIndex", "ARRAY | Current index", {}, () => window.sjs_arri)
+    Block(BlockType.REPORTER, "arrayLoopIndex", "ARRAY | Current index", {}, () => window.sjs_arri),
+    Block(BlockType.REPORTER, "rawArray", "ARRAY | Raw array [array]", {
+      array: Argument("string", '["Apple", "Banana"]')
+    }, ({ array }) => tryParse(array))
   ];
 
   // scratchjsblocks/objects.js
@@ -740,7 +837,10 @@
       }
       result[keys[keys.length - 1]] = value;
       return JSON.stringify(obj);
-    })
+    }),
+    Block(BlockType.REPORTER, "rawObject", "OBJECT | Raw object [object]", {
+      object: Argument("string", '{"name": "John"}')
+    }, ({ object }) => tryParse(object))
   ];
 
   // scratchjsblocks/data.js
@@ -787,7 +887,7 @@
       }
     }),
     Block(BlockType.REPORTER, "formatNumber", "Format [number] to [decimals] decimals", {
-      number: Argument("number", 3.14159),
+      number: Argument("number", 3.141592),
       decimals: Argument("number", 2)
     }, ({ number, decimals }) => {
       return parseFloat(number).toFixed(parseInt(decimals));
@@ -962,19 +1062,19 @@
       const i = Math.floor(Math.log(bytes) / Math.log(1024));
       return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + " " + sizes[i];
     }),
-    Block(BlockType.REPORTER, "formatNumber", "Format [number] with [decimals] decimals", {
+    Block(BlockType.REPORTER, "formatNumberWithSuffix", "Format [number] with [decimals] decimals", {
       number: Argument("number", 1234.567),
       decimals: Argument("number", 2)
     }, ({ number, decimals }) => {
       const suffixes = ["", "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "D", "Ud"];
-      const bnNumber = BigInt(number);
-      const bnDecimals = BigInt(decimals);
-      const bnTen = BigInt(10);
-      const bnPower = bnTen ** bnDecimals;
-      const bnFormatted = bnNumber * bnPower / bnPower;
-      const suffixIndex = Number(bnDecimals);
-      const suffix = suffixes[suffixIndex] || "Too Large";
-      return String(bnFormatted) + " " + suffix;
+      let absNumber = Math.abs(number);
+      let suffixIndex = 0;
+      while (absNumber >= 1e3 && suffixIndex < suffixes.length - 1) {
+        absNumber /= 1e3;
+        suffixIndex++;
+      }
+      const formatted = (number / Math.pow(1e3, suffixIndex)).toFixed(parseInt(decimals));
+      return formatted + suffixes[suffixIndex];
     }),
     Block(BlockType.REPORTER, "generateRandomString", "Generate random string length [length]", {
       length: Argument("number", 10)
@@ -1693,6 +1793,11 @@
     }),
     Block(BlockType.REPORTER, "getPressedKeys", "Get all pressed keys", {}, () => {
       return JSON.stringify(Object.keys(window.pressedKeys).filter((key) => window.pressedKeys[key]));
+    }),
+    Block(BlockType.HAT, "whenKeyPressed", "When key [key] is pressed", {
+      key: Argument("string", "a")
+    }, ({ key }) => {
+      return window.pressedKeys.includes(key);
     })
   ];
 
@@ -1742,7 +1847,7 @@
 
   // scratchjsblocks/bignum.js
   window.sjs_bignum = [
-    Block(BlockType.BUTTON, "bignumCategory", "Big Numbers"),
+    Block(BlockType.BUTTON, "bignumCategory", "Big Numbers", {}, () => "IMPORTANT: Make sure to stringify numbers BEFORE you put them in variables or lists, or the Scratch editor could crash!"),
     Block(BlockType.REPORTER, "parseAsBignum", "Convert to big number [num]", {
       num: Argument("string", "123")
     }, ({ num }) => {
