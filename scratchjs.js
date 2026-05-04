@@ -359,14 +359,18 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
        * @param {Function} fun - The function to execute when the block is run.
        * @returns {Object} - The block object.
        */
-      window.Block = (blockType, opcode, text, args = {}, fun = () => {}, hideFromPalette = false) => {
+      window.Block = (blockType, opcode, text, args = {}, fun = () => {}, othersettings = {}) => {
         window.allBlocks.push({
           blockType: blockType || BlockType.COMMAND,
           opcode,
           text: opcode.endsWith("Category") ? "=== " + text + " ===" : text,
           arguments: args,
           args,
-          hideFromPalette,
+          hideFromPalette: othersettings.hide || false,
+          isTerminal: othersettings.terminal || false,
+          blockAllThreads: othersettings.blockall || false,
+          filter: othersettings.filter || null,
+          func: wrappedFunction,
         });
 
         const wrappedFunction = function (...args) {
@@ -417,7 +421,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
           }
         };
 
-        window.allFunctions[opcode] = wrappedFunction;
+        window.allFunctions[opcode] = true;
         return window.allBlocks[window.allBlocks.length - 1];
       };
 
@@ -670,13 +674,6 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       window.sjs_userConsent = async function () {
         window.sjs_hasUserConsent = true;
 
-        const dontShowAgainCheckbox = document.getElementById(
-          "scratchjs-dontshowagain-checkbox",
-        );
-        if (dontShowAgainCheckbox && dontShowAgainCheckbox.checked) {
-          localStorage.setItem("scratchjs_dontShowAgain", "true");
-        }
-
         const devModeCheckbox = document.getElementById(
           "scratchjs-devmode-checkbox",
         );
@@ -699,7 +696,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
               (block) =>
                 block.opcode && !(block.opcode in (window.allFunctions || {})),
             );
-            console.warn(
+            if (missingFunctions.length > 0) console.warn(
               "Missing functions for blocks:",
               missingFunctions.map((b) => b.opcode),
             );
@@ -712,11 +709,11 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
 
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
 
-        for (const [opcode, func] of Object.entries(
+        /*for (const [opcode, func] of Object.entries(
           window.allFunctions || {},
         )) {
           extensionInstance[opcode] = func;
-        }
+        }*/
         var serviceName =
           vm.extensionManager._registerInternalExtension(extensionInstance);
         vm.extensionManager._loadedExtensions.set(
