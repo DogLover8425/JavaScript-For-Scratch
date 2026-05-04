@@ -424,7 +424,7 @@ const wrappedFunction = function (...args) {
 
         
 
-        window.allFunctions[opcode] = true;
+        window.allFunctions[opcode] = wrappedFunction;
         return window.allBlocks[window.allBlocks.length - 1];
       };
 
@@ -712,11 +712,11 @@ const wrappedFunction = function (...args) {
 
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
 
-        /*for (const [opcode, func] of Object.entries(
+        for (const [opcode, func] of Object.entries(
           window.allFunctions || {},
         )) {
           extensionInstance[opcode] = func;
-        }*/
+        }
         var serviceName =
           vm.extensionManager._registerInternalExtension(extensionInstance);
         vm.extensionManager._loadedExtensions.set(
