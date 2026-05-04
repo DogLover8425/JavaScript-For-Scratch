@@ -516,6 +516,12 @@
   // scratchjsblocks/controlflow.js
   window.sjs_controlflow = [
     Block(BlockType.BUTTON, "controlflowCategory", "Control Flow"),
+    Block(BlockType.HAT, "whenEqual", "when [value] equals [othervalue]", {
+      value: Argument("string", "1"),
+      othervalue: Argument("string", "1")
+    }, ({ value, othervalue }) => {
+      return Boolean(value === othervalue);
+    }),
     Block(BlockType.HAT, "whenCondition", "when [condit] is true", {
       condit: {
         type: "Boolean",
