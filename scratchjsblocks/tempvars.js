@@ -19,4 +19,7 @@ window.sjs_tempvars = [
   Block(BlockType.COMMAND, "clearAllTemp", "Clear all temporary variables", {}, () => {
     Object.keys(window.sjs_tempVariables).forEach(key => delete window.sjs_tempVariables[key]);
   }),
+  Block(BlockType.REPORTER, "allTempVars", "All temporary variables", {}, () => {
+    return JSON.stringify(window.sjs_tempVariables);
+  }),
 ];

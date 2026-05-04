@@ -70,4 +70,7 @@ window.sjs_objects = [
     result[keys[keys.length - 1]] = value;
     return JSON.stringify(obj);
   }),
+  Block(BlockType.REPORTER, "rawObject", "OBJECT | Raw object [object]", {
+    object: Argument("string", "{\"name\": \"John\"}"),
+  }, ({ object }) => tryParse(object)),
 ];

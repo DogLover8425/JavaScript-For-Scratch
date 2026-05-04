@@ -37,6 +37,20 @@ window.sjs_booleans = [
               return val1 != val2;
             case "exactly-equal":
               return val1 === val2;
+            case "bitwise-and":
+              return val1 & val2;
+            case "bitwise-or":
+              return val1 | val2;
+            case "bitwise-xor":
+              return val1 ^ val2;
+            case "bitwise-not":
+              return ~val1;
+            case "left-shift":
+              return val1 << val2;
+            case "right-shift":
+              return val1 >> val2;
+            case "zero-fill-right-shift":
+              return val1 >>> val2;
             case "add":
               return val1 + val2;
             case "subtract":
@@ -48,9 +62,23 @@ window.sjs_booleans = [
             case "modulo":
               return val1 % val2;
             case "power":
-              return Math.pow(val1, val2);
+              return val1 ** val2;
             case "scientific":
               return Number(`${val1}e+${val2}`);
+            case "join":
+              return val1 + val2;
+            case "contains":
+              return val1.includes(val2);
+            case "startsWith":
+              return val1.startsWith(val2);
+            case "endsWith":
+              return val1.endsWith(val2);
+            case "repeated":
+              return val1.repeat(val2);
+            case "padstart":
+              return val1.padStart(val2, " ");
+            case "padend":
+              return val1.padEnd(val2, " ");
             default:
               return false;
           }

@@ -15,4 +15,9 @@ window.sjs_input = [
   Block(BlockType.REPORTER, "getPressedKeys", "Get all pressed keys", {}, () => {
     return JSON.stringify(Object.keys(window.pressedKeys).filter(key => window.pressedKeys[key]));
   }),
+  Block(BlockType.HAT, "whenKeyPressed", "When key [key] is pressed", {
+    key: Argument("string", "a"),
+  }, ({ key }) => {
+    return window.pressedKeys.includes(key);
+  }),
 ];

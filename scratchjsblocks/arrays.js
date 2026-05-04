@@ -120,4 +120,7 @@ window.sjs_arrays = [
   }),
   Block(BlockType.REPORTER, "arrayLoopItem", "ARRAY | Current item", {}, () => window.sjs_currentItem),
   Block(BlockType.REPORTER, "arrayLoopIndex", "ARRAY | Current index", {}, () => window.sjs_arri),
+  Block(BlockType.REPORTER, "rawArray", "ARRAY | Raw array [array]", {
+    array: Argument("string", "[\"Apple\", \"Banana\"]"),
+  }, ({ array }) => tryParse(array)),
 ];

@@ -1,5 +1,5 @@
 window.sjs_bignum = [
-    Block(BlockType.BUTTON, "bignumCategory", "Big Numbers"),
+    Block(BlockType.BUTTON, "bignumCategory", "Big Numbers", {}, () => "IMPORTANT: Make sure to stringify numbers BEFORE you put them in variables or lists, or the Scratch editor could crash!"),
     Block(BlockType.REPORTER, "parseAsBignum", "Convert to big number [num]", {
         num: Argument("string", "123")
     }, ({ num }) => {

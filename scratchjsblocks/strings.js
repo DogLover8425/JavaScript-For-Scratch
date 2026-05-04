@@ -39,4 +39,65 @@ window.sjs_strings = [
         return text;
     }
   }),
+  Block(BlockType.REPORTER, "padString", "Pad [text] to length [length] characters on [side] with [char]", {
+    text: Argument("string", "Hello"),
+    length: Argument("number", 10),
+    side: ArgumentWithMenu("string", "left", "padSideMenu"),
+    char: Argument("string", " "),
+  }, ({ text, length, side, char }) => {
+    if (side === "left") {
+      return text.padStart(length, char);
+    } else {
+      return text.padEnd(length, char);
+    }
+  }),
+  Block(BlockType.REPORTER, "repeatString", "Repeat [text] [times] times", {
+    text: Argument("string", "Hello"),
+    times: Argument("number", 3),
+  }, ({ text, times }) => text.repeat(times)),
+  Block(BlockType.REPORTER, "countOccurrences", "Count occurrences of [text] in [string]", {
+    text: Argument("string", "l"),
+    string: Argument("string", "Hello World"),
+  }, ({ text, string }) => {
+    let count = 0;
+    let pos = 0;
+    while ((pos = string.indexOf(text, pos)) !== -1) {
+      count++;
+      pos += text.length;
+    }
+    return count;
+  }),
+  Block(BlockType.REPORTER, "matchRegex", "Match regular expression [regex] in [text]", {
+    regex: Argument("string", "[a-z]+"),
+    text: Argument("string", "Hello World"),
+  }, ({ regex, text }) => {
+    const matches = text.match(new RegExp(regex, "g"));
+    return matches ? JSON.stringify(matches) : "";
+  }),
+  Block(BlockType.REPORTER, "joinLen3", "Join [t1] [t2] [t3]", {
+    t1: Argument("string", "Hello"),
+    t2: Argument("string", " "),
+    t3: Argument("string", "World"),
+  }, ({ t1, t2, t3 }) => t1 + t2 + t3),
+  Block(BlockType.REPORTER, "joinLen4", "Join [t1] [t2] [t3] [t4]", {
+    t1: Argument("string", "Hello"),
+    t2: Argument("string", " "),
+    t3: Argument("string", "World"),
+    t4: Argument("string", "!"),
+  }, ({ t1, t2, t3, t4 }) => t1 + t2 + t3 + t4),
+  Block(BlockType.REPORTER, "joinLen5", "Join [t1] [t2] [t3] [t4] [t5]", {
+    t1: Argument("string", "Hello"),
+    t2: Argument("string", " "),
+    t3: Argument("string", "World"),
+    t4: Argument("string", "!"),
+    t5: Argument("string", "?"),
+  }, ({ t1, t2, t3, t4, t5 }) => t1 + t2 + t3 + t4 + t5),
+  Block(BlockType.REPORTER, "joinLen6", "Join [t1] [t2] [t3] [t4] [t5] [t6]", {
+    t1: Argument("string", "Hello"),
+    t2: Argument("string", " "),
+    t3: Argument("string", "World"),
+    t4: Argument("string", "!"),
+    t5: Argument("string", "?"),
+    t6: Argument("string", "!"),
+  }, ({ t1, t2, t3, t4, t5, t6 }) => t1 + t2 + t3 + t4 + t5 + t6),
 ];

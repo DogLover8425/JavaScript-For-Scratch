@@ -246,6 +246,8 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
 
       window.allFunctions = {};
 
+      window.scratchProjectId = window.location.pathname.split("/")[2];
+
       async function loadBlockFiles() {
         console.log("Loading blocks file...");
 
@@ -568,6 +570,20 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
                   MenuItem("%", "modulo"),
                   MenuItem("^", "power"),
                   MenuItem("* 10^", "scientific"),
+                  MenuItem("join", "join"),
+                  MenuItem("contains", "contains"),
+                  MenuItem("starts with", "startsWith"),
+                  MenuItem("ends with", "endsWith"),
+                  MenuItem("repeated", "repeated"),
+                  MenuItem("pad start with spaces", "padstart"),
+                  MenuItem("pad end with spaces", "padend"),
+                  MenuItem("bitwise AND", "bitwise-and"),
+                  MenuItem("bitwise OR", "bitwise-or"),
+                  MenuItem("bitwise XOR", "bitwise-xor"),
+                  MenuItem("bitwise NOT", "bitwise-not"),
+                  MenuItem("left shift", "left-shift"),
+                  MenuItem("right shift", "right-shift"),
+                  MenuItem("zero-fill right shift", "zero-fill-right-shift"),
                 ],
                 "and",
               ),
@@ -630,12 +646,15 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
               ),
               dateFormatMenu: Menu(
                 [
-                  MenuItem("MM/DD/YYYY", "MM/DD/YYYY"),
-                  MenuItem("DD/MM/YYYY", "DD/MM/YYYY"),
-                  MenuItem("YYYY-MM-DD", "YYYY-MM-DD"),
-                  MenuItem("Month DD, YYYY", "Month DD, YYYY"),
+                  MenuItem("Date + time", "datetime"),
+                  MenuItem("Date", "date"),
+                  MenuItem("Time", "time"),
                 ],
-                "MM/DD/YYYY",
+                "datetime",
+              ),
+              padSideMenu: Menu(
+                [MenuItem("left", "left"), MenuItem("right", "right")],
+                "left",
               ),
             },
           };
