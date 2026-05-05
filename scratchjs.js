@@ -418,11 +418,8 @@ const wrappedFunction = function (...args) {
           hideFromPalette: othersettings.hide || false,
           isTerminal: othersettings.terminal || false,
           blockAllThreads: othersettings.blockall || false,
-          filter: othersettings.filter || null,
-          func: wrappedFunction,
+          filter: othersettings.filter || null
         });
-
-        
 
         window.allFunctions[opcode] = wrappedFunction;
         return window.allBlocks[window.allBlocks.length - 1];
