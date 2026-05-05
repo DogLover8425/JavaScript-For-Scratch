@@ -9,11 +9,16 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
 
     let devmode = false;
     let vmtries = 0;
+    let viewmode = false;
 
     function chkKey(obj, key) {
       if (!obj) return "";
       return Object.keys(obj).includes(key) ? obj[key] : "";
     }
+
+    window.sjs_applyViewMode = () => {
+      viewmode = true;
+    };
 
     /**
      * Waits for the Scratch VM to be available and calls the callback with it.
@@ -98,7 +103,9 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       <button id="scratchjs-ok-button" disabled onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">Please wait, extension is loading</button>
       <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button><br><br>
       <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
-      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>`;
+      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>
+      <input type="button" id="scratchjs-viewmode-checkbox" onchange="window.sjs_applyViewMode()" value="View Mode" title="Adds the extension to the project, but doesn't let blocks run">
+      <p id="scratchjs-viewmode-info" style="display: none;">View Mode is enabled. This means that blocks will not be run, so you can safely view the project and review it for malicious code.</p>`;
       modal.id = "scratchjs-warning-modal";
       document.head.innerHTML += `
       <style>
@@ -709,11 +716,11 @@ const wrappedFunction = function (...args) {
 
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
 
-        for (const [opcode, func] of Object.entries(
+         if (!viewmode) {for (const [opcode, func] of Object.entries(
           window.allFunctions || {},
         )) {
           extensionInstance[opcode] = func;
-        }
+        }};
         var serviceName =
           vm.extensionManager._registerInternalExtension(extensionInstance);
         vm.extensionManager._loadedExtensions.set(
