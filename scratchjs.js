@@ -104,7 +104,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button><br><br>
       <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
       <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>
-      <input type="button" id="scratchjs-viewmode-checkbox" onchange="window.sjs_applyViewMode()" value="View Mode" title="Adds the extension to the project, but doesn't let blocks run">
+      <button id="scratchjs-viewmode-button" onclick="window.sjs_applyViewMode()" title="Adds the extension to the project, but doesn't let blocks run">View Mode</button>
       <p id="scratchjs-viewmode-info" style="display: none;">View Mode is enabled. This means that blocks will not be run, so you can safely view the project and review it for malicious code.</p>`;
       modal.id = "scratchjs-warning-modal";
       document.head.innerHTML += `
@@ -173,6 +173,15 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
           font-family: Arial, sans-serif;
           font-size: 16px;
           line-height: 1.5;
+        }
+
+        #scratchjs-viewmode-button {
+          background: #ff6b6b;
+          color: white;
+          border: none;
+          padding: 5px 10px;
+          border-radius: 5px;
+          cursor: pointer;
         }
       </style>
       `;
