@@ -97,6 +97,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       <li> Get Scratch data
       </ul>
       <p>
+      <br><strong>It is strongly recommended that you enable View Mode before you run this project so you can review the code.</strong>
       <br>Please make sure you trust the creator of this project.
       <br>If you don't trust this project, click "Cancel".
       </p>
