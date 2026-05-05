@@ -725,7 +725,11 @@ const wrappedFunction = function (...args) {
 
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
 
-        if (viewmode) window.allFunctions = {};
+        if (viewmode) { for (const [opcode, func] of Object.entries(
+          window.allFunctions || {},
+        )) {
+          extensionInstance[opcode] = () => "This block is disabled in view mode";
+        }};
 
          if (!viewmode) {for (const [opcode, func] of Object.entries(
           window.allFunctions || {},
