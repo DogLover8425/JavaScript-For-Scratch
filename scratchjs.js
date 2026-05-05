@@ -18,6 +18,8 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
 
     window.sjs_applyViewMode = () => {
       viewmode = true;
+      document.getElementById("scratchjs-viewmode-info").style.display = "block";
+      document.getElementById("scratchjs-viewmode-button").style.display = "none";
     };
 
     /**
