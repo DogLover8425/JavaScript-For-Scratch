@@ -8,22 +8,7 @@ To use ScratchJS, create a bookmarklet with the following code.
 (For non-technical users: Make a bookmark and set the URL to this code.)
 
 ```javascript
-javascript: (async () => {
-  try {
-    const r = await fetch(
-      "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/refs/heads/main/scratchjs.js",
-      { cache: "no-cache" }
-    );
-    if (!r.ok) throw new Error("Fetch failed: " + r.status);
-    const scriptText = await r.text();
-    const s = document.createElement("script");
-    s.textContent = scriptText;
-    document.body.appendChild(s);
-    console.log("Loaded");
-  } catch (e) {
-    console.error("Failed to load script:", e);
-  }
-})();
+javascript:(async()=>{try{const r=await fetch("https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/refs/heads/main/scratchjs.js",{cache:"no-cache" });if (!r.ok)throw new Error("Fetch fail "+r.status);    let c=await r.text();let s=document.createElement("script");s.textContent=c;document.body.appendChild(s);console.log("Loaded");}catch(e){console.error("Fail",e)}})();
 ```
 
 Go to the Scratch editor and click the bookmarklet to load the extension.
