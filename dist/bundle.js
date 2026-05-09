@@ -402,17 +402,19 @@
       text: Argument("string", "Hello"),
       times: Argument("number", 3)
     }, ({ text, times }) => text.repeat(times)),
-    Block(BlockType.REPORTER, "countOccurrences", "Count occurrences of [text] in [str]", {
+    Block(BlockType.REPORTER, "countOccurrences", "Count occurrences of [searchtext] in [searchfrom] test argument [testargument]", {
       // this block seems to be broken? the inputs are blank
-      text: Argument(BlockType.STRING, "o"),
-      str: Argument(BlockType.STRING, "Hello World")
-    }, ({ text, str }) => {
+      searchtext: Argument("string", "o"),
+      searchfrom: Argument("string", "Hello World"),
+      testargument: Argument("string", "testing testing... this is just for extension devs")
+    }, ({ searchtext, searchfrom, testargument }) => {
       let count = 0;
       let pos = 0;
-      while ((pos = str.indexOf(text, pos)) !== -1) {
+      while ((pos = searchfrom.indexOf(searchtext, pos)) !== -1) {
         count++;
-        pos += text.length;
+        pos += searchtext.length;
       }
+      console.log("...... look here..... [" + testargument + "]", count);
       return count;
     }),
     Block(BlockType.REPORTER, "matchRegex", "Match regular expression [regex] in [text]", {
