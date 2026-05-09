@@ -402,12 +402,12 @@
       text: Argument("string", "Hello"),
       times: Argument("number", 3)
     }, ({ text, times }) => text.repeat(times)),
-    Block(BlockType.REPORTER, "countOccurrences", "Count occurrences of [searchtext] in [searchfrom] test argument [testargument]", {
+    Block(BlockType.REPORTER, "countOccurrences", "test argument [testargument] Count occurrences of [searchtext] in [searchfrom] ", {
       // this block seems to be broken? the inputs are blank
+      testargument: Argument("string", "testing testing... this is just for extension devs"),
       searchtext: Argument("string", "o"),
-      searchfrom: Argument("string", "Hello World"),
-      testargument: Argument("string", "testing testing... this is just for extension devs")
-    }, ({ searchtext, searchfrom, testargument }) => {
+      searchfrom: Argument("string", "Hello World")
+    }, ({ testargument, searchtext, searchfrom }) => {
       console.log("searchtext:", searchtext);
       console.log("searchfrom:", searchfrom);
       console.log("testargument:", testargument);
