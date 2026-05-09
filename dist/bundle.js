@@ -408,6 +408,9 @@
       searchfrom: Argument("string", "Hello World"),
       testargument: Argument("string", "testing testing... this is just for extension devs")
     }, ({ searchtext, searchfrom, testargument }) => {
+      console.log("searchtext:", searchtext);
+      console.log("searchfrom:", searchfrom);
+      console.log("testargument:", testargument);
       let count = 0;
       let pos = 0;
       while ((pos = searchfrom.indexOf(searchtext, pos)) !== -1) {
