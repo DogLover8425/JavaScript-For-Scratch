@@ -55,13 +55,13 @@ window.sjs_strings = [
     text: Argument("string", "Hello"),
     times: Argument("number", 3),
   }, ({ text, times }) => text.repeat(times)),
-  Block(BlockType.REPORTER, "countOccurrences", "Count occurrences of [text] in [string]", {
-    text: Argument("string", "l"),
-    string: Argument("string", "Hello World"),
-  }, ({ text, string }) => {
+  Block(BlockType.REPORTER, "countOccurrences", "Count occurrences of [text] in [str]", { // this block seems to be broken? the inputs are blank
+    text: Argument(BlockType.STRING, "o"),
+    str: Argument(BlockType.STRING, "Hello World"),
+  }, ({ text, str }) => {
     let count = 0;
     let pos = 0;
-    while ((pos = string.indexOf(text, pos)) !== -1) {
+    while ((pos = str.indexOf(text, pos)) !== -1) {
       count++;
       pos += text.length;
     }
