@@ -402,23 +402,18 @@
       text: Argument("string", "Hello"),
       times: Argument("number", 3)
     }, ({ text, times }) => text.repeat(times)),
-    Block(BlockType.REPORTER, "countOccurrences", "test argument [testargument] Count occurrences of [searchtext] in [searchfrom] ", {
-      // this block seems to be broken? the inputs are blank
-      testargument: Argument("string", "testing testing... this is just for extension devs"),
-      searchtext: Argument("string", "o"),
+    Block(BlockType.REPORTER, "countOccurrencesText", "Count how many times [text] appears in [searchfrom]", {
+      text: Argument("string", "l"),
       searchfrom: Argument("string", "Hello World")
-    }, ({ testargument, searchtext, searchfrom }) => {
-      console.log("searchtext:", searchtext);
-      console.log("searchfrom:", searchfrom);
-      console.log("testargument:", testargument);
-      let count = 0;
-      let pos = 0;
-      while ((pos = searchfrom.indexOf(searchtext, pos)) !== -1) {
-        count++;
-        pos += searchtext.length;
-      }
-      console.log("...... look here..... [" + testargument + "]", count);
-      return count;
+    }, ({ text, searchfrom }) => {
+      return searchfrom.split(text).length - 1;
+    }),
+    Block(BlockType.REPORTER, "countOccurrencesRegex", "Count how many times [regex] appears in [text] (regular expression)", {
+      regex: Argument("string", "[a-z]+"),
+      text: Argument("string", "Hello World")
+    }, ({ regex, text }) => {
+      const matches = text.match(new RegExp(regex, "g"));
+      return matches ? matches.length : 0;
     }),
     Block(BlockType.REPORTER, "matchRegex", "Match regular expression [regex] in [text]", {
       regex: Argument("string", "[a-z]+"),
