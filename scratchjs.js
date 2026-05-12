@@ -88,6 +88,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     function warningModal() {
       let modal = document.createElement("div");
       modal.innerHTML = `<span>Warning!</span>
+      <p><b>PLEASE READ THIS!</b></p>
       <p>This extension has access to advanced features. 
       <br>Projects using this extension can potentially do dangerous things.
       <br>A project using this extension can do the following:</p>
@@ -103,6 +104,16 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       <br>Please make sure you trust the creator of this project.
       <br>If you don't trust this project, click "Cancel".
       </p>
+      <br> <details><summary>For Project Creators</summary>
+      Make sure to include a visible message stating that this project uses ScratchJS, ideally with the link to the bookmarklet. <br>
+      It's good practice to do this because they need to know if the project uses ScratchJS. If they don't know, they might not <br>
+      run the bookmarklet that is required for the project.<br>
+      <br>
+      For your convenience, we've made a template you can paste into your description:
+      <pre style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">This project uses ScratchJS.
+In order for this project to work, you must run the bookmarklet.
+You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316301635/</pre>
+      </details>
       <button id="scratchjs-ok-button" disabled onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">Please wait, extension is loading</button>
       <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button><br><br>
       <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">

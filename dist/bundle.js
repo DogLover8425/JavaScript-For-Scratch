@@ -93,6 +93,28 @@
   // scratchjsblocks/corejs.js
   var require_corejs = __commonJS({
     "scratchjsblocks/corejs.js"(exports, module) {
+      function showStyles() {
+        const nav = document.querySelector("[class*='menu-bar_main-menu']") || document.querySelector("#navigation");
+        if (nav) {
+          nav.style.background = "#FF6600";
+        }
+        const img = document.querySelector('[class*="menu-bar_scratch-logo"]');
+        if (img) {
+          img.src = "https://ironbill25.github.io/projects/scratchjs/img/logo.webp";
+          img.style.width = "3.6rem";
+          img.style.height = "3.6rem";
+          img.style.margin = "0";
+        }
+        const otherImg = document.querySelector("#navigation .logo a");
+        if (otherImg) {
+          otherImg.style.backgroundImage = "url('https://ironbill25.github.io/projects/scratchjs/img/logo.webp')";
+          otherImg.style.backgroundSize = "contain";
+          otherImg.style.backgroundRepeat = "no-repeat";
+          otherImg.style.backgroundPosition = "center";
+          otherImg.style.width = "3.6rem";
+          otherImg.style.height = "3.6rem";
+        }
+      }
       window.sjs_corejs = [
         Block(BlockType.BUTTON, "corejsCategory", "JS Operations"),
         Block(BlockType.COMMAND, "RunJS", "Run JS code [code]", {
@@ -170,6 +192,10 @@
           val: Argument("string", "Hello World!")
         }, ({ name, val }) => {
           eval(`${name}="${val}";`);
+        }),
+        Block(BlockType.COMMAND, "customStyle", "Show custom ScratchJS style (support the ScratchJS extension!)", {}, () => {
+          showStyles();
+          window.addEventListener("popstate", showStyles);
         })
       ];
     }
