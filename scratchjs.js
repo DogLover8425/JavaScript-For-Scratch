@@ -156,8 +156,8 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
           font-size: 2rem;
           color: red;
           font-weight: bold;
-          -webkit-text-stroke: 2px yellow;
-          text-shadow: 0 0 10px yellow;
+          -webkit-text-stroke: 1px yellow;
+          text-shadow: 0 0 5px yellow;
         }
 
         #scratchjs-warning-modal ul {
@@ -206,7 +206,11 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
           border: 1px solid white;
           border-radius: 5px;
           padding: 10px;
-          width: 80%;
+          width: fit-content;
+        }
+
+        #scratchjs-details[open] {
+          width: 60%;
         }
 
         #scratchjs-details summary {
@@ -214,6 +218,10 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
           user-select: none;
           font-weight: bold;
           text-align: center;
+        }
+
+        #scratchjs-details pre {
+          color: black !important;
         }
       </style>
       `;
