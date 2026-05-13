@@ -196,6 +196,9 @@
         Block(BlockType.COMMAND, "customStyle", "Show custom ScratchJS style (support the ScratchJS extension!)", {}, () => {
           showStyles();
           window.addEventListener("popstate", showStyles);
+        }),
+        Block(BlockType.BOOLEAN, "isScratchJSEnabled", "Is ScratchJS enabled?", {}, () => {
+          return true;
         })
       ];
     }

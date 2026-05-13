@@ -106,4 +106,7 @@ window.sjs_corejs = [
     window.addEventListener('popstate', showStyles);
     
   }),
+  Block(BlockType.BOOLEAN, "isScratchJSEnabled", "Is ScratchJS enabled?", {}, () => {
+    return true; // This is true because if the extension is not loaded, the block won't exist so Scratch will default to false. If it does exist, that means the extension is loaded so we return true.
+  })
 ];
