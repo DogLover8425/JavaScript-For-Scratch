@@ -104,7 +104,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       <br>Please make sure you trust the creator of this project.
       <br>If you don't trust this project, click "Cancel".
       </p>
-      <br> <details><summary>For Project Creators</summary>
+      <br> <details id="scratchjs-details"><summary>For Project Creators</summary>
       Make sure to include a visible message stating that this project uses ScratchJS, ideally with the link to the bookmarklet. <br>
       It's good practice to do this because they need to know if the project uses ScratchJS. If they don't know, they might not <br>
       run the bookmarklet that is required for the project.<br>
@@ -155,6 +155,9 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
           text-align: center;
           font-size: 2rem;
           color: red;
+          font-weight: bold;
+          -webkit-text-stroke: 2px yellow;
+          text-shadow: 0 0 10px yellow;
         }
 
         #scratchjs-warning-modal ul {
@@ -196,6 +199,21 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
           padding: 5px 10px;
           border-radius: 5px;
           cursor: pointer;
+        }
+
+        #scratchjs-details {
+          color:white !important;
+          border: 1px solid white;
+          border-radius: 5px;
+          padding: 10px;
+          width: 80%;
+        }
+
+        #scratchjs-details summary {
+          cursor: pointer;
+          user-select: none;
+          font-weight: bold;
+          text-align: center;
         }
       </style>
       `;
