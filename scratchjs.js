@@ -85,6 +85,30 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       devmode = checked;
     };
 
+    window.sjs_addExtension = () => {
+      document.getElementById("sjs-addon-file").click();
+      document.getElementById("sjs-addon-file").onchange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const content = e.target.result;
+          // load the addon, yeah this is a bit unsafe but i'm too lazy to add a sandbox
+          // TODO: add a sandbox
+          try {
+            let addonblocks = eval(content);
+            window.sjs_addBlocks(addonblocks);
+            document.getElementById("scratchjs-addon-status").style.display = "block";
+            document.getElementById("scratchjs-addon-status").textContent = "Addon loaded";
+          } catch (error) {
+            console.error("Error loading addon:", error);
+            document.getElementById("scratchjs-addon-status").style.display = "block";
+            document.getElementById("scratchjs-addon-status").textContent = "Please report this error to the addon creator. Error loading addon: " + error.message;
+          }
+        };
+        reader.readAsText(file);
+      };
+    };
+
     function warningModal() {
       let modal = document.createElement("div");
       modal.innerHTML = `<span>Warning!</span>
@@ -119,7 +143,12 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
       <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
       <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>
       <button id="scratchjs-viewmode-button" onclick="window.sjs_applyViewMode()" title="Adds the extension to the project, but doesn't let blocks run">View Mode</button>
-      <p id="scratchjs-viewmode-info" style="display: none;">View Mode is enabled. This means that blocks will not be run, so you can safely view the project and review it for malicious code.</p>`;
+      <p id="scratchjs-viewmode-info" style="display: none;">View Mode is enabled. This means that blocks will not be run, so you can safely view the project and review it for malicious code.</p>
+      <button onclick="window.sjs_addExtension()">Load Addon</button>
+      <p id="scratchjs-addon-status"></p>
+      <div id="sjs-hidden-input" style="display: none;">
+        <input type="file" id="sjs-addon-file" accept=".js,.json,.sjsaddon">
+      </div>`;
       modal.id = "scratchjs-warning-modal";
       document.head.innerHTML += `
       <style>
@@ -485,6 +514,8 @@ const wrappedFunction = function (...args) {
         return (window["sjs_" + name] || []).push(Spacer);
       }
 
+      window.CategoryHeader = (text) => Block(BlockType.REPORTER, text + "Category", "=== " + text + " ===", {});
+
       window.Argument = (type, defaultValue) => ({
         type,
         defaultValue,
@@ -543,7 +574,13 @@ const wrappedFunction = function (...args) {
         STAGE: "stage",
       };
 
+      window.addExtensionBlocks = function(blocks) {
+        window.allBlocks = [...window.allBlocks, Spacer, ...blocks];
+      };
+
       await loadBlockFiles();
+
+      
 
       window.ScratchJS = class {
         constructor(runtime) {
