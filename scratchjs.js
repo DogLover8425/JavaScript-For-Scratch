@@ -787,7 +787,7 @@ const wrappedFunction = function (...args) {
             const allBlocks = categories.flatMap(
               (category) => window[`sjs_${category}`] || [],
             );
-            allBlocks.push(...(window.sjs_extensionBlocks || []));
+            addExtensionBlocks(window.sjs_extensionBlocks || []);
 
             console.log(allBlocks);
 
