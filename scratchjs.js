@@ -109,6 +109,10 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       };
     };
 
+    window.sjs_addBlocks = (blocks) => {
+      window.blocks = window.blocks.concat(blocks);
+    };
+
     function warningModal() {
       let modal = document.createElement("div");
       modal.innerHTML = `<span>Warning!</span>
