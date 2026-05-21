@@ -10,6 +10,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     let devmode = false;
     let vmtries = 0;
     let viewmode = false;
+    window.sjs_extensionBlocks = [];
 
     function chkKey(obj, key) {
       if (!obj) return "";
@@ -110,7 +111,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     };
 
     window.sjs_addBlocks = (blocks) => {
-      window.blocks = window.blocks.concat(blocks);
+      window.sjs_extensionBlocks = [...window.sjs_extensionBlocks, ...blocks];
     };
 
     function warningModal() {
@@ -786,6 +787,7 @@ const wrappedFunction = function (...args) {
             const allBlocks = categories.flatMap(
               (category) => window[`sjs_${category}`] || [],
             );
+            allBlocks.push(...(window.sjs_extensionBlocks || []));
 
             console.log(allBlocks);
 
