@@ -123,4 +123,17 @@ window.sjs_arrays = [
   Block(BlockType.REPORTER, "rawArray", "ARRAY | Raw array [array]", {
     array: Argument("string", "[\"Apple\", \"Banana\"]"),
   }, ({ array }) => tryParse(array)),
+  Block(BlockType.REPORTER, "filterArray", "ARRAY | Filter [array] by condition [condition]", {
+    array: Argument("string", "[\"Apple\", \"Banana\"]"),
+    condition: Argument("string", "item === \"Apple\"")
+  }, ({ array, condition }) => {
+    const arr = tryParse(array);
+    return JSON.stringify(arr.filter((item) => {
+      try {
+        return eval(condition);
+      } catch {
+        return false;
+      }
+    }));
+  })
 ];

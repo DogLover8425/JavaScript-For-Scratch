@@ -204,6 +204,151 @@
     }
   });
 
+  // scratchjsblocks/arrays.js
+  var require_arrays = __commonJS({
+    "scratchjsblocks/arrays.js"(exports, module) {
+      window.sjs_arrays = [
+        Block(BlockType.BUTTON, "arraysCategory", "Arrays"),
+        Block(BlockType.BOOLEAN, "isValidJson", "Is [text] valid JSON?", {
+          text: Argument("string", '{"key":"value"}')
+        }, ({ text }) => {
+          try {
+            JSON.parse(text);
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }),
+        Spacer,
+        Block(BlockType.REPORTER, "blankArray", "ARRAY | Blank array", {}, () => "[]"),
+        Block(BlockType.REPORTER, "addToArray", "ARRAY | Append [value] to array [array]", {
+          value: Argument("string", "Hello"),
+          array: Argument("string", "[]")
+        }, ({ array: array2, value }) => JSON.stringify([...tryParse(array2), value])),
+        Block(BlockType.REPORTER, "getFromArray", "ARRAY | Get [index] from array [array]", {
+          index: Argument("number", 1),
+          array: Argument("string", "[]")
+        }, ({ array: array2, index }) => tryParse(array2)[--index]),
+        Block(BlockType.REPORTER, "insertIntoArray", "ARRAY | Insert [value] at [index] in array [array]", {
+          value: Argument("string", "Hello"),
+          index: Argument("number", 1),
+          array: Argument("string", '["Apple"]')
+        }, ({ array: array2, index, value }) => {
+          const arr2 = tryParse(array2);
+          arr2.splice(--index, 0, value);
+          return JSON.stringify(arr2);
+        }),
+        Block(BlockType.REPORTER, "replaceInArray", "ARRAY | Replace [index] in array [array] with [value]", {
+          index: Argument("number", 1),
+          array: Argument("string", '["Apple"]'),
+          value: Argument("string", "Banana")
+        }, ({ array: array2, index, value }) => {
+          const arr2 = tryParse(array2);
+          arr2[--index] = value;
+          return JSON.stringify(arr2);
+        }),
+        Block(BlockType.REPORTER, "removeFromArray", "ARRAY | Remove [index] from array [array]", {
+          index: Argument("number", 1),
+          array: Argument("string", '["Apple"]')
+        }, ({ array: array2, index }) => {
+          const arr2 = tryParse(array2);
+          arr2.splice(--index, 1);
+          return JSON.stringify(arr2);
+        }),
+        Block(BlockType.REPORTER, "mergeArrays", "ARRAY | Merge [array1] and [array2]", {
+          array1: Argument("string", '["Hello"]'),
+          array2: Argument("string", '["World"]')
+        }, ({ array1, array2 }) => JSON.stringify([...tryParse(array1), ...tryParse(array2)])),
+        Block(BlockType.REPORTER, "lengthOfArray", "ARRAY | Length of array [array]", {
+          array: Argument("string", '["Apple", "Banana"]')
+        }, ({ array: array2 }) => tryParse(array2).length),
+        Block(BlockType.BOOLEAN, "arrayHas", "ARRAY | Array [array] contains [value]", {
+          array: Argument("string", '["Apple", "Banana"]'),
+          value: Argument("string", "Carrot")
+        }, ({ array: array2, value }) => tryParse(array2).includes(value)),
+        Block(BlockType.REPORTER, "indexOf", "ARRAY | Index of [value] in array [array]", {
+          value: Argument("string", "Hello"),
+          array: Argument("string", '["Apple"]')
+        }, ({ array: array2, value }) => {
+          const index = tryParse(array2).indexOf(value);
+          return index === -1 ? 0 : index + 1;
+        }),
+        Block(BlockType.REPORTER, "splitString", "ARRAY | Split [string] by [delimiter] into array", {
+          string: Argument("string", "Hello, World"),
+          delimiter: Argument("string", ",")
+        }, ({ string, delimiter }) => JSON.stringify(string.split(delimiter))),
+        Block(BlockType.REPORTER, "joinArray", "ARRAY | Join array [array] with [delimiter]", {
+          array: Argument("string", '["Hello", "World"]'),
+          delimiter: Argument("string", ",")
+        }, ({ array: array2, delimiter }) => tryParse(array2).join(delimiter)),
+        Block(BlockType.REPORTER, "swapArrayItems", "ARRAY | Swap [index1] and [index2] in array [array]", {
+          index1: Argument("number", 1),
+          index2: Argument("number", 2),
+          array: Argument("string", '["Apple", "Banana"]')
+        }, ({ index1, index2, array: array2 }) => {
+          let res;
+          try {
+            res = JSON.parse(array2);
+          } catch {
+            return array2;
+          }
+          const temp = res[index1 - 1];
+          res[index1 - 1] = res[index2 - 1];
+          res[index2 - 1] = temp;
+          return JSON.stringify(res);
+        }),
+        Block(BlockType.REPORTER, "getItemsFrom", "ARRAY | Get items from [start] to [end] from array [array]", {
+          start: Argument("number", 2),
+          end: Argument("number", 3),
+          array: Argument("string", '["Apple", "Banana", "Carrot"]')
+        }, ({ start, end, array: array2 }) => {
+          let res;
+          try {
+            res = JSON.parse(array2);
+          } catch {
+            return array2;
+          }
+          return JSON.stringify(res.slice(start - 1, end - 1));
+        }),
+        Block(BlockType.LOOP, "arrayLoop", "ARRAY | For each item in array [array] do", {
+          array: Argument("string", '["Apple", "Banana"]')
+        }, ({ array: array2 }, util) => {
+          let parsed = tryParse(array2);
+          if (!window.sjs_inArrLoop) {
+            window.sjs_arri = 0;
+          }
+          if (++window.sjs_arri <= parsed.length) {
+            window.sjs_inArrLoop = true;
+            window.sjs_currentArray = array2;
+            window.sjs_currentItem = parsed[window.sjs_arri - 1];
+            util.startBranch(1, true);
+          } else {
+            window.sjs_arri = 0;
+            window.sjs_inArrLoop = false;
+          }
+        }),
+        Block(BlockType.REPORTER, "arrayLoopItem", "ARRAY | Current item", {}, () => window.sjs_currentItem),
+        Block(BlockType.REPORTER, "arrayLoopIndex", "ARRAY | Current index", {}, () => window.sjs_arri),
+        Block(BlockType.REPORTER, "rawArray", "ARRAY | Raw array [array]", {
+          array: Argument("string", '["Apple", "Banana"]')
+        }, ({ array: array2 }) => tryParse(array2)),
+        Block(BlockType.REPORTER, "filterArray", "ARRAY | Filter [array] by condition [condition]", {
+          array: Argument("string", '["Apple", "Banana"]'),
+          condition: Argument("string", 'item === "Apple"')
+        }, ({ array, condition }) => {
+          const arr = tryParse(array);
+          return JSON.stringify(arr.filter((item) => {
+            try {
+              return eval(condition);
+            } catch {
+              return false;
+            }
+          }));
+        })
+      ];
+    }
+  });
+
   // scratchjsblocks/timing.js
   var require_timing = __commonJS({
     "scratchjsblocks/timing.js"(exports, module) {
@@ -673,133 +818,8 @@
     })
   ];
 
-  // scratchjsblocks/arrays.js
-  window.sjs_arrays = [
-    Block(BlockType.BUTTON, "arraysCategory", "Arrays"),
-    Block(BlockType.BOOLEAN, "isValidJson", "Is [text] valid JSON?", {
-      text: Argument("string", '{"key":"value"}')
-    }, ({ text }) => {
-      try {
-        JSON.parse(text);
-        return true;
-      } catch (e) {
-        return false;
-      }
-    }),
-    Spacer,
-    Block(BlockType.REPORTER, "blankArray", "ARRAY | Blank array", {}, () => "[]"),
-    Block(BlockType.REPORTER, "addToArray", "ARRAY | Append [value] to array [array]", {
-      value: Argument("string", "Hello"),
-      array: Argument("string", "[]")
-    }, ({ array, value }) => JSON.stringify([...tryParse(array), value])),
-    Block(BlockType.REPORTER, "getFromArray", "ARRAY | Get [index] from array [array]", {
-      index: Argument("number", 1),
-      array: Argument("string", "[]")
-    }, ({ array, index }) => tryParse(array)[--index]),
-    Block(BlockType.REPORTER, "insertIntoArray", "ARRAY | Insert [value] at [index] in array [array]", {
-      value: Argument("string", "Hello"),
-      index: Argument("number", 1),
-      array: Argument("string", '["Apple"]')
-    }, ({ array, index, value }) => {
-      const arr = tryParse(array);
-      arr.splice(--index, 0, value);
-      return JSON.stringify(arr);
-    }),
-    Block(BlockType.REPORTER, "replaceInArray", "ARRAY | Replace [index] in array [array] with [value]", {
-      index: Argument("number", 1),
-      array: Argument("string", '["Apple"]'),
-      value: Argument("string", "Banana")
-    }, ({ array, index, value }) => {
-      const arr = tryParse(array);
-      arr[--index] = value;
-      return JSON.stringify(arr);
-    }),
-    Block(BlockType.REPORTER, "removeFromArray", "ARRAY | Remove [index] from array [array]", {
-      index: Argument("number", 1),
-      array: Argument("string", '["Apple"]')
-    }, ({ array, index }) => {
-      const arr = tryParse(array);
-      arr.splice(--index, 1);
-      return JSON.stringify(arr);
-    }),
-    Block(BlockType.REPORTER, "mergeArrays", "ARRAY | Merge [array1] and [array2]", {
-      array1: Argument("string", '["Hello"]'),
-      array2: Argument("string", '["World"]')
-    }, ({ array1, array2 }) => JSON.stringify([...tryParse(array1), ...tryParse(array2)])),
-    Block(BlockType.REPORTER, "lengthOfArray", "ARRAY | Length of array [array]", {
-      array: Argument("string", '["Apple", "Banana"]')
-    }, ({ array }) => tryParse(array).length),
-    Block(BlockType.BOOLEAN, "arrayHas", "ARRAY | Array [array] contains [value]", {
-      array: Argument("string", '["Apple", "Banana"]'),
-      value: Argument("string", "Carrot")
-    }, ({ array, value }) => tryParse(array).includes(value)),
-    Block(BlockType.REPORTER, "indexOf", "ARRAY | Index of [value] in array [array]", {
-      value: Argument("string", "Hello"),
-      array: Argument("string", '["Apple"]')
-    }, ({ array, value }) => {
-      const index = tryParse(array).indexOf(value);
-      return index === -1 ? 0 : index + 1;
-    }),
-    Block(BlockType.REPORTER, "splitString", "ARRAY | Split [string] by [delimiter] into array", {
-      string: Argument("string", "Hello, World"),
-      delimiter: Argument("string", ",")
-    }, ({ string, delimiter }) => JSON.stringify(string.split(delimiter))),
-    Block(BlockType.REPORTER, "joinArray", "ARRAY | Join array [array] with [delimiter]", {
-      array: Argument("string", '["Hello", "World"]'),
-      delimiter: Argument("string", ",")
-    }, ({ array, delimiter }) => tryParse(array).join(delimiter)),
-    Block(BlockType.REPORTER, "swapArrayItems", "ARRAY | Swap [index1] and [index2] in array [array]", {
-      index1: Argument("number", 1),
-      index2: Argument("number", 2),
-      array: Argument("string", '["Apple", "Banana"]')
-    }, ({ index1, index2, array }) => {
-      let res;
-      try {
-        res = JSON.parse(array);
-      } catch {
-        return array;
-      }
-      const temp = res[index1 - 1];
-      res[index1 - 1] = res[index2 - 1];
-      res[index2 - 1] = temp;
-      return JSON.stringify(res);
-    }),
-    Block(BlockType.REPORTER, "getItemsFrom", "ARRAY | Get items from [start] to [end] from array [array]", {
-      start: Argument("number", 2),
-      end: Argument("number", 3),
-      array: Argument("string", '["Apple", "Banana", "Carrot"]')
-    }, ({ start, end, array }) => {
-      let res;
-      try {
-        res = JSON.parse(array);
-      } catch {
-        return array;
-      }
-      return JSON.stringify(res.slice(start - 1, end - 1));
-    }),
-    Block(BlockType.LOOP, "arrayLoop", "ARRAY | For each item in array [array] do", {
-      array: Argument("string", '["Apple", "Banana"]')
-    }, ({ array }, util) => {
-      let parsed = tryParse(array);
-      if (!window.sjs_inArrLoop) {
-        window.sjs_arri = 0;
-      }
-      if (++window.sjs_arri <= parsed.length) {
-        window.sjs_inArrLoop = true;
-        window.sjs_currentArray = array;
-        window.sjs_currentItem = parsed[window.sjs_arri - 1];
-        util.startBranch(1, true);
-      } else {
-        window.sjs_arri = 0;
-        window.sjs_inArrLoop = false;
-      }
-    }),
-    Block(BlockType.REPORTER, "arrayLoopItem", "ARRAY | Current item", {}, () => window.sjs_currentItem),
-    Block(BlockType.REPORTER, "arrayLoopIndex", "ARRAY | Current index", {}, () => window.sjs_arri),
-    Block(BlockType.REPORTER, "rawArray", "ARRAY | Raw array [array]", {
-      array: Argument("string", '["Apple", "Banana"]')
-    }, ({ array }) => tryParse(array))
-  ];
+  // scratchjsblocks/blockimports.js
+  var import_arrays = __toESM(require_arrays());
 
   // scratchjsblocks/objects.js
   window.sjs_objects = [
@@ -904,9 +924,9 @@
     }),
     Block(BlockType.REPORTER, "arrayToCsv", "Array [array] to CSV", {
       array: Argument("string", '[{"Name":"John","Age":25},{"Name":"Jane","Age":30}]')
-    }, ({ array }) => {
+    }, ({ array: array2 }) => {
       try {
-        const data = JSON.parse(array);
+        const data = JSON.parse(array2);
         if (!Array.isArray(data) || data.length === 0) return "";
         const headers = Object.keys(data[0]);
         const csvLines = [headers.join(",")];
@@ -1148,9 +1168,9 @@
       choices: Argument("string", '["rock","paper","scissors"]')
     }, ({ choices }) => {
       try {
-        const array = JSON.parse(choices);
-        if (Array.isArray(array) && array.length > 0) {
-          return array[Math.floor(Math.random() * array.length)];
+        const array2 = JSON.parse(choices);
+        if (Array.isArray(array2) && array2.length > 0) {
+          return array2[Math.floor(Math.random() * array2.length)];
         }
         return "";
       } catch (e) {
@@ -1159,11 +1179,11 @@
     }),
     Block(BlockType.REPORTER, "shuffleArray", "Shuffle [array]", {
       array: Argument("string", '["A","B","C","D"]')
-    }, ({ array }) => {
+    }, ({ array: array2 }) => {
       try {
-        const arr = JSON.parse(array);
-        if (!Array.isArray(arr)) return "[]";
-        const shuffled = [...arr];
+        const arr2 = JSON.parse(array2);
+        if (!Array.isArray(arr2)) return "[]";
+        const shuffled = [...arr2];
         for (let i = shuffled.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -1646,24 +1666,24 @@
     Block(BlockType.REPORTER, "countOccurrences", "Count occurrences of [value] in [array]", {
       value: Argument("string", "apple"),
       array: Argument("string", '["apple","banana","apple","orange"]')
-    }, ({ value, array }) => {
+    }, ({ value, array: array2 }) => {
       try {
-        const arr = JSON.parse(array);
-        if (!Array.isArray(arr)) return "0";
-        return arr.filter((item) => item === value).length.toString();
+        const arr2 = JSON.parse(array2);
+        if (!Array.isArray(arr2)) return "0";
+        return arr2.filter((item2) => item2 === value).length.toString();
       } catch (e) {
         return "0";
       }
     }),
     Block(BlockType.REPORTER, "getFrequency", "Frequency of all values in [array]", {
       array: Argument("string", '["apple","banana","apple","orange"]')
-    }, ({ array }) => {
+    }, ({ array: array2 }) => {
       try {
-        const arr = JSON.parse(array);
-        if (!Array.isArray(arr)) return "{}";
+        const arr2 = JSON.parse(array2);
+        if (!Array.isArray(arr2)) return "{}";
         const frequency = {};
-        arr.forEach((item) => {
-          frequency[item] = (frequency[item] || 0) + 1;
+        arr2.forEach((item2) => {
+          frequency[item2] = (frequency[item2] || 0) + 1;
         });
         return JSON.stringify(frequency);
       } catch (e) {
@@ -1673,9 +1693,9 @@
     Block(BlockType.BOOLEAN, "isOutlier", "Is [value] an outlier in [array]?", {
       value: Argument("number", 100),
       array: Argument("string", "[1, 2, 3, 4, 5]")
-    }, ({ value, array }) => {
+    }, ({ value, array: array2 }) => {
       try {
-        const nums = JSON.parse(array);
+        const nums = JSON.parse(array2);
         if (!Array.isArray(nums) || nums.length < 4) return false;
         const sorted = nums.map((num) => parseFloat(num)).sort((a, b) => a - b);
         const q1Index = Math.floor(sorted.length * 0.25);
@@ -1988,6 +2008,18 @@
       num: Argument("string", "100000000000000000000")
     }, ({ num }) => {
       return -BigInt(num);
+    }),
+    Block(BlockType.REPORTER, "bignumFactorial", "Factorial of [num]", {
+      num: Argument("string", "5")
+    }, ({ num }) => {
+      let n = BigInt(num);
+      if (n < 0n) return "Error: Factorial of negative number";
+      if (n === 0n || n === 1n) return 1n;
+      let result = 1n;
+      for (let i = 2n; i <= n; i++) {
+        result *= i;
+      }
+      return result;
     })
   ];
 })();
