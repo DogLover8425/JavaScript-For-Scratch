@@ -39,7 +39,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
       }
       console.log("waiting for VM, try " + vmtries);
       const el = document.querySelector(
-        'div[class*="stage-header_stage-header-wrapper"]',
+        'div[class*="stage-header_stage-header-wrapper"], div[class*="stage-wrapper_stage-canvas-wrapper"]', /* supports both Scratch and CodeTorch */
       );
       if (!el) return console.log("No stage header found");
 
