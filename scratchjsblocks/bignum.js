@@ -49,6 +49,7 @@ window.sjs_bignum = [
         num1: Argument("string", "200000000000000000000"),
         num2: Argument("string", "2")
     }, ({ num1, num2 }) => {
+        if (BigInt(num2) === 0n) return "Error: Division by zero";
         return (BigInt(num1) / BigInt(num2));
     }),
     
@@ -56,6 +57,7 @@ window.sjs_bignum = [
         num1: Argument("string", "100000000000000000001"),
         num2: Argument("string", "100000000000000000000")
     }, ({ num1, num2 }) => {
+        if (BigInt(num2) === 0n) return "Error: Division by zero";
         return (BigInt(num1) % BigInt(num2));
     }),
     

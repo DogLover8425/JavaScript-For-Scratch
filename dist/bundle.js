@@ -478,8 +478,10 @@
         case "multiply":
           return val1 * val2;
         case "divide":
+          if (val2 === 0) return "Error: Division by zero";
           return val1 / val2;
         case "modulo":
+          if (val2 === 0) return "Error: Division by zero";
           return val1 % val2;
         case "power":
           return val1 ** val2;
@@ -1949,12 +1951,14 @@
       num1: Argument("string", "200000000000000000000"),
       num2: Argument("string", "2")
     }, ({ num1, num2 }) => {
+      if (BigInt(num2) === 0n) return "Error: Division by zero";
       return BigInt(num1) / BigInt(num2);
     }),
     Block(BlockType.REPORTER, "bignumModulo", "[num1] mod [num2]", {
       num1: Argument("string", "100000000000000000001"),
       num2: Argument("string", "100000000000000000000")
     }, ({ num1, num2 }) => {
+      if (BigInt(num2) === 0n) return "Error: Division by zero";
       return BigInt(num1) % BigInt(num2);
     }),
     Block(BlockType.REPORTER, "bignumPower", "[num1] ^ [num2]", {
