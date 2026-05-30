@@ -10,6 +10,8 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     let devmode = false;
     let vmtries = 0;
     let viewmode = false;
+    let supportedSites = ["scratch.mit.edu", "penguinmod.com", "turbowarp.org", "librekitten.org", "canary.librekitten.org", "ampmod.codeberg.page", "omniblocks.github.io", "snail-ide.js.org", "sheeptester.github.io"];
+    let partialSupport = [];
     window.sjs_extensionBlocks = [];
 
     function chkKey(obj, key) {
@@ -28,18 +30,29 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
      * @param {Function} callback - The function to call with the VM.
      */
     function waitForVM(callback) {
+      let vm;
       if (window.vm) {
         callback(window.vm);
         return console.log("VM already available");
       }
+      if (!supportedSites.includes(location.hostname)) {
+        console.error("Unsupported site: " + location.hostname);
+        if (!confirm("This is an unsupported site! This site has not been tested with ScratchJS and may not work properly. Do you want to continue?")) {
+          return;
+        }
+      }
+      if (partialSupport.includes(location.hostname)) {
+        console.warn("Partially supported site: " + location.hostname);
+        alert("This site is partially supported by ScratchJS. This means that the extension can load, but some features may be unavailable.\n\nIf you encounter any issues, please report them on the ScratchJS GitHub page ( https://github.com/IronBill25/JavaScript-For-Scratch/issues )");
+      }
       vmtries++;
       if (vmtries > 15) {
-        console.error("VM not found after 15 tries, stopping attempts. Please report this error on the ScratchJS GitHub page (https://github.com/IronBill25/JavaScript-For-Scratch/issues)");
+        console.error("VM not found after 15 tries, stopping attempts. Please report this error on the ScratchJS GitHub page ( https://github.com/IronBill25/JavaScript-For-Scratch/issues )");
         return;
       }
       console.log("waiting for VM, try " + vmtries);
       const el = document.querySelector(
-        'div[class*="stage-header_stage-header-wrapper"], div[class*="stage-wrapper_stage-canvas-wrapper"]', /* supports both Scratch and CodeTorch */
+        'div[class*="stage-header_stage-header-wrapper"]',
       );
       if (!el) return console.log("No stage header found");
 
@@ -58,7 +71,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
         if (fiber?.stateNode?.props?.vm) break;
       }
       console.log("Check 3 - fiber after loop:", fiber);
-      let vm =
+      vm =
         fiber?.stateNode?.props?.vm ||
         fiber?.return?.return?.return?.return?.updateQueue?.stores?.[0]?.value
           ?.vm;
