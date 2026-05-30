@@ -1,5 +1,9 @@
 # How to make an Extension for Scratch
 
+> [!NOTE]
+> This tutorial requires an advanced understanding of [JavaScript](https://en.wikipedia.org/wiki/JavaScript).  
+> If you are interested in learning how ScratchJS works go to [this page](https://github.com/Ironbill25/projects/blob/main/scratchjs/docs/howitworks.md).
+
 First, fork this repository. Name it whatever you want.  
 Feel free to remove scratchjs.js. However, we will be looking at extensiontempl.js.  
 First, change the YourExtensionName variable to your extension's name.  
