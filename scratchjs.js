@@ -158,15 +158,15 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
       </details>
       <button id="scratchjs-ok-button" disabled onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">Please wait, extension is loading</button>
       <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button><br><br>
-      <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
-      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>
       <button id="scratchjs-viewmode-button" onclick="window.sjs_applyViewMode()" title="Adds the extension to the project, but doesn't let blocks run">View Mode</button>
       <p id="scratchjs-viewmode-info" style="display: none;">View Mode is enabled. This means that blocks will not be run, so you can safely view the project and review it for malicious code.</p>
       <button onclick="window.sjs_addExtension()">Load Addon</button>
       <p id="scratchjs-addon-status"></p>
       <div id="sjs-hidden-input" style="display: none;">
         <input type="file" id="sjs-addon-file" accept=".js,.json,.sjsaddon">
-      </div>`;
+      </div>
+      <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
+      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>`;
       modal.id = "scratchjs-warning-modal";
       document.head.innerHTML += `
       <style>
