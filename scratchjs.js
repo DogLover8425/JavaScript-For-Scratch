@@ -522,7 +522,8 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
           hideFromPalette: othersettings.hide || false,
           isTerminal: othersettings.terminal || false,
           blockAllThreads: othersettings.blockall || false,
-          filter: othersettings.filter || null
+          filter: othersettings.filter || null,
+          acceptReporters: true, // literally no idea why i added this
         });
 
         window.allFunctions[opcode] = wrappedFunction;
@@ -549,7 +550,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         type,
         defaultValue,
         menu,
-        acceptReporters,
+        acceptReporters: acceptReporters ?? true,
       });
 
       window.Menu = (items, defaultValue) => ({
