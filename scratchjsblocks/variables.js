@@ -16,20 +16,20 @@ window.sjs_variables = [
         vm.runtime.requestBlocksUpdate();
     }),
     Block(BlockType.REPORTER, "sjsgetVariable", "Variable [name]", {
-        name: ArgumentWithMenu("string", "myVariable", "variableMenu"),
+        name: Argument("string", "myVariable"),
     }, ({name}, util) => {
         const variable = window.variableManager.getVariable(util, name);
         return variable.value;
     }),
     Block(BlockType.COMMAND, "sjssetVariable", "Set Variable [name] to [value]", {
-        name: ArgumentWithMenu("string", "myVariable", "variableMenu"),
+        name: Argument("string", "myVariable"),
         value: Argument("string", "0"),
     }, ({name, value}, util) => {
         const variable = window.variableManager.getVariable(util, name);
         variable.value = value;
     }),
     Block(BlockType.COMMAND, "sjschangeVariable", "Change Variable [name] by [value]", {
-        name: ArgumentWithMenu("string", "myVariable", "variableMenu"),
+        name: Argument("string", "myVariable"),
         value: Argument("string", "1"),
     }, ({name, value}, util) => {
         const variable = window.variableManager.getVariable(util, name);
@@ -42,7 +42,7 @@ window.sjs_variables = [
         return variable !== undefined;
     }),
     Block(BlockType.COMMAND, "sjsdeleteVariable", "Delete Variable [name]", {
-        name: ArgumentWithMenu("string", "myVariable", "variableMenu"),
+        name: Argument("string", "myVariable"),
     }, ({name}, util) => {
         const variable = window.variableManager.getVariable(util, name);
         if (variable) {
