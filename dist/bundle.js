@@ -820,6 +820,60 @@
     })
   ];
 
+  // scratchjsblocks/variables.js
+  window.sjs_variables = [
+    Block(BlockType.BUTTON, "variablesCategory", "Variables"),
+    Block(BlockType.COMMAND, "createVariable", "Create [type] Variable [name]", {
+      type: ArgumentWithMenu("string", "global", "variableTypeMenu"),
+      name: Argument("string", "myVariable")
+    }, ({ type, name: name2 }, util) => {
+      window.createVariable(util, type, name2, "");
+      vm.runtime.requestBlocksUpdate();
+    }),
+    Block(BlockType.COMMAND, "createVariableWithValue", "Create [type] Variable [name] with value [value]", {
+      type: ArgumentWithMenu("string", "global", "variableTypeMenu"),
+      name: Argument("string", "myVariable"),
+      value: Argument("string", "0")
+    }, ({ type, name: name2, value }, util) => {
+      window.createVariable(util, type, name2, value);
+      vm.runtime.requestBlocksUpdate();
+    }),
+    Block(BlockType.REPORTER, "getVariable", "Variable [name]", {
+      name: ArgumentWithMenu("string", "myVariable", "variableMenu")
+    }, ({ name: name2 }, util) => {
+      const variable = window.variableManager.getVariable(util, name2);
+      return variable.value;
+    }),
+    Block(BlockType.COMMAND, "setVariable", "Set Variable [name] to [value]", {
+      name: ArgumentWithMenu("string", "myVariable", "variableMenu"),
+      value: Argument("string", "0")
+    }, ({ name: name2, value }, util) => {
+      const variable = window.variableManager.getVariable(util, name2);
+      variable.value = value;
+    }),
+    Block(BlockType.COMMAND, "changeVariable", "Change Variable [name] by [value]", {
+      name: ArgumentWithMenu("string", "myVariable", "variableMenu"),
+      value: Argument("string", "1")
+    }, ({ name: name2, value }, util) => {
+      const variable = window.variableManager.getVariable(util, name2);
+      variable.value = parseFloat(variable.value) + parseFloat(value);
+    }),
+    Block(BlockType.BOOLEAN, "variableExists", "Variable [name] exists?", {
+      name: Argument("string", "myVariable")
+    }, ({ name: name2 }, util) => {
+      const variable = window.variableManager.getVariable(util, name2);
+      return variable !== void 0;
+    }),
+    Block(BlockType.COMMAND, "deleteVariable", "Delete Variable [name]", {
+      name: ArgumentWithMenu("string", "myVariable", "variableMenu")
+    }, ({ name: name2 }, util) => {
+      const variable = window.variableManager.getVariable(util, name2);
+      if (variable) {
+        window.variableManager.deleteVariable(util, variable);
+      }
+    })
+  ];
+
   // scratchjsblocks/blockimports.js
   var import_arrays = __toESM(require_arrays());
 

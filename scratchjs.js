@@ -591,10 +591,48 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         SPRITE: "sprite",
         STAGE: "stage",
       };
-
-      window.addExtensionBlocks = function (blocks) {
-        window.allBlocks = [...window.allBlocks, Spacer, ...blocks];
+      window.ButtonEvent = {
+        MAKE_A_LIST: "MAKE_A_LIST",
+        MAKE_A_VARIABLE: "MAKE_A_VARIABLE",
+        MAKE_A_PROCEDURE: "MAKE_A_PROCEDURE",
+        // These are all that are supported by the Scratch VM right now
       };
+
+      class VariableManager {
+        constructor() {
+          this.variables = new Map();
+        }
+
+        createVariable(util, type, name, value) {
+          if (type === "global") {
+            vm.runtime.createNewGlobalVariable(name);
+            const variable = vm.runtime.getTargetForStage().lookupVariableByNameAndType(name, 'variable', true);
+            variable.value = value;
+            this.variables.set(name, variable);
+          } else {
+            util.target.createVariable(crypto.randomUUID(), name, value, false); // not cloud
+            const variable = util.target.lookupVariableByNameAndType(name, 'variable', true);
+            variable.value = value;
+            this.variables.set(name, variable);
+          }
+        }
+
+        getVariable(util, name) {
+          return util.target.lookupVariableByNameAndType(name, 'variable', true);
+        }
+
+        deleteVariable(util, name) {
+          const variable = this.getVariable(util, name);
+          if (variable) {
+            util.target.deleteVariable(variable.id);
+            this.variables.delete(name);
+          }
+          return variable;
+        }
+      }
+
+      window.variableManager = new VariableManager();
+
 
       await loadBlockFiles();
 
@@ -770,6 +808,13 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
               padSideMenu: Menu(
                 [MenuItem("left", "left"), MenuItem("right", "right")],
                 "left",
+              ),
+              variableTypeMenu: Menu(
+                [
+                  MenuItem("Sprite", "target"),
+                  MenuItem("Global", "global"),
+                ],
+                "target",
               ),
             },
           };

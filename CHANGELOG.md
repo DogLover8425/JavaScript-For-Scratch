@@ -89,3 +89,8 @@
 - Addon support
 - Some more blocks
 - Fixed a few bugs and improved stability
+
+## 1.1.5
+
+- Added variables category
+- Added VariableManager class for variable management
