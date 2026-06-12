@@ -320,6 +320,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         "storage",
         "utilities",
         "tempvars",
+        "variables",
         "arrays",
         "objects",
         "data",
