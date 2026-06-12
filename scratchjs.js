@@ -539,6 +539,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
       window.Argument = (type, defaultValue) => ({
         type,
         defaultValue,
+        acceptReporters: true,
       });
 
       window.ArgumentWithMenu = (
