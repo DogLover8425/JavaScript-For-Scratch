@@ -4,7 +4,7 @@ window.sjs_variables = [
         type: ArgumentWithMenu("string", "global", "variableTypeMenu"),
         name: Argument("string", "myVariable"),
     }, ({type, name}, util) => {
-        window.createVariable(util, type, name, '');
+        window.variableManager.createVariable(util, type, name, '');
         vm.runtime.requestBlocksUpdate(); // only needed for when we make new variables
     }),
     Block(BlockType.COMMAND, "createVariableWithValue", "Create [type] Variable [name] with value [value]", {
@@ -12,7 +12,7 @@ window.sjs_variables = [
         name: Argument("string", "myVariable"),
         value: Argument("string", "0"),
     }, ({type, name, value}, util) => {
-        window.createVariable(util, type, name, value);
+        window.variableManager.createVariable(util, type, name, value);
         vm.runtime.requestBlocksUpdate();
     }),
     Block(BlockType.REPORTER, "getVariable", "Variable [name]", {

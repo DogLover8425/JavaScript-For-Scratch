@@ -827,7 +827,7 @@
       type: ArgumentWithMenu("string", "global", "variableTypeMenu"),
       name: Argument("string", "myVariable")
     }, ({ type, name: name2 }, util) => {
-      window.createVariable(util, type, name2, "");
+      window.variableManager.createVariable(util, type, name2, "");
       vm.runtime.requestBlocksUpdate();
     }),
     Block(BlockType.COMMAND, "createVariableWithValue", "Create [type] Variable [name] with value [value]", {
@@ -835,7 +835,7 @@
       name: Argument("string", "myVariable"),
       value: Argument("string", "0")
     }, ({ type, name: name2, value }, util) => {
-      window.createVariable(util, type, name2, value);
+      window.variableManager.createVariable(util, type, name2, value);
       vm.runtime.requestBlocksUpdate();
     }),
     Block(BlockType.REPORTER, "getVariable", "Variable [name]", {
