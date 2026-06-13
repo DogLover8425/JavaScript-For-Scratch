@@ -58,8 +58,10 @@ window.sjs_booleans = [
             case "multiply":
               return val1 * val2;
             case "divide":
+              if (val2 === 0) return "Error: Division by zero";
               return val1 / val2;
             case "modulo":
+              if (val2 === 0) return "Error: Division by zero";
               return val1 % val2;
             case "power":
               return val1 ** val2;

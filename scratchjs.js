@@ -10,11 +10,13 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     let devmode = false;
     let vmtries = 0;
     let viewmode = false;
+    let supportedSites = ["scratch.mit.edu", "penguinmod.com", "turbowarp.org", "librekitten.org", "canary.librekitten.org", "ampmod.codeberg.page", "omniblocks.github.io", "snail-ide.js.org", "sheeptester.github.io"];
+    let partialSupport = [];
     window.sjs_extensionBlocks = [];
 
     function chkKey(obj, key) {
-      if (!obj) return "";
-      return Object.keys(obj).includes(key) ? obj[key] : "";
+      if (!obj) return "No object provided";
+      return Object.keys(obj).includes(key) ? obj[key] : "Key not found";
     }
 
     window.sjs_applyViewMode = () => {
@@ -28,13 +30,24 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
      * @param {Function} callback - The function to call with the VM.
      */
     function waitForVM(callback) {
+      let vm;
       if (window.vm) {
         callback(window.vm);
         return console.log("VM already available");
       }
+      if (!supportedSites.includes(location.hostname)) {
+        console.error("Unsupported site: " + location.hostname);
+        if (!confirm("This is an unsupported site! This site has not been tested with ScratchJS and may not work properly. Do you want to continue?")) {
+          return;
+        }
+      }
+      if (partialSupport.includes(location.hostname)) {
+        console.warn("Partially supported site: " + location.hostname);
+        alert("This site is partially supported by ScratchJS. This means that the extension can load, but some features may be unavailable.\n\nIf you encounter any issues, please report them on the ScratchJS GitHub page ( https://github.com/IronBill25/JavaScript-For-Scratch/issues )");
+      }
       vmtries++;
       if (vmtries > 15) {
-        console.error("VM not found after 15 tries, stopping attempts. Please report this error on the ScratchJS GitHub page (https://github.com/IronBill25/JavaScript-For-Scratch/issues)");
+        console.error("VM not found after 15 tries, stopping attempts. Please report this error on the ScratchJS GitHub page ( https://github.com/IronBill25/JavaScript-For-Scratch/issues )");
         return;
       }
       console.log("waiting for VM, try " + vmtries);
@@ -58,7 +71,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
         if (fiber?.stateNode?.props?.vm) break;
       }
       console.log("Check 3 - fiber after loop:", fiber);
-      let vm =
+      vm =
         fiber?.stateNode?.props?.vm ||
         fiber?.return?.return?.return?.return?.updateQueue?.stores?.[0]?.value
           ?.vm;
@@ -145,15 +158,15 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
       </details>
       <button id="scratchjs-ok-button" disabled onclick="window.sjs_userConsent();document.getElementById('scratchjs-warning-modal').remove()">Please wait, extension is loading</button>
       <button onclick="document.getElementById('scratchjs-warning-modal').remove()">Cancel</button><br><br>
-      <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
-      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>
       <button id="scratchjs-viewmode-button" onclick="window.sjs_applyViewMode()" title="Adds the extension to the project, but doesn't let blocks run">View Mode</button>
       <p id="scratchjs-viewmode-info" style="display: none;">View Mode is enabled. This means that blocks will not be run, so you can safely view the project and review it for malicious code.</p>
       <button onclick="window.sjs_addExtension()">Load Addon</button>
       <p id="scratchjs-addon-status"></p>
       <div id="sjs-hidden-input" style="display: none;">
         <input type="file" id="sjs-addon-file" accept=".js,.json,.sjsaddon">
-      </div>`;
+      </div>
+      <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
+      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>`;
       modal.id = "scratchjs-warning-modal";
       document.head.innerHTML += `
       <style>
@@ -307,6 +320,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         "storage",
         "utilities",
         "tempvars",
+        "variables",
         "arrays",
         "objects",
         "data",
@@ -350,7 +364,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
           const timestamp = Date.now();
           const response = await fetch(
             "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/main/dist/bundle.js?t=" +
-              timestamp, { cache: "no-store" }
+            timestamp, { cache: "no-store" }
           );
           if (response.ok) {
             const code = await response.text();
@@ -449,9 +463,9 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
        * @param {Function} fun - The function to execute when the block is run.
        * @returns {Object} - The block object.
        */
-      window.Block = (blockType, opcode, text, args = {}, fun = () => {}, othersettings = {}) => {
+      window.Block = (blockType, opcode, text, args = {}, fun = () => { }, othersettings = {}) => {
 
-const wrappedFunction = function (...args) {
+        const wrappedFunction = function (...args) {
           try {
             return fun.apply(this, args);
           } catch (error) {
@@ -508,7 +522,8 @@ const wrappedFunction = function (...args) {
           hideFromPalette: othersettings.hide || false,
           isTerminal: othersettings.terminal || false,
           blockAllThreads: othersettings.blockall || false,
-          filter: othersettings.filter || null
+          filter: othersettings.filter || null,
+          acceptReporters: true, // literally no idea why i added this
         });
 
         window.allFunctions[opcode] = wrappedFunction;
@@ -524,6 +539,7 @@ const wrappedFunction = function (...args) {
       window.Argument = (type, defaultValue) => ({
         type,
         defaultValue,
+        acceptReporters: true,
       });
 
       window.ArgumentWithMenu = (
@@ -535,7 +551,7 @@ const wrappedFunction = function (...args) {
         type,
         defaultValue,
         menu,
-        acceptReporters,
+        acceptReporters: acceptReporters ?? true,
       });
 
       window.Menu = (items, defaultValue) => ({
@@ -578,14 +594,59 @@ const wrappedFunction = function (...args) {
         SPRITE: "sprite",
         STAGE: "stage",
       };
-
-      window.addExtensionBlocks = function(blocks) {
-        window.allBlocks = [...window.allBlocks, Spacer, ...blocks];
+      window.ButtonEvent = {
+        MAKE_A_LIST: "MAKE_A_LIST",
+        MAKE_A_VARIABLE: "MAKE_A_VARIABLE",
+        MAKE_A_PROCEDURE: "MAKE_A_PROCEDURE",
+        // These are all that are supported by the Scratch VM right now
       };
+      window.VariableType = {
+        SCALAR: "",
+        LIST: "list",
+        BROADCAST: "broadcast_msg",
+      };
+
+      class VariableManager {
+        constructor() {
+          this.variables = new Map();
+        }
+
+        createVariable(util, type, name, value) {
+          if (type === "global") {
+            vm.runtime.createNewGlobalVariable(name);
+            const variable = vm.runtime.getTargetForStage().lookupVariableByNameAndType(name, VariableType.SCALAR, true);
+            console.log(variable);
+            variable.value = value;
+            this.variables.set(name, variable);
+          } else {
+            util.target.createVariable(crypto.randomUUID(), name, value, false); // not cloud
+            const variable = util.target.lookupVariableByNameAndType(name, VariableType.SCALAR, true);
+            console.log(variable); // likely null
+            variable.value = value;
+            this.variables.set(name, variable);
+          }
+        }
+
+        getVariable(util, name) {
+          return util.target.lookupVariableByNameAndType(name, VariableType.SCALAR, true);
+        }
+
+        deleteVariable(util, name) {
+          const variable = this.getVariable(util, name);
+          if (variable) {
+            util.target.deleteVariable(variable.id);
+            this.variables.delete(name);
+          }
+          return variable;
+        }
+      }
+
+      window.variableManager = new VariableManager();
+
 
       await loadBlockFiles();
 
-      
+
 
       window.ScratchJS = class {
         constructor(runtime) {
@@ -616,149 +677,7 @@ const wrappedFunction = function (...args) {
 
               return blocks;
             })(),
-            menus: {
-              varMenu: "getVarMenu",
-              dateFormatMenu: Menu(
-                [
-                  MenuItem("date and time", "datetime"),
-                  MenuItem("date only", "date"),
-                  MenuItem("time only", "time"),
-                  MenuItem("timestamp", "timestamp"),
-                ],
-                "datetime",
-              ),
-              caseTypeMenu: Menu(
-                [
-                  MenuItem("UPPERCASE", "uppercase"),
-                  MenuItem("lowercase", "lowercase"),
-                ],
-                "uppercase",
-              ),
-              userInfoMenu: Menu(
-                [
-                  MenuItem("operating system", "OS"),
-                  MenuItem("browser", "browser"),
-                  MenuItem("language", "language"),
-                  MenuItem("time zone", "timezone"),
-                  MenuItem("screen width", "screenWidth"),
-                  MenuItem("screen height", "screenHeight"),
-                  MenuItem("window width", "windowWidth"),
-                  MenuItem("window height", "windowHeight"),
-                  MenuItem("device pixel ratio", "devicePixelRatio"),
-                ],
-                "OS",
-              ),
-              boolOpMenu: Menu(
-                [
-                  MenuItem("AND", "and"),
-                  MenuItem("OR", "or"),
-                  MenuItem("XOR", "xor"),
-                  MenuItem("NAND", "nand"),
-                  MenuItem("NOR", "nor"),
-                  MenuItem("XNOR", "xnor"),
-                  MenuItem("Implies", "implies"),
-                  MenuItem("Not-Implies", "n-implies"),
-                  MenuItem(">", "greater"),
-                  MenuItem("<", "less"),
-                  MenuItem("≥", "greater-equal"),
-                  MenuItem("≤", "less-equal"),
-                  MenuItem("=", "equal"),
-                  MenuItem("===", "exactly-equal"),
-                  MenuItem("≠", "not-equal"),
-                  MenuItem("+", "add"),
-                  MenuItem("-", "subtract"),
-                  MenuItem("×", "multiply"),
-                  MenuItem("÷", "divide"),
-                  MenuItem("%", "modulo"),
-                  MenuItem("^", "power"),
-                  MenuItem("* 10^", "scientific"),
-                  MenuItem("join", "join"),
-                  MenuItem("contains", "contains"),
-                  MenuItem("starts with", "startsWith"),
-                  MenuItem("ends with", "endsWith"),
-                  MenuItem("repeated", "repeated"),
-                  MenuItem("pad start with spaces", "padstart"),
-                  MenuItem("pad end with spaces", "padend"),
-                  MenuItem("bitwise AND", "bitwise-and"),
-                  MenuItem("bitwise OR", "bitwise-or"),
-                  MenuItem("bitwise XOR", "bitwise-xor"),
-                  MenuItem("bitwise NOT", "bitwise-not"),
-                  MenuItem("left shift", "left-shift"),
-                  MenuItem("right shift", "right-shift"),
-                  MenuItem("zero-fill right shift", "zero-fill-right-shift"),
-                ],
-                "and",
-              ),
-              padSideMenu: Menu(
-                [MenuItem("left", "left"), MenuItem("right", "right")],
-                "left",
-              ),
-              historyActionMenu: Menu(
-                [MenuItem("back", "back"), MenuItem("forward", "forward")],
-                "back",
-              ),
-              httpMethodMenu: Menu(
-                [
-                  MenuItem("GET", "GET"),
-                  MenuItem("POST", "POST"),
-                  MenuItem("PUT", "PUT"),
-                  MenuItem("DELETE", "DELETE"),
-                ],
-                "GET",
-              ),
-              timeFormatMenu: Menu(
-                [
-                  MenuItem("ISO", "ISO"),
-                  MenuItem("local", "local"),
-                  MenuItem("date", "date"),
-                  MenuItem("time", "time"),
-                  MenuItem("unix", "unix"),
-                ],
-                "ISO",
-              ),
-              hashAlgorithmMenu: Menu([MenuItem("simple", "simple")], "simple"),
-              diceSidesMenu: Menu(
-                [
-                  MenuItem("4", "4"),
-                  MenuItem("6", "6"),
-                  MenuItem("8", "8"),
-                  MenuItem("10", "10"),
-                  MenuItem("12", "12"),
-                  MenuItem("20", "20"),
-                  MenuItem("100", "100"),
-                ],
-                "6",
-              ),
-              passwordOptionsMenu: Menu(
-                [
-                  MenuItem("letters", "letters"),
-                  MenuItem("numbers", "numbers"),
-                  MenuItem("letters+numbers", "letters+numbers"),
-                  MenuItem("all", "all"),
-                ],
-                "letters+numbers",
-              ),
-              rpsMenu: Menu(
-                [
-                  MenuItem("rock", "rock"),
-                  MenuItem("paper", "paper"),
-                  MenuItem("scissors", "scissors"),
-                ],
-                "rock",
-              ),
-              dateFormatMenu: Menu(
-                [
-                  MenuItem("Date + time", "datetime"),
-                  MenuItem("Date", "date"),
-                  MenuItem("Time", "time"),
-                ],
-                "datetime",
-              ),
-              padSideMenu: Menu(
-                [MenuItem("left", "left"), MenuItem("right", "right")],
-                "left",
-              ),
-            },
+            menus: window.sjs_menus || {},
           };
         }
         getVarMenu(target_id) {
@@ -779,46 +698,41 @@ const wrappedFunction = function (...args) {
           localStorage.setItem("scratchjs_devMode", "true");
         }
 
-        let retryCount = 0;
-        const maxRetries = 3;
 
-        while (retryCount < maxRetries) {
-          if (retryCount === maxRetries - 1) {
-            const allBlocks = categories.flatMap(
-              (category) => window[`sjs_${category}`] || [],
-            );
-            allBlocks.push(...(window.sjs_extensionBlocks || []));
+        const allBlocks = categories.flatMap(
+          (category) => window[`sjs_${category}`] || [],
+        );
+        allBlocks.push(...(window.sjs_extensionBlocks || []));
 
-            console.log(allBlocks);
+        console.log(allBlocks);
 
-            const missingFunctions = allBlocks.filter(
-              (block) =>
-                block.opcode && !(block.opcode in (window.allFunctions || {})),
-            );
-            if (missingFunctions.length > 0) console.warn(
-              "Missing functions for blocks:",
-              missingFunctions.map((b) => b.opcode),
-            );
-            break;
-          }
+        const missingFunctions = allBlocks.filter(
+          (block) =>
+            block.opcode && !(block.opcode in (window.allFunctions || {})),
+        );
+        if (missingFunctions.length > 0) console.warn(
+          "Missing functions for blocks:",
+          missingFunctions.map((b) => b.opcode),
+        );
 
-          await new Promise((resolve) => setTimeout(resolve, 500));
-          retryCount++;
-        }
 
         var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
 
-        if (viewmode) { for (const [opcode, func] of Object.entries(
-          window.allFunctions || {},
-        )) {
-          extensionInstance[opcode] = () => "This block is disabled in view mode";
-        }};
+        if (viewmode) {
+          for (const [opcode, func] of Object.entries(
+            window.allFunctions || {},
+          )) {
+            extensionInstance[opcode] = () => "This block is disabled in view mode";
+          }
+        };
 
-         if (!viewmode) {for (const [opcode, func] of Object.entries(
-          window.allFunctions || {},
-        )) {
-          extensionInstance[opcode] = func;
-        }};
+        if (!viewmode) {
+          for (const [opcode, func] of Object.entries(
+            window.allFunctions || {},
+          )) {
+            extensionInstance[opcode] = func;
+          }
+        };
         var serviceName =
           vm.extensionManager._registerInternalExtension(extensionInstance);
         vm.extensionManager._loadedExtensions.set(

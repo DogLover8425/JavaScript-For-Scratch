@@ -49,6 +49,7 @@ window.sjs_bignum = [
         num1: Argument("string", "200000000000000000000"),
         num2: Argument("string", "2")
     }, ({ num1, num2 }) => {
+        if (BigInt(num2) === 0n) return "Error: Division by zero";
         return (BigInt(num1) / BigInt(num2));
     }),
     
@@ -56,6 +57,7 @@ window.sjs_bignum = [
         num1: Argument("string", "100000000000000000001"),
         num2: Argument("string", "100000000000000000000")
     }, ({ num1, num2 }) => {
+        if (BigInt(num2) === 0n) return "Error: Division by zero";
         return (BigInt(num1) % BigInt(num2));
     }),
     
@@ -119,4 +121,17 @@ window.sjs_bignum = [
     }, ({ num }) => {
         return -BigInt(num);
     }),
+
+    Block(BlockType.REPORTER, "bignumFactorial", "Factorial of [num]", {
+        num: Argument("string", "5")
+    }, ({ num }) => {
+        let n = BigInt(num);
+        if (n < 0n) return "Error: Factorial of negative number";
+        if (n === 0n || n === 1n) return 1n;
+        let result = 1n;
+        for (let i = 2n; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    })
 ]

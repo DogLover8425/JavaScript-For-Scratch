@@ -1,5 +1,9 @@
 # How to make an Extension for Scratch
 
+> [!NOTE]
+> This tutorial requires an advanced understanding of [JavaScript](https://en.wikipedia.org/wiki/JavaScript).  
+> If you are interested in learning how ScratchJS works go to [this page](https://github.com/Ironbill25/projects/blob/main/scratchjs/docs/howitworks.md).
+
 First, fork this repository. Name it whatever you want.  
 Feel free to remove scratchjs.js. However, we will be looking at extensiontempl.js.  
 First, change the YourExtensionName variable to your extension's name.  
@@ -7,21 +11,19 @@ Now we will add some blocks.
 We have added an example block to the extension, it looks something like this:  
 
 ```javascript
-// ...
-exampleBlock({ text, number, color }) {
-    return text + " " + number + " " + color;
-}
-// ...
+// ... In your blocks array:
 Block(BlockType.REPORTER, "exampleBlock", "Example block [text] [number] [color]", {
   text: Argument(ArgumentType.STRING, "Hello"),
   number: Argument(ArgumentType.NUMBER, 42),
   color: Argument(ArgumentType.COLOR, "#FF0000"),
+}, ({text, number, color}) => {
+return text + ", " + number.toString() + " colored " + color
 }),
 // ...
 ```
 
 Notice the functions `Block` and `Argument`. We will be using these to define our blocks.  
-The `Block` function takes 4 arguments: the block type, the block opcode (like an ID), the block label, and the block arguments.  
+The `Block` function takes 5 arguments: the block type, the block opcode (like an ID), the block label, the block arguments, and the function.  
 The `Argument` function takes 2 arguments: the argument type and the default value.  
   
 Now let's look at the arguments. The block label uses square brackets to denote arguments.  
@@ -36,20 +38,13 @@ Please note that returning a value in a non-reporter block will cause some stran
 To recap that last section, a typical block looks like this:
 
 ```javascript
-// ...
-
-// In the Your_Extension class:
-yourBlockOpcode({ arg1, arg2 }) {
-    // do something with arg1 and arg2
-    return result;
-}
-
-// ...
-
-// In the blocks array (should be marked with equals signs)
+// ... In the blocks array (should be marked with equals signs)
 Block(BlockType.REPORTER /* Change this to either COMMAND, BOOLEAN, or REPORTER */, "yourBlockOpcode", "Your block [arg1] label [arg2]", {
     arg1: Argument(ArgumentType.STRING /* Also change these to the appropriate types */, "default value" /* Default value */),
     arg2: Argument(ArgumentType.NUMBER /* Also change these to the appropriate types */, 0 /* Default value */),
+},  ({ arg1, arg2 }) => {
+    // do something with arg1 and arg2
+    return result;
 })
 
 // ...
@@ -95,7 +90,7 @@ Lastly, let's make a bookmarklet for the extension. This will load your extensio
 javascript: (async () => {
   try {
     const r = await fetch(
-      "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/refs/heads/main/scratchjs.js",
+      "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/refs/heads/main/scratchjs.js", /* Replace this with the URL of your extension code */
       { cache: "no-cache" }
     );
     if (!r.ok) throw new Error("Fetch failed: " + r.status);
@@ -110,5 +105,5 @@ javascript: (async () => {
 })();
 ```
 
-You should change the URL to the URL of your raw extension file.  
-You can find this by going to your repository on GitHub, clicking on the file, and then clicking on the "Raw" button.
+You should change the URL in the fetch to the URL of your raw extension file.  
+You can find this by going to your repository on GitHub, going to the file, and then clicking on the "Raw" button.
