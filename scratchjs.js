@@ -170,10 +170,12 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
       <div id="sjs-hidden-input" style="display: none;">
         <input type="file" id="sjs-addon-file" accept=".js,.json,.sjsaddon">
       </div>
+      <div id="scratchjs-options-row">
       <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
-      <input type="checkbox" id="scratchjs-canary-checkbox" onchange="window.sjs_toggleCanary(this.checked)">
       <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>
-      <label for="scratchjs-canary-checkbox" title="Enables experimental features that are not fully tested and may be unstable. Please note that these features may break at any time. We suggest only using this on test projects.">Enable Canary Mode</label>`;
+      <input type="checkbox" id="scratchjs-canary-checkbox" onchange="window.sjs_toggleCanary(this.checked)">
+      <label for="scratchjs-canary-checkbox" title="Enables experimental features that are not fully tested and may be unstable. Please note that these features may break at any time. We suggest only using this on test projects.">Enable Canary Mode</label>
+      </div>`;
       modal.id = "scratchjs-warning-modal";
       document.head.innerHTML += `
       <style>
@@ -276,6 +278,16 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
 
         #scratchjs-details pre {
           color: black !important;
+        }
+
+        #scratchjs-options-row {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          width: fit-content;
+          padding-inline: 20px;
         }
       </style>
       `;
