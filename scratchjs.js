@@ -12,6 +12,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     let viewmode = false;
     let supportedSites = ["scratch.mit.edu", "penguinmod.com", "turbowarp.org", "librekitten.org", "canary.librekitten.org", "ampmod.codeberg.page", "omniblocks.github.io", "snail-ide.js.org", "sheeptester.github.io"];
     let partialSupport = [];
+    let canary = false;
     window.sjs_extensionBlocks = [];
 
     function chkKey(obj, key) {
@@ -98,6 +99,10 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
     window.sjs_toggleDevMode = (checked) => {
       devmode = checked;
     };
+    
+    window.sjs_toggleCanary = (checked) => {
+      canary = checked;
+    };
 
     window.sjs_addExtension = () => {
       document.getElementById("sjs-addon-file").click();
@@ -166,7 +171,9 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         <input type="file" id="sjs-addon-file" accept=".js,.json,.sjsaddon">
       </div>
       <input type="checkbox" id="scratchjs-devmode-checkbox" onchange="window.sjs_toggleDevMode(this.checked)">
-      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>`;
+      <input type="checkbox" id="scratchjs-canary-checkbox" onchange="window.sjs_toggleCanary(this.checked)">
+      <label for="scratchjs-devmode-checkbox">Enable Developer Mode</label>
+      <label for="scratchjs-canary-checkbox" title="Enables experimental features that are not fully tested and may be unstable. Please note that these features may break at any time. We suggest only using this on test projects.">Enable Canary Mode</label>`;
       modal.id = "scratchjs-warning-modal";
       document.head.innerHTML += `
       <style>
@@ -362,10 +369,10 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
 
         try {
           const timestamp = Date.now();
-          const response = await fetch(
-            "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/main/dist/bundle.js?t=" +
-            timestamp, { cache: "no-store" }
-          );
+          const url = canary 
+            ? "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/canary/dist/bundle.js?t=" 
+            : "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/main/dist/bundle.js?t=";
+          const response = await fetch(url + timestamp, { cache: "no-store" });
           if (response.ok) {
             const code = await response.text();
             eval(code);
