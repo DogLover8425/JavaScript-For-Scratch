@@ -4,8 +4,8 @@
   "description": "This extension allows you to use various JavaScript features in Scratch!",
   "main": "blockimports.js",
   "scripts": {
-    "build": "esbuild scratchjsblocks/blockimports.js --bundle --outfile=dist/bundle.js",
-    "watch": "esbuild scratchjsblocks/blockimports.js --bundle --outfile=dist/bundle.js --watch"
+    "build": "esbuild scratchjsblocks/blockimports.js --bundle --minify --sourcemap --outfile=dist/bundle.js",
+    "watch": "esbuild scratchjsblocks/blockimports.js --bundle --sourcemap --outfile=dist/bundle.js --watch"
   },
   "repository": {
     "type": "git",
