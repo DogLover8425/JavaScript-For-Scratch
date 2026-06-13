@@ -615,13 +615,11 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
           if (type === "global") {
             vm.runtime.createNewGlobalVariable(name);
             const variable = vm.runtime.getTargetForStage().lookupVariableByNameAndType(name, VariableType.SCALAR, true);
-            console.log(variable);
             variable.value = value;
             this.variables.set(name, variable);
           } else {
             util.target.createVariable(crypto.randomUUID(), name, value, false); // not cloud
             const variable = util.target.lookupVariableByNameAndType(name, VariableType.SCALAR, true);
-            console.log(variable); // likely null
             variable.value = value;
             this.variables.set(name, variable);
           }
