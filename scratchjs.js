@@ -600,6 +600,11 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         MAKE_A_PROCEDURE: "MAKE_A_PROCEDURE",
         // These are all that are supported by the Scratch VM right now
       };
+      window.VariableType = {
+        SCALAR: "",
+        LIST: "list",
+        BROADCAST: "broadcast_msg",
+      };
 
       class VariableManager {
         constructor() {
@@ -609,19 +614,21 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         createVariable(util, type, name, value) {
           if (type === "global") {
             vm.runtime.createNewGlobalVariable(name);
-            const variable = vm.runtime.getTargetForStage().lookupVariableByNameAndType(name, 'variable', true);
+            const variable = vm.runtime.getTargetForStage().lookupVariableByNameAndType(name, VariableType.SCALAR, true);
+            console.log(variable);
             variable.value = value;
             this.variables.set(name, variable);
           } else {
             util.target.createVariable(crypto.randomUUID(), name, value, false); // not cloud
-            const variable = util.target.lookupVariableByNameAndType(name, 'variable', true);
+            const variable = util.target.lookupVariableByNameAndType(name, VariableType.SCALAR, true);
+            console.log(variable); // likely null
             variable.value = value;
             this.variables.set(name, variable);
           }
         }
 
         getVariable(util, name) {
-          return util.target.lookupVariableByNameAndType(name, 'variable', true);
+          return util.target.lookupVariableByNameAndType(name, VariableType.SCALAR, true);
         }
 
         deleteVariable(util, name) {
