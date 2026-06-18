@@ -554,7 +554,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         return (window["sjs_" + name] || []).push(Spacer);
       }
 
-      window.CategoryHeader = (text) => Block(BlockType.REPORTER, text + "Category", "=== " + text + " ===", {});
+      window.CategoryHeader = (text) => Block(BlockType.REPORTER, text.replaceAll(" ","") + "category", text, {});
 
       window.Argument = (type, defaultValue) => ({
         type,
@@ -744,9 +744,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
           )) {
             extensionInstance[opcode] = () => "This block is disabled in view mode";
           }
-        };
-
-        if (!viewmode) {
+        } else {
           for (const [opcode, func] of Object.entries(
             window.allFunctions || {},
           )) {
