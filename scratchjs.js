@@ -720,8 +720,10 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         const allBlocks = categories.flatMap(
           (category) => window[`sjs_${category}`] || [],
         );
+        console.log("debug: ", window.sjs_extensionBlocks || "No blocks!");
         allBlocks.push(...(window.sjs_extensionBlocks || []));
-
+        console.log("debug: ", allBlocks)
+        
         console.log(allBlocks);
 
         const missingFunctions = allBlocks.filter(
