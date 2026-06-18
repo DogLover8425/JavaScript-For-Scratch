@@ -114,7 +114,7 @@ See more about ScratchJS at https://ironbill25.github.io/projects/scratchjs/`);
           // load the addon, yeah this is a bit unsafe but i'm too lazy to add a sandbox
           // TODO: add a sandbox
           try {
-            let addonblocks = eval(content);
+            let addonblocks = eval(`(${content})`);
             window.sjs_addBlocks(addonblocks);
             document.getElementById("scratchjs-addon-status").style.display = "block";
             document.getElementById("scratchjs-addon-status").textContent = "Addon loaded";
