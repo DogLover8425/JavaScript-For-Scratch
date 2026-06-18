@@ -667,8 +667,9 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
 
 
       window.ScratchJS = class {
-        constructor(runtime) {
+        constructor(runtime, addonblocks) {
           this.runtime = runtime;
+          this.addonblocks = addonblocks;
         }
 
         OpenDocs() {
@@ -693,7 +694,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
                 blocks.push(...(window[`sjs_${category}`] || []));
               });
 
-              return blocks;
+              return [...addonblocks, ...blocks];
             })(),
             menus: window.sjs_menus || {},
           };
@@ -736,7 +737,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         );
 
 
-        var extensionInstance = new ScratchJS(vm.extensionManager.runtime);
+        var extensionInstance = new ScratchJS(vm.extensionManager.runtime, window.sjs_extensionBlocks);
 
         if (viewmode) {
           for (const [opcode, func] of Object.entries(
