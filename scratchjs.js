@@ -694,7 +694,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
                 blocks.push(...(window[`sjs_${category}`] || []));
               });
 
-              return [...addonblocks, ...blocks];
+              return [...this.addonblocks, ...blocks];
             })(),
             menus: window.sjs_menus || {},
           };
