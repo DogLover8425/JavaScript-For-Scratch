@@ -63,7 +63,7 @@ window.sjs_data = [
   }),
   
   Block(BlockType.REPORTER, "base64Encode", "Base64 encode [text]", {
-    text: Argument("string", "Hello World"),
+    text: Argument("string", "Hello world!"),
   }, ({ text }) => {
     try {
       return btoa(unescape(encodeURIComponent(text)));
@@ -83,7 +83,7 @@ window.sjs_data = [
   }),
   
   Block(BlockType.REPORTER, "hashString", "hash [text] with [algorithm]", {
-    text: Argument("string", "Hello World"),
+    text: Argument("string", "Hello world!"),
     algorithm: ArgumentWithMenu("string", "simple", "hashAlgorithmMenu"),
   }, ({ text, algorithm }) => {
     if (algorithm === "simple") {
@@ -193,9 +193,9 @@ window.sjs_data = [
   }),
   
   Block(BlockType.REPORTER, "extractUrls", "extract URLs from [text]", {
-    text: Argument("string", "Visit https://example.com and http://test.org"),
+    text: Argument("string", "visit https://example.com and http://test.org"),
   }, ({ text }) => {
-    const urlRegex = /https?:\/\/[^\s]+/g;
+    const urlRegex = /[^:\s]+:\/\/[\S]+/g;
     const urls = text.match(urlRegex) || [];
     return JSON.stringify(urls);
   }),
@@ -203,7 +203,7 @@ window.sjs_data = [
   Block(BlockType.REPORTER, "extractEmails", "extract emails from [text]", {
     text: Argument("string", "Contact user@example.com or admin@test.org"),
   }, ({ text }) => {
-    const emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/g;
+    const emailRegex = /(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/g;
     const emails = text.match(emailRegex) || [];
     return JSON.stringify(emails);
   }),
