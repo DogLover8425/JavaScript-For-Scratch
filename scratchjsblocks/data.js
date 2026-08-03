@@ -1,6 +1,6 @@
 window.sjs_data = [
   Block(BlockType.BUTTON, "dataCategory", "Data"),
-  Block(BlockType.REPORTER, "parseCsv", "Parse CSV [csv]", {
+  Block(BlockType.REPORTER, "parseCsv", "parse CSV [csv]", {
     csv: Argument("string", "Name,Age,City\nJohn,25,NYC\nJane,30,LA"),
   }, ({ csv }) => {
     try {
@@ -23,7 +23,7 @@ window.sjs_data = [
     }
   }),
   
-  Block(BlockType.REPORTER, "arrayToCsv", "Array [array] to CSV", {
+  Block(BlockType.REPORTER, "arrayToCsv", "array [array] to CSV", {
     array: Argument("string", '[{"Name":"John","Age":25},{"Name":"Jane","Age":30}]'),
   }, ({ array }) => {
     try {
@@ -47,14 +47,14 @@ window.sjs_data = [
     }
   }),
   
-  Block(BlockType.REPORTER, "formatNumber", "Format [number] to [decimals] decimals", {
+  Block(BlockType.REPORTER, "formatNumber", "format [number] to [decimals] decimals", {
     number: Argument("number", 3.141592),
     decimals: Argument("number", 2),
   }, ({ number, decimals }) => {
     return parseFloat(number).toFixed(parseInt(decimals));
   }),
   
-  Block(BlockType.REPORTER, "generateUuid", "Generate UUID", {}, () => {
+  Block(BlockType.REPORTER, "generateUuid", "generate UUID", {}, () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       const r = Math.random() * 16 | 0;
       const v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -82,7 +82,7 @@ window.sjs_data = [
     }
   }),
   
-  Block(BlockType.REPORTER, "hashString", "Hash [text] with [algorithm]", {
+  Block(BlockType.REPORTER, "hashString", "hash [text] with [algorithm]", {
     text: Argument("string", "Hello World"),
     algorithm: ArgumentWithMenu("string", "simple", "hashAlgorithmMenu"),
   }, ({ text, algorithm }) => {
@@ -98,7 +98,7 @@ window.sjs_data = [
     return "";
   }),
   
-  Block(BlockType.REPORTER, "parseXml", "Parse XML [xml]", {
+  Block(BlockType.REPORTER, "parseXml", "parse XML [xml]", {
     xml: Argument("string", "<root><item>test</item></root>"),
   }, ({ xml }) => {
     try {
@@ -110,7 +110,7 @@ window.sjs_data = [
     }
   }),
   
-  Block(BlockType.REPORTER, "jsonToTable", "Convert JSON [json] to table", {
+  Block(BlockType.REPORTER, "jsonToTable", "convert JSON [json] to table", {
     json: Argument("string", '[{"name":"John","age":25},{"name":"Jane","age":30}]'),
   }, ({ json }) => {
     try {
@@ -133,7 +133,7 @@ window.sjs_data = [
     }
   }),
   
-  Block(BlockType.REPORTER, "compressString", "Compress [text] (simple)", {
+  Block(BlockType.REPORTER, "compressString", "compress [text] (simple)", {
     text: Argument("string", "aaaaabbbbcc"),
   }, ({ text }) => {
     let compressed = "";
@@ -151,7 +151,7 @@ window.sjs_data = [
     return compressed;
   }),
   
-  Block(BlockType.REPORTER, "decompressString", "Decompress [text] (simple)", {
+  Block(BlockType.REPORTER, "decompressString", "decompress [text] (simple)", {
     text: Argument("string", "a4b4c2"),
   }, ({ text }) => {
     let decompressed = "";
@@ -174,14 +174,14 @@ window.sjs_data = [
     return decompressed;
   }),
   
-  Block(BlockType.BOOLEAN, "isValidEmail", "Is [email] a valid email?", {
+  Block(BlockType.BOOLEAN, "isValidEmail", "is [email] a valid email?", {
     email: Argument("string", "user@example.com"),
   }, ({ email }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }),
   
-  Block(BlockType.BOOLEAN, "isValidUrl", "Is [url] a valid URL?", {
+  Block(BlockType.BOOLEAN, "isValidUrl", "is [url] a valid URL?", {
     url: Argument("string", "https://example.com"),
   }, ({ url }) => {
     try {
@@ -192,7 +192,7 @@ window.sjs_data = [
     }
   }),
   
-  Block(BlockType.REPORTER, "extractUrls", "Extract URLs from [text]", {
+  Block(BlockType.REPORTER, "extractUrls", "extract URLs from [text]", {
     text: Argument("string", "Visit https://example.com and http://test.org"),
   }, ({ text }) => {
     const urlRegex = /https?:\/\/[^\s]+/g;
@@ -200,7 +200,7 @@ window.sjs_data = [
     return JSON.stringify(urls);
   }),
   
-  Block(BlockType.REPORTER, "extractEmails", "Extract emails from [text]", {
+  Block(BlockType.REPORTER, "extractEmails", "extract emails from [text]", {
     text: Argument("string", "Contact user@example.com or admin@test.org"),
   }, ({ text }) => {
     const emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/g;
@@ -208,7 +208,7 @@ window.sjs_data = [
     return JSON.stringify(emails);
   }),
   
-  Block(BlockType.REPORTER, "calculateAge", "Calculate age from birthdate [birthdate]", {
+  Block(BlockType.REPORTER, "calculateAge", "calculate age from birthdate [birthdate]", {
     birthdate: Argument("string", "2000-01-01"),
   }, ({ birthdate }) => {
     try {
@@ -227,7 +227,7 @@ window.sjs_data = [
     }
   }),
   
-  Block(BlockType.REPORTER, "daysBetween", "Days between [date1] and [date2]", {
+  Block(BlockType.REPORTER, "daysBetween", "days between [date1] and [date2]", {
     date1: Argument("string", "2024-01-01"),
     date2: Argument("string", "2024-01-15"),
   }, ({ date1, date2 }) => {
@@ -242,17 +242,17 @@ window.sjs_data = [
     }
   }),
   
-  Block(BlockType.REPORTER, "formatFileSize", "Format [bytes] as file size", {
+  Block(BlockType.REPORTER, "formatFileSize", "format [bytes] as file size", {
     bytes: Argument("number", 1048576),
   }, ({ bytes }) => {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     if (bytes === 0) return '0 Bytes';
-    
+  
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
     return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
   }),
 
-  Block(BlockType.REPORTER, "formatNumberWithSuffix", "Format [number] with [decimals] decimals", {
+  Block(BlockType.REPORTER, "formatNumberWithSuffix", "format [number] with [decimals] decimals", {
     number: Argument("number", 1234.567),
     decimals: Argument("number", 2),
   }, ({ number, decimals }) => {
@@ -269,7 +269,7 @@ window.sjs_data = [
     return formatted + suffixes[suffixIndex];
   }),
   
-  Block(BlockType.REPORTER, "generateRandomString", "Generate random string length [length]", {
+  Block(BlockType.REPORTER, "generateRandomString", "generate random string length [length]", {
     length: Argument("number", 10),
   }, ({ length }) => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -280,7 +280,7 @@ window.sjs_data = [
     return result;
   }),
   
-  Block(BlockType.BOOLEAN, "isJsonEmpty", "Is JSON [json] empty?", {
+  Block(BlockType.BOOLEAN, "isJsonEmpty", "is JSON [json] empty?", {
     json: Argument("string", "{}"),
   }, ({ json }) => {
     try {
