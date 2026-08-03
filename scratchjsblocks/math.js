@@ -16,7 +16,7 @@ window.sjs_math = [
   Block(
     BlockType.REPORTER,
     "roundNumber",
-    "Round [number] to [decimals] decimal places",
+    "round [number] to [decimals] decimal places",
     {
       number: Argument("number", 3.14159),
       decimals: Argument("number", 2),
@@ -49,7 +49,7 @@ window.sjs_math = [
   Block(BlockType.BOOLEAN, "isFloat", "[number] has decimals", {
     number: Argument("number", 2.71),
   }, ({ number }) => !Number.isInteger(Number(number))),
-  Block(BlockType.REPORTER, "evalExpr", "Evaluate math [expr]", {
+  Block(BlockType.REPORTER, "evalExpr", "evaluate math [expr]", {
     expr: Argument("string", "2 + 2"),
   }, ({ expr }) => eval(expr)),
 ];
