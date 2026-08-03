@@ -3,7 +3,7 @@ window.sjs_strings = [
   Block(
     BlockType.REPORTER,
     "strReplaceBlock",
-    "Replace all [string] in [text] with [replace]",
+    "replace all [string] in [text] with [replace]",
     {
       text: Argument("string", "Hello world!"),
       string: Argument("string", "world"),
@@ -14,7 +14,7 @@ window.sjs_strings = [
   Block(
     BlockType.REPORTER,
     "substringBlock",
-    "Get substring of [text] from [start] to [end]",
+    "get substring of [text] from [start] to [end]",
     {
       text: Argument("string", "Hello world!"),
       start: Argument("number", 1),
@@ -23,10 +23,10 @@ window.sjs_strings = [
       return text.substring(start - 1, end);
     }
   ),
-  Block(BlockType.REPORTER, "reverseStringBlock", "Reverse string [text]", {
+  Block(BlockType.REPORTER, "reverseStringBlock", "reverse string [text]", {
     text: Argument("string", "Hello world!"),
   }, ({ text }) => text.split("").reverse().join("")),
-  Block(BlockType.REPORTER, "changeCase", "Convert [text] to case [caseType]", {
+  Block(BlockType.REPORTER, "changeCase", "convert [text] to case [caseType]", {
     text: Argument("string", "Hello world!"),
     caseType: ArgumentWithMenu("string", "uppercase", "caseTypeMenu"),
   }, ({ text, caseType }) => {
@@ -39,7 +39,7 @@ window.sjs_strings = [
         return text;
     }
   }),
-  Block(BlockType.REPORTER, "padString", "Pad [text] to length [length] characters on [side] with [char]", {
+  Block(BlockType.REPORTER, "padString", "pad [text] to length [length] characters on [side] with [char]", {
     text: Argument("string", "Hello"),
     length: Argument("number", 10),
     side: ArgumentWithMenu("string", "left", "padSideMenu"),
@@ -51,49 +51,49 @@ window.sjs_strings = [
       return text.padEnd(length, char);
     }
   }),
-  Block(BlockType.REPORTER, "repeatString", "Repeat [text] [times] times", {
+  Block(BlockType.REPORTER, "repeatString", "repeat [text] [times] times", {
     text: Argument("string", "Hello"),
     times: Argument("number", 3),
   }, ({ text, times }) => text.repeat(times)),
-  Block(BlockType.REPORTER, "countOccurrencesText", "Count how many times [text] appears in [searchfrom]", {
+  Block(BlockType.REPORTER, "countOccurrencesText", "count how many times [text] appears in [searchfrom]", {
     text: Argument("string", "l"),
     searchfrom: Argument("string", "Hello world!"),
   }, ({ text, searchfrom }) => {
     return searchfrom.split(text).length - 1;
   }),
-  Block(BlockType.REPORTER, "countOccurrencesRegex", "Count how many times [regex] appears in [text] (regular expression)", {
+  Block(BlockType.REPORTER, "countOccurrencesRegex", "count how many times [regex] appears in [text] (regular expression)", {
     regex: Argument("string", "[a-z]+"),
     text: Argument("string", "Hello world!"),
   }, ({ regex, text }) => {
     const matches = text.match(new RegExp(regex, "g"));
     return matches ? matches.length : 0;
   }),
-  Block(BlockType.REPORTER, "matchRegex", "Match regular expression [regex] in [text]", {
+  Block(BlockType.REPORTER, "matchRegex", "match regular expression [regex] in [text]", {
     regex: Argument("string", "[a-z]+"),
     text: Argument("string", "Hello world!"),
   }, ({ regex, text }) => {
     const matches = text.match(new RegExp(regex, "g"));
     return matches ? JSON.stringify(matches) : "";
   }),
-  Block(BlockType.REPORTER, "joinLen3", "Join [t1] [t2] [t3]", {
+  Block(BlockType.REPORTER, "joinLen3", "join [t1] [t2] [t3]", {
     t1: Argument("string", "Hello"),
     t2: Argument("string", " "),
     t3: Argument("string", "world"),
   }, ({ t1, t2, t3 }) => t1 + t2 + t3),
-  Block(BlockType.REPORTER, "joinLen4", "Join [t1] [t2] [t3] [t4]", {
+  Block(BlockType.REPORTER, "joinLen4", "join [t1] [t2] [t3] [t4]", {
     t1: Argument("string", "Hello"),
     t2: Argument("string", " "),
     t3: Argument("string", "world"),
     t4: Argument("string", "!"),
   }, ({ t1, t2, t3, t4 }) => t1 + t2 + t3 + t4),
-  Block(BlockType.REPORTER, "joinLen5", "Join [t1] [t2] [t3] [t4] [t5]", {
+  Block(BlockType.REPORTER, "joinLen5", "join [t1] [t2] [t3] [t4] [t5]", {
     t1: Argument("string", "Hello"),
     t2: Argument("string", " "),
     t3: Argument("string", "world"),
     t4: Argument("string", "!"),
     t5: Argument("string", "?"),
   }, ({ t1, t2, t3, t4, t5 }) => t1 + t2 + t3 + t4 + t5),
-  Block(BlockType.REPORTER, "joinLen6", "Join [t1] [t2] [t3] [t4] [t5] [t6]", {
+  Block(BlockType.REPORTER, "joinLen6", "join [t1] [t2] [t3] [t4] [t5] [t6]", {
     t1: Argument("string", "Hello"),
     t2: Argument("string", " "),
     t3: Argument("string", "world"),
