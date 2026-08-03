@@ -1,12 +1,12 @@
 window.sjs_games = [
   Block(BlockType.BUTTON, "gamesCategory", "Games"),
-  Block(BlockType.REPORTER, "rollDice", "Roll [sides] sided dice", {
+  Block(BlockType.REPORTER, "rollDice", "roll [sides] sided dice", {
     sides: ArgumentWithMenu("number", "6", "diceSidesMenu"),
   }, ({ sides }) => {
     return Math.floor(Math.random() * parseInt(sides)) + 1;
   }),
   
-  Block(BlockType.REPORTER, "randomChoice", "Random choice from [choices]", {
+  Block(BlockType.REPORTER, "randomChoice", "random choice from [choices]", {
     choices: Argument("string", '["rock","paper","scissors"]'),
   }, ({ choices }) => {
     try {
@@ -20,7 +20,7 @@ window.sjs_games = [
     }
   }),
   
-  Block(BlockType.REPORTER, "shuffleArray", "Shuffle [array]", {
+  Block(BlockType.REPORTER, "shuffleArray", "shuffle [array]", {
     array: Argument("string", '["A","B","C","D"]'),
   }, ({ array }) => {
     try {
@@ -38,7 +38,7 @@ window.sjs_games = [
     }
   }),
   
-  Block(BlockType.REPORTER, "dealCards", "Deal [count] cards from [deck]", {
+  Block(BlockType.REPORTER, "dealCards", "deal [count] cards from [deck]", {
     count: Argument("number", 5),
     deck: Argument("string", '["A♠","K♠","Q♠","J♠","10♠"]'),
   }, ({ count, deck }) => {
@@ -59,7 +59,7 @@ window.sjs_games = [
     }
   }),
   
-  Block(BlockType.REPORTER, "generatePassword", "Generate password length [length] with [options]", {
+  Block(BlockType.REPORTER, "generatePassword", "generate password length [length] with [options]", {
     length: Argument("number", 12),
     options: ArgumentWithMenu("string", "letters+numbers", "passwordOptionsMenu"),
   }, ({ length, options }) => {
@@ -88,7 +88,7 @@ window.sjs_games = [
     return password;
   }),
   
-  Block(BlockType.BOOLEAN, "isRockPaperScissorsWin", "Did [player] beat [opponent]?", {
+  Block(BlockType.BOOLEAN, "isRockPaperScissorsWin", "did [player] beat [opponent]?", {
     player: ArgumentWithMenu("string", "rock", "rpsMenu"),
     opponent: ArgumentWithMenu("string", "scissors", "rpsMenu"),
   }, ({ player, opponent }) => {
@@ -106,7 +106,7 @@ window.sjs_games = [
     return Math.random() * 100 < parseInt(percent);
   }),
   
-  Block(BlockType.REPORTER, "weightedRandom", "Weighted random from [choices] with [weights]", {
+  Block(BlockType.REPORTER, "weightedRandom", "weighted random from [choices] with [weights]", {
     choices: Argument("string", '["common","rare","epic"]'),
     weights: Argument("string", '[70,20,10]'),
   }, ({ choices, weights }) => {
@@ -134,7 +134,7 @@ window.sjs_games = [
     }
   }),
   
-  Block(BlockType.REPORTER, "diceRollSum", "Roll [dice]d[sides] dice", {
+  Block(BlockType.REPORTER, "diceRollSum", "roll [dice]d[sides] dice", {
     dice: Argument("number", 2),
     sides: ArgumentWithMenu("number", "6", "diceSidesMenu"),
   }, ({ dice, sides }) => {
