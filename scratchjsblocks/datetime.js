@@ -1,6 +1,6 @@
 window.sjs_datetime = [
   Block(BlockType.BUTTON, "datetimeCategory", "Date & Time"),
-  Block(BlockType.REPORTER, "addDays", "Add [days] days to [date]", {
+  Block(BlockType.REPORTER, "addDays", "add [days] days to [date]", {
     days: Argument("number", 7),
     date: Argument("string", "2026-01-01"),
   }, ({ days, date }) => {
@@ -13,7 +13,7 @@ window.sjs_datetime = [
     }
   }),
   
-  Block(BlockType.REPORTER, "subtractDays", "Subtract [days] days from [date]", {
+  Block(BlockType.REPORTER, "subtractDays", "subtract [days] days from [date]", {
     days: Argument("number", 7),
     date: Argument("string", "2026-01-01"),
   }, ({ days, date }) => {
@@ -26,7 +26,7 @@ window.sjs_datetime = [
     }
   }),
   
-  Block(BlockType.REPORTER, "getDayOfWeek", "Day of week for [date]", {
+  Block(BlockType.REPORTER, "getDayOfWeek", "day of week for [date]", {
     date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
@@ -38,7 +38,7 @@ window.sjs_datetime = [
     }
   }),
   
-  Block(BlockType.REPORTER, "getMonthName", "Month name for [date]", {
+  Block(BlockType.REPORTER, "getMonthName", "month name for [date]", {
     date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
@@ -51,14 +51,14 @@ window.sjs_datetime = [
     }
   }),
   
-  Block(BlockType.BOOLEAN, "isLeapYear", "Is [year] a leap year?", {
+  Block(BlockType.BOOLEAN, "isLeapYear", "is [year] a leap year?", {
     year: Argument("number", 2024),
   }, ({ year }) => {
     const y = parseInt(year);
     return (y % 4 === 0 && y % 100 !== 0) || (y % 400 === 0);
   }),
   
-  Block(BlockType.REPORTER, "formatDuration", "Format [seconds] seconds as HH:MM:SS", {
+  Block(BlockType.REPORTER, "formatDuration", "format [seconds] seconds as HH:MM:SS", {
     seconds: Argument("number", 3661),
   }, ({ seconds }) => {
     const totalSeconds = parseInt(seconds);
@@ -69,7 +69,7 @@ window.sjs_datetime = [
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }),
   
-  Block(BlockType.REPORTER, "countdown", "Days until [targetDate]", {
+  Block(BlockType.REPORTER, "countdown", "days until [targetDate]", {
     targetDate: Argument("string", "2026-12-25"),
   }, ({ targetDate }) => {
     try {
@@ -83,7 +83,7 @@ window.sjs_datetime = [
     }
   }),
   
-  Block(BlockType.REPORTER, "getAgeInDays", "Age in days from [birthdate]", {
+  Block(BlockType.REPORTER, "getAgeInDays", "age in days from [birthdate]", {
     birthdate: Argument("string", "2000-01-01"),
   }, ({ birthdate }) => {
     try {
@@ -97,7 +97,7 @@ window.sjs_datetime = [
     }
   }),
   
-  Block(BlockType.REPORTER, "getWeekNumber", "Week number for [date]", {
+  Block(BlockType.REPORTER, "getWeekNumber", "week number for [date]", {
     date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
@@ -110,7 +110,7 @@ window.sjs_datetime = [
     }
   }),
   
-  Block(BlockType.REPORTER, "getQuarter", "Quarter for [date]", {
+  Block(BlockType.REPORTER, "getQuarter", "quarter for [date]", {
     date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
@@ -121,7 +121,7 @@ window.sjs_datetime = [
     }
   }),
   
-  Block(BlockType.BOOLEAN, "isWeekend", "Is [date] a weekend?", {
+  Block(BlockType.BOOLEAN, "isWeekend", "is [date] a weekend?", {
     date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
@@ -133,7 +133,7 @@ window.sjs_datetime = [
     }
   }),
   
-  Block(BlockType.REPORTER, "getDaysInMonth", "Days in month for [date]", {
+  Block(BlockType.REPORTER, "getDaysInMonth", "days in month for [date]", {
     date: Argument("string", "2026-01-01"),
   }, ({ date }) => {
     try {
@@ -146,7 +146,7 @@ window.sjs_datetime = [
     }
   }),
   
-  Block(BlockType.REPORTER, "formatDate", "Format [date] as [format]", {
+  Block(BlockType.REPORTER, "formatDate", "format [date] as [format]", {
     date: Argument("string", "2026-01-01"),
     format: ArgumentWithMenu("string", "MM/DD/YYYY", "dateFormatMenu"),
   }, ({ date, format }) => {
@@ -175,7 +175,7 @@ window.sjs_datetime = [
     }
   }),
   
-  Block(BlockType.REPORTER, "getTimeAgo", "Time ago from [timestamp]", {
+  Block(BlockType.REPORTER, "getTimeAgo", "time ago from [timestamp]", {
     timestamp: Argument("number", 1761995200000),
   }, ({ timestamp }) => {
     try {
