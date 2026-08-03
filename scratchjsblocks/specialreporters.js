@@ -15,7 +15,7 @@ window.sjs_specialreporters = [
         return date.toLocaleString();
     }
   }),
-  Block(BlockType.REPORTER, "currentProjectID", "Current project ID", {}, () => {
+  Block(BlockType.REPORTER, "currentProjectID", "project ID", {}, () => {
     return window.scratchProjectId || "Unknown";
   }),
 ];
