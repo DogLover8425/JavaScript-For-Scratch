@@ -1,6 +1,6 @@
 window.sjs_statistics = [
   Block(BlockType.BUTTON, "statisticsCategory", "Statistics"),
-  Block(BlockType.REPORTER, "calculateMean", "Mean of [numbers]", {
+  Block(BlockType.REPORTER, "calculateMean", "mean of [numbers]", {
     numbers: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ numbers }) => {
     try {
@@ -14,7 +14,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "calculateMedian", "Median of [numbers]", {
+  Block(BlockType.REPORTER, "calculateMedian", "median of [numbers]", {
     numbers: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ numbers }) => {
     try {
@@ -34,7 +34,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "calculateMode", "Mode of [numbers]", {
+  Block(BlockType.REPORTER, "calculateMode", "mode of [numbers]", {
     numbers: Argument("string", '[1, 2, 2, 3, 3, 3]'),
   }, ({ numbers }) => {
     try {
@@ -62,7 +62,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "calculateRange", "Range of [numbers]", {
+  Block(BlockType.REPORTER, "calculateRange", "range of [numbers]", {
     numbers: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ numbers }) => {
     try {
@@ -77,7 +77,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "calculateStandardDeviation", "Standard deviation of [numbers]", {
+  Block(BlockType.REPORTER, "calculateStandardDeviation", "standard deviation of [numbers]", {
     numbers: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ numbers }) => {
     try {
@@ -95,7 +95,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "findPercentile", "Percentile [percent] of [numbers]", {
+  Block(BlockType.REPORTER, "findPercentile", "percentile [percent] of [numbers]", {
     percent: Argument("number", 50),
     numbers: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ percent, numbers }) => {
@@ -120,7 +120,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "calculateVariance", "Variance of [numbers]", {
+  Block(BlockType.REPORTER, "calculateVariance", "variance of [numbers]", {
     numbers: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ numbers }) => {
     try {
@@ -138,7 +138,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "findMin", "Minimum of [numbers]", {
+  Block(BlockType.REPORTER, "findMin", "minimum of [numbers]", {
     numbers: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ numbers }) => {
     try {
@@ -151,7 +151,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "findMax", "Maximum of [numbers]", {
+  Block(BlockType.REPORTER, "findMax", "maximum of [numbers]", {
     numbers: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ numbers }) => {
     try {
@@ -164,7 +164,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "calculateSum", "Sum of [numbers]", {
+  Block(BlockType.REPORTER, "calculateSum", "sum of [numbers]", {
     numbers: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ numbers }) => {
     try {
@@ -177,7 +177,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "calculateProduct", "Product of [numbers]", {
+  Block(BlockType.REPORTER, "calculateProduct", "product of [numbers]", {
     numbers: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ numbers }) => {
     try {
@@ -190,7 +190,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "countOccurrences", "Count occurrences of [value] in [array]", {
+  Block(BlockType.REPORTER, "countOccurrences", "count occurrences of [value] in [array]", {
     value: Argument("string", "apple"),
     array: Argument("string", '["apple","banana","apple","orange"]'),
   }, ({ value, array }) => {
@@ -204,7 +204,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "getFrequency", "Frequency of all values in [array]", {
+  Block(BlockType.REPORTER, "getFrequency", "frequency of all values in [array]", {
     array: Argument("string", '["apple","banana","apple","orange"]'),
   }, ({ array }) => {
     try {
@@ -222,7 +222,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.BOOLEAN, "isOutlier", "Is [value] an outlier in [array]?", {
+  Block(BlockType.BOOLEAN, "isOutlier", "is [value] an outlier in [array]?", {
     value: Argument("number", 100),
     array: Argument("string", '[1, 2, 3, 4, 5]'),
   }, ({ value, array }) => {
@@ -246,7 +246,7 @@ window.sjs_statistics = [
     }
   }),
   
-  Block(BlockType.REPORTER, "correlation", "Correlation between [array1] and [array2]", {
+  Block(BlockType.REPORTER, "correlation", "correlation between [array1] and [array2]", {
     array1: Argument("string", '[1, 2, 3, 4, 5]'),
     array2: Argument("string", '[2, 4, 6, 8, 10]'),
   }, ({ array1, array2 }) => {
