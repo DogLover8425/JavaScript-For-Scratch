@@ -1,11 +1,11 @@
 window.sjs_bignum = [
     Block(BlockType.BUTTON, "bignumCategory", "Big Numbers", {}, () => "IMPORTANT: Make sure to stringify numbers BEFORE you put them in variables or lists, or the Scratch editor could crash!"),
-    Block(BlockType.REPORTER, "parseAsBignum", "Convert to big number [num]", {
+    Block(BlockType.REPORTER, "parseAsBignum", "convert to big number [num]", {
         num: Argument("string", "123")
     }, ({ num }) => {
         return BigInt(num);
     }),
-    Block(BlockType.BOOLEAN, "isBignum", "Is [num] a big number?", {
+    Block(BlockType.BOOLEAN, "isBignum", "is [num] a big number?", {
         num: Argument("string", "123")
     }, ({ num }) => {
         try {
@@ -14,7 +14,7 @@ window.sjs_bignum = [
             return false;
         }
     }),
-    Block(BlockType.REPORTER, "bignumToString", "Big number [num] to string", {
+    Block(BlockType.REPORTER, "bignumToString", "big number [num] to string", {
         num: Argument("string", "123n")
     }, ({ num }) => {
         try {
@@ -110,7 +110,7 @@ window.sjs_bignum = [
         return BigInt(num1) <= BigInt(num2);
     }),
     
-    Block(BlockType.REPORTER, "bignumAbs", "Absolute value of [num]", {
+    Block(BlockType.REPORTER, "bignumAbs", "absolute value of [num]", {
         num: Argument("string", "-100000000000000000000")
     }, ({ num }) => {
         return BigInt(num) < 0n ? -BigInt(num) : BigInt(num);
@@ -122,7 +122,7 @@ window.sjs_bignum = [
         return -BigInt(num);
     }),
 
-    Block(BlockType.REPORTER, "bignumFactorial", "Factorial of [num]", {
+    Block(BlockType.REPORTER, "bignumFactorial", "factorial of [num]", {
         num: Argument("string", "5")
     }, ({ num }) => {
         let n = BigInt(num);
