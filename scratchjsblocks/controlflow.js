@@ -14,7 +14,7 @@ window.sjs_controlflow = [
   }, ({ condit }) => {
     return Boolean(condit);
   }),
-  Block(BlockType.LOOP, "forInLoop", "For i in [value]", {
+  Block(BlockType.LOOP, "forInLoop", "for i in [value]", {
     value: Argument("string", "10"),
   }, ({ value }, util) => {
     if (!window.sjs_inLoop) {
@@ -29,7 +29,7 @@ window.sjs_controlflow = [
     }
   }),
   Block(BlockType.REPORTER, "iReporter", "i", {}, () => window.sjs_i),
-  Block(BlockType.COMMAND, "setI", "Set i to [value]", {
+  Block(BlockType.COMMAND, "setI", "set i to [value]", {
     value: Argument("number", 0),
   }, ({ value }) => {
     window.sjs_i = value;
