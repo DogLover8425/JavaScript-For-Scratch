@@ -5,8 +5,8 @@ window.sjs_strings = [
     "strReplaceBlock",
     "Replace all [string] in [text] with [replace]",
     {
-      text: Argument("string", "Hello World"),
-      string: Argument("string", "World"),
+      text: Argument("string", "Hello world!"),
+      string: Argument("string", "world"),
       replace: Argument("string", "Scratch"),
     }, 
     ({ text, string, replace }) => text.replace(string, replace)
@@ -16,7 +16,7 @@ window.sjs_strings = [
     "substringBlock",
     "Get substring of [text] from [start] to [end]",
     {
-      text: Argument("string", "Hello World"),
+      text: Argument("string", "Hello world!"),
       start: Argument("number", 1),
       end: Argument("number", 6),
     }, ({ text, start, end }) => {
@@ -24,10 +24,10 @@ window.sjs_strings = [
     }
   ),
   Block(BlockType.REPORTER, "reverseStringBlock", "Reverse string [text]", {
-    text: Argument("string", "Hello World"),
+    text: Argument("string", "Hello world!"),
   }, ({ text }) => text.split("").reverse().join("")),
   Block(BlockType.REPORTER, "changeCase", "Convert [text] to case [caseType]", {
-    text: Argument("string", "Hello World"),
+    text: Argument("string", "Hello world!"),
     caseType: ArgumentWithMenu("string", "uppercase", "caseTypeMenu"),
   }, ({ text, caseType }) => {
     switch (caseType) {
@@ -57,20 +57,20 @@ window.sjs_strings = [
   }, ({ text, times }) => text.repeat(times)),
   Block(BlockType.REPORTER, "countOccurrencesText", "Count how many times [text] appears in [searchfrom]", {
     text: Argument("string", "l"),
-    searchfrom: Argument("string", "Hello World"),
+    searchfrom: Argument("string", "Hello world!"),
   }, ({ text, searchfrom }) => {
     return searchfrom.split(text).length - 1;
   }),
   Block(BlockType.REPORTER, "countOccurrencesRegex", "Count how many times [regex] appears in [text] (regular expression)", {
     regex: Argument("string", "[a-z]+"),
-    text: Argument("string", "Hello World"),
+    text: Argument("string", "Hello world!"),
   }, ({ regex, text }) => {
     const matches = text.match(new RegExp(regex, "g"));
     return matches ? matches.length : 0;
   }),
   Block(BlockType.REPORTER, "matchRegex", "Match regular expression [regex] in [text]", {
     regex: Argument("string", "[a-z]+"),
-    text: Argument("string", "Hello World"),
+    text: Argument("string", "Hello world!"),
   }, ({ regex, text }) => {
     const matches = text.match(new RegExp(regex, "g"));
     return matches ? JSON.stringify(matches) : "";
@@ -78,25 +78,25 @@ window.sjs_strings = [
   Block(BlockType.REPORTER, "joinLen3", "Join [t1] [t2] [t3]", {
     t1: Argument("string", "Hello"),
     t2: Argument("string", " "),
-    t3: Argument("string", "World"),
+    t3: Argument("string", "world"),
   }, ({ t1, t2, t3 }) => t1 + t2 + t3),
   Block(BlockType.REPORTER, "joinLen4", "Join [t1] [t2] [t3] [t4]", {
     t1: Argument("string", "Hello"),
     t2: Argument("string", " "),
-    t3: Argument("string", "World"),
+    t3: Argument("string", "world"),
     t4: Argument("string", "!"),
   }, ({ t1, t2, t3, t4 }) => t1 + t2 + t3 + t4),
   Block(BlockType.REPORTER, "joinLen5", "Join [t1] [t2] [t3] [t4] [t5]", {
     t1: Argument("string", "Hello"),
     t2: Argument("string", " "),
-    t3: Argument("string", "World"),
+    t3: Argument("string", "world"),
     t4: Argument("string", "!"),
     t5: Argument("string", "?"),
   }, ({ t1, t2, t3, t4, t5 }) => t1 + t2 + t3 + t4 + t5),
   Block(BlockType.REPORTER, "joinLen6", "Join [t1] [t2] [t3] [t4] [t5] [t6]", {
     t1: Argument("string", "Hello"),
     t2: Argument("string", " "),
-    t3: Argument("string", "World"),
+    t3: Argument("string", "world"),
     t4: Argument("string", "!"),
     t5: Argument("string", "?"),
     t6: Argument("string", "!"),
