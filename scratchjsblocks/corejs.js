@@ -80,15 +80,6 @@ window.sjs_corejs = [
         return e;
     }
   }),
-Block(BlockType.REPORTER, "fetchSite", "Fetch site [url] with protocol ", {
-    url: Argument("string", "https://example.com"),
-  }, ({ url }) => {
-    try {
-        return fetch(url).then((res) => res.text());
-    } catch (e) {
-        return e;
-    }
-  }),
   Block(BlockType.COMMAND, "ReloadPage", "Reload page", {}, () => {
     location.reload();
   }),
