@@ -1,10 +1,10 @@
 window.sjs_objects = [
   Block(BlockType.BUTTON, "objectsCategory", "Objects"),
-  Block(BlockType.REPORTER, "blankObject", "OBJECT | Blank object", {}, () => "{}"),
-  Block(BlockType.BOOLEAN, "isObject", "OBJECT | Is [value] an object?", {
+  Block(BlockType.REPORTER, "blankObject", "blank object", {}, () => "{}"),
+  Block(BlockType.BOOLEAN, "isObject", "is [value] an object?", {
     value: Argument("string", "{}"),
   }, ({ value }) => typeof tryParse(value) === "object"),
-  Block(BlockType.REPORTER, "setInObject", "OBJECT | Set [key] in object [object] to [value]", {
+  Block(BlockType.REPORTER, "setInObject", "set [key] in object [object] to [value]", {
     key: Argument("string", "name"),
     object: Argument("string", "{}"),
     value: Argument("string", "John"),
@@ -13,11 +13,11 @@ window.sjs_objects = [
     obj[key] = value;
     return JSON.stringify(obj);
   }),
-  Block(BlockType.REPORTER, "getFromObject", "OBJECT | Get [key] from object [object]", {
+  Block(BlockType.REPORTER, "getFromObject", "get [key] from object [object]", {
     key: Argument("string", "name"),
     object: Argument("string", "{\"name\": \"John\"}"),
   }, ({ object, key }) => tryParse(object)[key]),
-  Block(BlockType.REPORTER, "deleteFromObject", "OBJECT | Delete [key] from object [object]", {
+  Block(BlockType.REPORTER, "deleteFromObject", "delete [key] from object [object]", {
     key: Argument("string", "name"),
     object: Argument("string", "{\"name\": \"John\"}"),
   }, ({ object, key }) => {
@@ -25,23 +25,23 @@ window.sjs_objects = [
     delete obj[key];
     return JSON.stringify(obj);
   }),
-  Block(BlockType.BOOLEAN, "objectHasKey", "OBJECT | Object [object] has key [key]", {
+  Block(BlockType.BOOLEAN, "objectHasKey", "object [object] has key [key]", {
     object: Argument("string", "{\"name\": \"John\"}"),
     key: Argument("string", "name"),
   }, ({ object, key }) => tryParse(object).hasOwnProperty(key)),
-  Block(BlockType.REPORTER, "keysOfObject", "OBJECT | Keys of object [object] (array)", {
+  Block(BlockType.REPORTER, "keysOfObject", "keys of object [object] (array)", {
     object: Argument("string", "{\"name\": \"John\"}"),
   }, ({ object }) => JSON.stringify(Object.keys(tryParse(object)))),
-  Block(BlockType.REPORTER, "valuesOfObject", "OBJECT | Values of object [object] (array)", {
+  Block(BlockType.REPORTER, "valuesOfObject", "values of object [object] (array)", {
     object: Argument("string", "{\"name\": \"John\"}"),
   }, ({ object }) => JSON.stringify(Object.values(tryParse(object)))),
-  Block(BlockType.REPORTER, "entriesOfObject", "OBJECT | Entries of object [object] (array)", {
+  Block(BlockType.REPORTER, "entriesOfObject", "entries of object [object] (array)", {
     object: Argument("string", "{\"name\": \"John\"}"),
   }, ({ object }) => JSON.stringify(Object.entries(tryParse(object)))),
-  Block(BlockType.REPORTER, "sizeOfObject", "OBJECT | Size of object [object]", {
+  Block(BlockType.REPORTER, "sizeOfObject", "size of object [object]", {
     object: Argument("string", "{\"name\": \"John\"}"),
   }, ({ object }) => Object.keys(tryParse(object)).length),
-  Block(BlockType.REPORTER, "pathInObject", "OBJECT | Get path (array) [path] from object [object]", {
+  Block(BlockType.REPORTER, "pathInObject", "get path (array) [path] from object [object]", {
     path: Argument("string", "[\"name\"]"),
     object: Argument("string", "{\"name\": \"John\"}"),
   }, ({ object, path }) => {
@@ -56,7 +56,7 @@ window.sjs_objects = [
     }
     return result;
   }),
-  Block(BlockType.REPORTER, "setPathInObject", "OBJECT | Set path (array) [path] in object [object] to [value]", {
+  Block(BlockType.REPORTER, "setPathInObject", "set path (array) [path] in object [object] to [value]", {
     path: Argument("string", "[\"name\"]"),
     object: Argument("string", "{}"),
     value: Argument("string", "John"),
@@ -70,7 +70,7 @@ window.sjs_objects = [
     result[keys[keys.length - 1]] = value;
     return JSON.stringify(obj);
   }),
-  Block(BlockType.REPORTER, "rawObject", "OBJECT | Raw object [object]", {
+  Block(BlockType.REPORTER, "rawObject", "raw object [object]", {
     object: Argument("string", "{\"name\": \"John\"}"),
   }, ({ object }) => tryParse(object)),
 ];
