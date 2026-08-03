@@ -1,5 +1,5 @@
 function showStyles() {
-const nav = document.querySelector("[class*='menu-bar_main-menu']") || document.querySelector("#navigation");
+const nav = document.querySelector("[aria-label=\"Menu topbar\"]");
     if (nav) {
       nav.style.background = "#FF6600";
     }
@@ -74,7 +74,20 @@ window.sjs_corejs = [
   Block(BlockType.REPORTER, "fetchSite", "Fetch site [url]", {
     url: Argument("string", "https://example.com"),
   }, ({ url }) => {
-    return fetch(url).then((res) => res.text());
+    try {
+        return fetch(url).then((res) => res.text());
+    } catch (e) {
+        return e;
+    }
+  }),
+Block(BlockType.REPORTER, "fetchSite", "Fetch site [url] with protocol ", {
+    url: Argument("string", "https://example.com"),
+  }, ({ url }) => {
+    try {
+        return fetch(url).then((res) => res.text());
+    } catch (e) {
+        return e;
+    }
   }),
   Block(BlockType.COMMAND, "ReloadPage", "Reload page", {}, () => {
     location.reload();
