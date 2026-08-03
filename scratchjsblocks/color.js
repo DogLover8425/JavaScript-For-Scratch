@@ -1,6 +1,6 @@
 window.sjs_color = [
   Block(BlockType.BUTTON, "colorCategory", "Color"),
-  Block(BlockType.REPORTER, "randomColor", "Random color", {}, () => {
+  Block(BlockType.REPORTER, "randomColor", "random color", {}, () => {
     return `#${Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}`;
   }),
   Block(BlockType.REPORTER, "hexToRgb", "HEX [hex] to RGB", {
@@ -19,7 +19,7 @@ window.sjs_color = [
       return hex.length === 1 ? "0" + hex : hex;
     }).join("");
   }),
-  Block(BlockType.REPORTER, "colorBlend", "Blend color [color1] and [color2]", {
+  Block(BlockType.REPORTER, "colorBlend", "blend color [color1] and [color2]", {
     color1: Argument("string", "#FF6600"),
     color2: Argument("string", "#0066FF"),
   }, ({ color1, color2 }) => {
