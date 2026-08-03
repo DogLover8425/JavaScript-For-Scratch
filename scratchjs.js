@@ -535,7 +535,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         window.allBlocks.push({
           blockType: blockType || BlockType.COMMAND,
           opcode,
-          text: text.Includes("Category") ? `<a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>${text}</a>` : text,
+          text: text.includes("Category") ? `<a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>${text}</a>` : text,
           arguments: args,
           args,
           hideFromPalette: othersettings.hide || false,
