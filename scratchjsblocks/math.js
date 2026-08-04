@@ -7,7 +7,7 @@ window.sjs_math = [
   Block(
     BlockType.REPORTER,
     "clampBlock",
-    "Clamp [value] between [min] and [max]",
+    "clamp [value] between [min] and [max]",
     {
       value: Argument("number", 15),
       min: Argument("number", 0),
