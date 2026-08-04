@@ -590,7 +590,7 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         COMMAND: "command",
         HAT: "hat",
         BOOLEAN: "Boolean", // Yes, this is supposed to be capitalized, I looked
-        BUTTON: "reporter",
+        BUTTON: "button", // Just testing things :)
         CONDITIONAL: "conditional",
         EVENT: "event",
         LOOP: "loop"
