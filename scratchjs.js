@@ -383,8 +383,8 @@ You can get the official bookmarklet here: https://scratch.mit.edu/projects/1316
         try {
           const timestamp = Date.now();
           const url = canary 
-            ? "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/canary/dist/bundle.js?t=" 
-            : "https://raw.githubusercontent.com/Ironbill25/JavaScript-For-Scratch/main/dist/bundle.js?t=";
+            ? "https://raw.githubusercontent.com/DogLover8425/JavaScript-For-Scratch/canary/dist/bundle.js?t=" 
+            : "https://raw.githubusercontent.com/DogLover8425/JavaScript-For-Scratch/main/dist/bundle.js?t="; // NOTE: When pulling, remove this comment, and replace "DogLover8425" with "Ironbill25"
           const response = await fetch(url + timestamp, { cache: "no-store" });
           if (response.ok) {
             const code = await response.text();
