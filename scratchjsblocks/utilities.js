@@ -19,7 +19,7 @@ window.sjs_utilities = [
   }),
   Block(BlockType.REPORTER, "outOfBoundsMouseX", "mouse x (works out of bounds)", {}, () => window.cursor_x),
   Block(BlockType.REPORTER, "outOfBoundsMouseY", "mouse y (works out of bounds)", {}, () => window.cursor_y),
-  Block(BlockType.BOOLEAN, "outOfBoundsMouseDown", "Mouse down? (works out of bounds)", {}, () => window.cursor_down),
+  Block(BlockType.BOOLEAN, "outOfBoundsMouseDown", "mouse down? (works out of bounds)", {}, () => window.cursor_down),
   Block(BlockType.BOOLEAN, "textToBool", "[bool]", {
     bool: Argument("string", "true"),
   }, ({ bool }) => (
